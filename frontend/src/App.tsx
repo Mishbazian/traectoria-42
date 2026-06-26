@@ -1,7 +1,12 @@
 import './App.css';
+import { KanbanPage } from './pages/kanban-page';
 
 function App() {
-	return <></>;
+	return (
+		<>
+			<KanbanPage />
+		</>
+	);
 }
 
 export default App;
