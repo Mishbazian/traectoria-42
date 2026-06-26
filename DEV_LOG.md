@@ -8,7 +8,6 @@
 
 Хочу познакомиться Yjs и Tailwind, немного поработать с DnD
 
-
 ### Для начала план такой:
 
     - развернуть фронт (React+TS+Vite);
@@ -42,13 +41,44 @@
     "*.css": "tailwindcss"
   }
 ```
+
 2. Линтер ругается на экспорт чегото кроме компонента в добавленной из shadcn/ui кнопки
->Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.
+   > Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.
 
 на Github уже есть неразрешенные issue по этому поводу [7736] (https://github.com/shadcn-ui/ui/issues/7736) [8489] (https://github.com/shadcn-ui/ui/issues/8489)
 
 пока просто заглушил правило в файле кнопки, потом посмотрим
 
 ### Сделано
-- настроил окружение в frontend (vite, eslint, prettier) 
+
+- настроил окружение в frontend (vite, eslint, prettier)
 - инициализировал TailwindCSS и Shadcn/ui
+
+## 26.06.2026
+
+### Сделано
+
+- черновые компоненты базовой структуры канбана: KanbanCard, KanbanColumn, KanbanBoard
+
+### Дальше
+
+- фильтрация
+- добавление карточек
+- добавление колонок
+- драг энд дроп между колонок
+
+Для всего этого нужно управлять состояниями. С учетом дальнейшей работы с коллаборацией думаю осваивать Jotai по совету из [Статьи на Хабре](https://habr.com/ru/articles/1032830/)
+
+## 27.06.2026
+
+### Сделано
+- замокал ответ сервера на получение бордов
+- добавил Jotai и JotaiDevTools
+- Добавил первые Атомы:
+  - `loadBoardsAtom` - асинхронный атом, вызывающий fetchBoards. практически аналог AsyncThunk из RTK, только обработка состояний через `loadable`
+  - `boardsAtom` - атом, хранящий доски
+
+### Проблемы
+Доски как будто загружаются, но подход скорее всего нехороший. Не разобрался как обрабатывать состояния.
+
+
