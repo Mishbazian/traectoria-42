@@ -6,6 +6,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import type { Board } from '@/state/types';
 
 import { Suspense, useEffect } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 
 const BOARD_ID = 'taskboard1';
 
@@ -17,7 +18,12 @@ export const KanbanPage = () => {
 	}, [setBoardIds]);
 
 	return (
-		<Suspense fallback={<div>Загрузка...</div>}>
+		<Suspense
+			fallback={
+				<div className='flex justify-center items-center h-dvh'>
+					<Spinner className={'size-10'} />
+				</div>
+			}>
 			<KanbanContent />
 		</Suspense>
 	);
