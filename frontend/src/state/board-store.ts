@@ -3,18 +3,14 @@ import { atom } from 'jotai';
 import { fetchBoards } from '@/api';
 import type { Board } from './types';
 
-// Atom для загрузки нескольких досок по их ID
-export const loadBoardsAtom = atom(null, async (_, set, ids: string[]) => {
-	try {
-		const { boards } = await fetchBoards(ids);
-		if (boards.length === 0) return;
+// Атом с ID используемых в этот момент досок
+export const boardIdsAtom = atom<string[]>([]);
 
-		// Обновляем массив досок
-		set(boardsAtom, boards);
-	} catch (error) {
-		console.error('Ошибка загрузки досок:', error);
-	}
+// Асинхронный атом — может возвращать как данные, так и Promise
+export const boardsAsyncAtom = atom<Board[] | Promise<Board[]>>(async (get) => {
+	const ids = get(boardIdsAtom);
+	if (ids.length === 0) return [] as Board[];
+
+	const { boards } = await fetchBoards(ids);
+	return boards;
 });
-
-// Atom для массива досок
-export const boardsAtom = atom<Board[]>([]);

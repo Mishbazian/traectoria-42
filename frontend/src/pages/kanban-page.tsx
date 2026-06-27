@@ -1,23 +1,34 @@
 import { KanbanBoard } from '@/components/kanban-board';
 import { KanbanCard } from '@/components/kanban-card';
 import { KanbanColumn } from '@/components/kanban-column';
-import { boardsAtom, loadBoardsAtom } from '@/state/board-store';
-import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { boardIdsAtom, boardsAsyncAtom } from '@/state/board-store';
+import { useAtomValue, useSetAtom } from 'jotai';
+import type { Board } from '@/state/types';
 
-const BOARDID = 'taskboard1';
+import { Suspense, useEffect } from 'react';
+
+const BOARD_ID = 'taskboard1';
 
 export const KanbanPage = () => {
-	const [_, loadBoards] = useAtom(loadBoardsAtom);
-	const [boards] = useAtom(boardsAtom);
+	const setBoardIds = useSetAtom(boardIdsAtom);
 
 	useEffect(() => {
-		loadBoards([BOARDID]);
-	}, [loadBoards]);
+		setBoardIds([BOARD_ID]);
+	}, [setBoardIds]);
+
+	return (
+		<Suspense fallback={<div>Загрузка...</div>}>
+			<KanbanContent />
+		</Suspense>
+	);
+};
+
+const KanbanContent = () => {
+	const data = useAtomValue(boardsAsyncAtom);
 
 	return (
 		<div>
-			{boards.map((board) => (
+			{(data as Board[]).map((board) => (
 				<>
 					<h2 key={board.id}>{board.title}</h2>
 					<KanbanBoard columns={board.columns}>
