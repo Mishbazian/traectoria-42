@@ -10,16 +10,27 @@ import {
 	CardTitle,
 } from '../ui/card';
 import type { KanbanCardProps } from './types';
+import { useSortable } from '@dnd-kit/react/sortable';
 
 export function KanbanCard({
+	id,
 	title,
 	description,
 	authorName,
 	authorAvatar,
 	onDetailClick,
+	column,
+	index,
 }: KanbanCardProps) {
+	const { ref, isDragging } = useSortable({
+		id,
+		index,
+		type: 'item',
+		accept: 'item',
+		group: column,
+	});
 	return (
-		<Card>
+		<Card ref={ref} data-dragging={isDragging}>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
 				<CardDescription className='line-clamp-2'>
