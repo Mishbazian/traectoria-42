@@ -6,6 +6,6 @@ export interface KanbanCardProps {
   authorName?: string
   authorAvatar?: string
   onDetailClick: () => void
-  column: string;
+  columnId: string;
   index: number;
 }

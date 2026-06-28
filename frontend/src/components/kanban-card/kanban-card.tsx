@@ -19,15 +19,15 @@ export function KanbanCard({
 	authorName,
 	authorAvatar,
 	onDetailClick,
-	column,
+	columnId,
 	index,
 }: KanbanCardProps) {
 	const { ref, isDragging } = useSortable({
 		id,
 		index,
-		type: 'item',
-		accept: 'item',
-		group: column,
+		type: 'card',
+		accept: 'card',
+		group: columnId,
 	});
 	return (
 		<Card ref={ref} data-dragging={isDragging}>
