@@ -1,11 +1,11 @@
 import { KanbanBoard } from '@/components/kanban-board';
-import { KanbanCard } from '@/components/kanban-card';
-import { KanbanColumn } from '@/components/kanban-column';
-import { boardIdsAtom, boardsAsyncAtom } from '@/state/board-store';
+import {
+	boardIdsAtom,
+	boardsAsyncAtom,
+} from '@/state/board-store';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { Board } from '@/state/types';
 
-import { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 
 const BOARD_ID = 'taskboard1';
@@ -34,25 +34,11 @@ const KanbanContent = () => {
 
 	return (
 		<div>
-			{(data as Board[]).map((board) => (
-				<>
-					<h2 key={board.id}>{board.title}</h2>
-					<KanbanBoard columns={board.columns}>
-						{(column) => (
-							<KanbanColumn cards={column.cards} title={column.title}>
-								{(card) => (
-									<KanbanCard
-										title={card.title}
-										description={card.description}
-										authorName={card.author.name}
-										authorAvatar={card.author.avatar}
-										onDetailClick={() => {}}
-									/>
-								)}
-							</KanbanColumn>
-						)}
-					</KanbanBoard>
-				</>
+			{data.map((board) => (
+				<React.Fragment key={board.id}>
+					<h2>{board.title}</h2>
+					<KanbanBoard {...board} />
+				</React.Fragment>
 			))}
 		</div>
 	);
