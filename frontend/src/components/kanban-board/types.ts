@@ -1,5 +1,6 @@
-import type { Column } from '@/state/types';
-
 export interface KanbanBoardProps {
-	columns: Column[];
+	id: string;
+	index: number;
+	title: string;
+	children?: React.ReactNode;
 }

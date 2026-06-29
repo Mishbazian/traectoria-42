@@ -266,6 +266,24 @@
 			],
 			"createdAt": "2026-06-25T08:00:00Z",
 			"updatedAt": "2026-06-26T18:10:00Z"
+		},
+		{
+			"id": "taskboard2",
+			"title": "Блокеры",
+			"columns": [
+				{
+					"id": "help",
+					"title": "HelpMe",
+					"position": 0,
+					"cards": []
+				},
+				{
+					"id": "heplishere",
+					"title": "Разбираемся",
+					"cards": [],
+					"position": 1
+				}
+			]
 		}
 	]
 }
