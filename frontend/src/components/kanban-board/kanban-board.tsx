@@ -18,18 +18,38 @@ export function KanbanBoard({ columns }: KanbanBoardProps) {
 	const [columnsState, setColumnsState] =
 		useState<Record<string, Card[]>>(initialColumnState);
 
+	const [columnOrder, setColumnOrder] = useState(() =>
+		Object.keys(columnsState)
+	);
+
 	return (
 		<>
 			<DragDropProvider
 				onDragOver={(event) => {
-					setColumnsState((prev) => move(prev, event));
+					const { source, target } = event.operation;
+
+					if (source?.type === 'column') return;
+
+					setColumnsState((items) => move(items, event));
+				}}
+				onDragEnd={(event) => {
+					const { source, target } = event.operation;
+
+					if (event.canceled || source?.type !== 'column') return;
+
+					setColumnOrder((columns) => move(columns, event));
 				}}>
 				<ScrollArea className='w-screen max-h-dvh'>
-					<ul className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]'>
-						{columns.map(({ id, title }) => (
-							<li key={id}>
-								<h2>{title}</h2>
-								<KanbanColumn id={id} cards={columnsState[id]}>
+					<div className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]'>
+						{columnOrder.map((id, index) => {
+							const col = columns?.find((col) => col.id === id);
+							return (
+								<KanbanColumn
+									key={id}
+									id={id}
+									title={col?.title ?? ''}
+									cards={columnsState[id]}
+									index={index}>
 									{(card, index) => (
 										<KanbanCard
 											id={card.id}
@@ -43,9 +63,9 @@ export function KanbanBoard({ columns }: KanbanBoardProps) {
 										/>
 									)}
 								</KanbanColumn>
-							</li>
-						))}
-					</ul>
+							);
+						})}
+					</div>
 					<ScrollBar orientation='horizontal' />
 				</ScrollArea>
 			</DragDropProvider>
