@@ -61,22 +61,18 @@ const KanbanContent = () => {
 			onDragOver={(event) => {
 				const { source } = event.operation;
 
-				if (/^column_/.test(String(source?.type)) || source?.type === 'board')
-					return;
+				if (source?.type !== 'card') return;
 
 				setColumnsState((items) => move(items, event));
 			}}
 			onDragEnd={(event) => {
 				const { source } = event.operation;
 
-				if (
-					event.canceled ||
-					(/^column_/.test(String(source?.type)) && source?.type !== 'board')
-				) {
+				if (event.canceled) {
 					return;
 				} else if (source?.type === 'board') {
 					setBoards((boards) => move(boards, event));
-				} else if (source?.type === 'column') {
+				} else if (/^column_/.test(String(source?.type))) {
 					setColumnOrder((columns) => move(columns, event));
 				} else return;
 			}}>
