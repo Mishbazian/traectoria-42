@@ -1,19 +1,23 @@
 import { KanbanBoard } from '@/components/kanban-board';
 import { boardIdsAtom, boardsAsyncAtom } from '@/state/board-store';
-import { useAtomValue, useSetAtom } from 'jotai';
-
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { Suspense, useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import type { Card, Column } from '@/state/types';
 import { DragDropProvider } from '@dnd-kit/react';
 import { KanbanColumn } from '@/components/kanban-column';
 import { KanbanCard } from '@/components/kanban-card';
 import { move } from '@dnd-kit/helpers';
+import {
+	kanbanBoardsAtom,
+	kanbanColumnsStateAtom,
+	kanbanColumnOrderAtom,
+} from '@/state/kanban-store';
 
 const BOARD_ID = ['taskboard1', 'taskboard2'];
 
 export const KanbanPage = () => {
-	const setBoardIds = useSetAtom(boardIdsAtom);
+	const setBoardIds = useAtom(boardIdsAtom)[1];
 
 	useEffect(() => {
 		setBoardIds(BOARD_ID);
@@ -34,27 +38,32 @@ export const KanbanPage = () => {
 const KanbanContent = () => {
 	const data = useAtomValue(boardsAsyncAtom);
 
-	const initialColumnState = useMemo(() => {
-		const cols: Record<string, Card[]> = {};
-		const columnOrder: Record<string, Column[]> = {};
-		for (const board of data) {
-			columnOrder[board.id] = [...board.columns];
-			for (const col of board.columns) {
-				cols[col.id] = [...col.cards];
+	const [boards, setBoards] = useAtom(kanbanBoardsAtom);
+	const [columnsState, setColumnsState] = useAtom(kanbanColumnsStateAtom);
+	const [columnOrder, setColumnOrder] = useAtom(kanbanColumnOrderAtom);
+
+	// Загрузка данных из API напрямую в localStorage
+	useEffect(() => {
+		if (data.length > 0) {
+			// Загружаем только если localStorage еще не содержит данные
+			const savedBoards = localStorage.getItem('kanban-boards');
+			if (!savedBoards) {
+				setBoards(data);
+
+				// Инициализация columnsState и columnOrder из данных API
+				const cols: Record<string, Card[]> = {};
+				const columnOrderData: Record<string, Column[]> = {};
+				for (const board of data) {
+					columnOrderData[board.id] = [...board.columns];
+					for (const col of board.columns) {
+						cols[col.id] = [...col.cards];
+					}
+				}
+				setColumnsState(cols);
+				setColumnOrder(columnOrderData);
 			}
 		}
-		return { cols, columnOrder, boards: data };
-	}, [data]);
-
-	const [boards, setBoards] = useState(initialColumnState.boards);
-
-	const [columnsState, setColumnsState] = useState<Record<string, Card[]>>(
-		initialColumnState.cols
-	);
-
-	const [columnOrder, setColumnOrder] = useState<Record<string, Column[]>>(
-		initialColumnState.columnOrder
-	);
+	}, [data, setBoards, setColumnsState, setColumnOrder]);
 
 	return (
 		<DragDropProvider
@@ -83,13 +92,13 @@ const KanbanContent = () => {
 						index={index}
 						title={board.title}
 						key={board.id}>
-						{columnOrder[board.id].map((col, index) => {
+						{columnOrder[board.id]?.map((col, index) => {
 							return (
 								<KanbanColumn
 									key={col.id}
 									id={col.id}
 									title={col?.title ?? ''}
-									cards={columnsState[col.id]}
+									cards={columnsState[col.id] || []}
 									index={index}
 									boardId={board.id}>
 									{(card, index) => (
