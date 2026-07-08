@@ -8,8 +8,6 @@ export type Card = {
   id: string
   title: string
   description?: string
-  columnId: string
-  position: number
   author: User
   assignee?: User
   dueDate?: string
@@ -28,7 +26,7 @@ export type Column = {
 export type Board = {
   id: string
   title: string
-  columns: Column[]
+  columns: string[]
   createdAt?: string
   updatedAt?: string
 }

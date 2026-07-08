@@ -7,6 +7,7 @@
 				{
 					"id": "todo",
 					"title": "To Do",
+					"boardId": "taskboard1",
 					"position": 0,
 					"cards": [
 						{
@@ -119,6 +120,7 @@
 				{
 					"id": "in-progress",
 					"title": "В процессе",
+					"boardId": "taskboard1",
 					"position": 1,
 					"cards": [
 						{
@@ -189,6 +191,7 @@
 				{
 					"id": "review",
 					"title": "На проверке",
+					"boardId": "taskboard1",
 					"position": 2,
 					"cards": [
 						{
@@ -217,6 +220,7 @@
 				{
 					"id": "done",
 					"title": "Готово",
+					"boardId": "taskboard1",
 					"position": 3,
 					"cards": [
 						{
@@ -270,16 +274,19 @@
 		{
 			"id": "taskboard2",
 			"title": "Блокеры",
+
 			"columns": [
 				{
 					"id": "help",
 					"title": "HelpMe",
+					"boardId": "taskboard2",
 					"position": 0,
 					"cards": []
 				},
 				{
 					"id": "heplishere",
 					"title": "Разбираемся",
+					"boardId": "taskboard2",
 					"cards": [],
 					"position": 1
 				}
