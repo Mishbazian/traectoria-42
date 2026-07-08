@@ -3,7 +3,12 @@ import type { KanbanBoardProps } from './types';
 import { CollisionPriority } from '@dnd-kit/abstract';
 import { useSortable } from '@dnd-kit/react/sortable';
 
-export function KanbanBoard({ id, index, title, children }: KanbanBoardProps) {
+export function KanbanBoard({
+	id,
+	index,
+	children,
+	header,
+}: KanbanBoardProps) {
 	const { ref } = useSortable({
 		id,
 		index,
@@ -14,7 +19,7 @@ export function KanbanBoard({ id, index, title, children }: KanbanBoardProps) {
 
 	return (
 		<section ref={ref}>
-			<h2>{title}</h2>
+			{header && <div className='flex justify-between'>{header}</div>}
 			<ScrollArea className='w-full'>
 				<div className='grid grid-cols-[repeat(auto-fit,minmax(200px,calc(100%/4)))]'>
 					{children}

@@ -48,12 +48,12 @@ const KanbanContent = () => {
 			// Загружаем только если localStorage еще не содержит данные
 			const savedBoards = localStorage.getItem('kanban-boards');
 			if (!savedBoards) {
-				setBoards(
-					[...data.map((board) => ({
+				setBoards([
+					...data.map((board) => ({
 						...board,
 						columns: board.columns.map((c) => c.id),
-					}))]
-				);
+					})),
+				]);
 
 				// Инициализация columnsState и columnOrder из данных API
 				const cols: Record<string, Card[]> = {};
@@ -95,8 +95,8 @@ const KanbanContent = () => {
 					<KanbanBoard
 						id={board.id}
 						index={index}
-						title={board.title}
-						key={board.id}>
+						key={board.id}
+						header={<h2>{board.title}</h2>}>
 						{columnOrder[board.id]?.map((col, index) => {
 							return (
 								<KanbanColumn
