@@ -1,10 +1,46 @@
-import MOCK_BOARD from '../fixtures/boards.json';
+import { getFromLocalStorage, setLocalStorage } from '@/lib/helpers';
+import MOCK_BOARDS from '../fixtures/boards.json';
+import type { BoardsDTO, CardsDTO, ColumnsDTO } from '../types';
+
+const STORAGE_KEY = 'boards_api';
 
 // Имитация задержки сети
-export async function fetchBoardMock(
-	ids: string[]
-): Promise<typeof MOCK_BOARD> {
-	const foundBoards = MOCK_BOARD.boards.filter(({ id }) => ids.includes(id));
+export async function fetchBoardMock(ids?: string[]): Promise<{
+	boards: BoardsDTO;
+	columns: ColumnsDTO;
+	cards: CardsDTO;
+}> {
 	await new Promise((resolve) => setTimeout(resolve, 500));
-	return { boards: foundBoards };
+	let data = getFromLocalStorage<{
+		boards: BoardsDTO;
+		columns: ColumnsDTO;
+		cards: CardsDTO;
+	}>(STORAGE_KEY);
+	if (!data) {
+		data = {
+			boards: MOCK_BOARDS.boards.map((b) => ({
+				...b,
+				columns: b.columns?.map((c) => c.id),
+			})),
+			columns: MOCK_BOARDS.boards.flatMap((b) =>
+				b.columns.map((c) => ({
+					...c,
+					cards: c.cards.map((card) => card.id),
+				}))
+			),
+			cards: MOCK_BOARDS.boards.flatMap((b) =>
+				b.columns.flatMap((col) => col.cards)
+			),
+		};
+		setLocalStorage(STORAGE_KEY, data);
+	}
+	if (ids) {
+		const boards = data.boards.filter((b) => ids.includes(b.id));
+		const columns = data.columns.filter((c) => ids.includes(c.boardId));
+
+		const cardIdsInColumns = new Set(columns.flatMap((col) => col.cards));
+		const cards = data.cards.filter((card) => cardIdsInColumns.has(card.id));
+		return { boards, columns, cards };
+	}
+	return data;
 }

@@ -33,22 +33,18 @@ export type BoardsDataDTO = {
 export type BoardDTO = {
 	id: string;
 	title: string;
-	columnIds: string[];
+	columns: string[];
 };
 
-export type BoardsDTO = {
-	boards: BoardDTO[];
-};
+export type BoardsDTO = BoardDTO[];
+
 export type ColumnDTO = {
 	id: string;
 	title: string;
-	cardIds: string[];
+	cards: string[];
 	boardId: string;
-	position: number;
 };
-export type ColumnsDTO = {
-	columns: ColumnDTO[];
-};
+export type ColumnsDTO = ColumnDTO[];
 export type CardDTO = {
 	id: string;
 	title: string;
@@ -69,6 +65,4 @@ export type CardDTO = {
 	updatedAt?: string;
 };
 
-export type CardsDTO = {
-	cards: CardDTO[];
-};
+export type CardsDTO = CardDTO[];
