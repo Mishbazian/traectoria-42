@@ -8,8 +8,10 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
 	globalIgnores(['dist']),
+	pluginMobx.flatConfigs.recommended,
 	{
 		files: ['**/*.{ts,tsx}'],
+		plugins: { mobx: pluginMobx },
 		extends: [
 			js.configs.recommended,
 			tseslint.configs.recommended,
@@ -29,6 +31,10 @@ export default defineConfig([
 					ignoreRestSiblings: true,
 				},
 			],
+			'mobx/exhaustive-make-observable': 'warn',
+			'mobx/unconditional-make-observable': 'error',
+			'mobx/missing-make-observable': 'error',
+			'mobx/missing-observer': 'warn',
 		},
 	},
 ]);
