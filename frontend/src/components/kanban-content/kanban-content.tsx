@@ -9,21 +9,6 @@ import { boardStore } from '@/state/board-store';
 import type { Board, Card, Column } from '@/state/types';
 import { move } from '@dnd-kit/helpers';
 
-// === Внутренний компонент с DragDropProvider (без observer) ===
-interface KanbanContentDraggableProps {
-	boards: typeof boardStore.boards;
-	columnsByBoard: typeof boardStore.columnsByBoard;
-	cardsByColumns: typeof boardStore.cardsByColumns;
-	onMove: (props: {
-		id: string;
-		type: string;
-		fromGroup?: string;
-		toGroup?: string;
-		fromIndex: number;
-		toIndex: number;
-	}) => void;
-}
-
 type DragOpsProps = {
 	id: string;
 	type: string;
@@ -33,12 +18,12 @@ type DragOpsProps = {
 	toIndex: number;
 };
 
-export const KanbanContentDraggable = ({
-	boards,
-	columnsByBoard,
-	cardsByColumns,
-	onMove,
-}: KanbanContentDraggableProps) => {
+export const KanbanContent = observer(() => {
+	useEffect(() => {
+		boardStore.fetchBoardsData();
+	}, []);
+	const { boards, columnsByBoard, cardsByColumns } = boardStore;
+
 	const [boardsOrder, setBoardsOrder] = useState<Board[]>(boards ?? []);
 	const [columnsOrder, setColumnsOrder] = useState<
 		Record<string, Column['id'][]>
@@ -61,9 +46,15 @@ export const KanbanContentDraggable = ({
 	const handleMove = async (props: DragOpsProps) => {
 		if (props.fromIndex === props.toIndex && props.fromGroup === props.toGroup)
 			return;
-		await onMove({
+		const success = await boardStore.moveItem({
 			...props,
 		});
+		//rollback
+		if (!success) {
+			setBoardsOrder(boards);
+			setColumnsOrder(columnsByBoard);
+			setCardsOrder(cardsByColumns);
+		}
 	};
 
 	return (
@@ -90,10 +81,13 @@ export const KanbanContentDraggable = ({
 			onDragEnd={(event) => {
 				const { source } = event.operation;
 
-				if (isSortable(source) && !event.canceled && dragStart) {
-					const { id, group, index } = source;
-
-					if (dragStart.id !== id.toString()) return;
+				if (
+					!event.canceled &&
+					isSortable(source) &&
+					dragStart &&
+					dragStart.id === source.id.toString()
+				) {
+					const { group, index } = source;
 
 					switch (source.type) {
 						case 'column':
@@ -103,7 +97,7 @@ export const KanbanContentDraggable = ({
 							setBoardsOrder((boardsOrder) => move(boardsOrder, event));
 							break;
 						case 'card':
-							if(!group) return;
+							if (!group) return;
 							break;
 						default:
 							return;
@@ -136,44 +130,5 @@ export const KanbanContentDraggable = ({
 				))}
 			</div>
 		</DragDropProvider>
-	);
-};
-
-// === Внешний observer-компонент ===
-export const KanbanContent = observer(() => {
-	useEffect(() => {
-		boardStore.fetchBoardsData();
-	}, []);
-	const { boards, columnsByBoard, cardsByColumns } = boardStore;
-
-	const handleMove = async ({
-		id,
-		type,
-		fromGroup,
-		toGroup,
-		toIndex,
-	}: {
-		id: string;
-		type: string;
-		fromGroup?: string;
-		toGroup?: string;
-		toIndex: number;
-	}) => {
-		boardStore.moveItem({
-			id,
-			type,
-			fromGroup,
-			toGroup,
-			toIndex,
-		});
-	};
-
-	return (
-		<KanbanContentDraggable
-			boards={boards}
-			columnsByBoard={columnsByBoard}
-			cardsByColumns={cardsByColumns}
-			onMove={handleMove}
-		/>
 	);
 });

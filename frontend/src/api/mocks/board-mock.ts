@@ -53,7 +53,7 @@ export async function updateKanbanItemPos({
 	toIndex: number;
 	fromGroup?: string;
 	toGroup?: string;
-}): Promise<Partial<StorageData> | null> {
+}) {
 	const data = getFromLocalStorage<StorageData>(STORAGE_KEY);
 	let result = null;
 	if (!data) return null;
@@ -110,6 +110,7 @@ export async function updateKanbanItemPos({
 		result = { columns };
 	}
 	setLocalStorage(STORAGE_KEY, data);
+	await new Promise((resolve) => setTimeout(resolve, 300));
 
-	return result;
+	return true;
 }

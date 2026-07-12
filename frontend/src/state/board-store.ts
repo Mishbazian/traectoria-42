@@ -58,13 +58,15 @@ export class BoardStore {
 		);
 	}
 
-	moveItem(props: {
+	async moveItem(props: {
 		type: string;
 		id: string;
 		toIndex: number;
 		fromGroup?: string;
 		toGroup?: string;
 	}) {
+		const success = await updateKanbanItemPos({ ...props });
+		if (!success) return;
 		runInAction(() => {
 			// --- Обработка доски ---
 			if (props.type === 'board') {
@@ -114,8 +116,8 @@ export class BoardStore {
 				toColumn.cards.splice(props.toIndex, 0, moved);
 			}
 		});
-		console.log('запрос ', { props });
-		updateKanbanItemPos({ ...props });
+		return true
+		
 	}
 }
 
