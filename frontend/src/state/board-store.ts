@@ -17,13 +17,19 @@ export class BoardStore {
 		const data = await fetchBoards(boardIds);
 		runInAction(() => {
 			this.boards = data.boards;
-
 			this.columns = data.columns;
 			this.cards = data.cards;
 		});
 	}
 
 	// === Геттеры (computed) ===
+	get boardsMap() {
+		return this.boards.reduce(
+			(acc, board) => ((acc[board.id] = board), acc),
+			{} as Record<string, Board>
+		);
+	}
+
 	get columnsMap() {
 		return this.columns.reduce(
 			(acc, col) => ((acc[col.id] = col), acc),
@@ -116,8 +122,7 @@ export class BoardStore {
 				toColumn.cards.splice(props.toIndex, 0, moved);
 			}
 		});
-		return true
-		
+		return true;
 	}
 }
 

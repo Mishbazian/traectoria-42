@@ -1,53 +1,32 @@
-import React, { memo } from 'react';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import type { KanbanBoardProps } from './types';
 import { CollisionPriority } from '@dnd-kit/abstract';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { boardStore } from '@/state/board-store';
+import { KanbanBoardHeader } from '../kanban-board-header';
+import type { FC } from 'react';
+import { Grip } from 'lucide-react';
 
-type KanbanBoardInnerProps = KanbanBoardProps & {
-	title: string;
-	children: React.ReactNode;
-};
+export const KanbanBoard: FC<KanbanBoardProps> = ({ id, index, children }) => {
+	const { ref, handleRef } = useSortable({
+		id,
+		index,
+		type: 'board',
+		collisionPriority: CollisionPriority.Lowest,
+		accept: 'board',
+	});
 
-/** Внутренний компонент без observer — useSortable изолирован от MobX */
-const KanbanBoardInner = memo(
-	({ id, index, title, children }: KanbanBoardInnerProps) => {
-		const { ref } = useSortable({
-			id,
-			index,
-			type: 'board',
-			collisionPriority: CollisionPriority.Lowest,
-			accept: 'board',
-		});
-
-		return (
-			<section ref={ref}>
-				<div className='flex justify-between'>
-					<h2>{title}</h2>
+	return (
+		<section ref={ref}>
+			<div className='flex gap-1'>
+				<Grip ref={handleRef}/>
+				<KanbanBoardHeader id={id} />
+			</div>
+			<ScrollArea className='w-full overflow-y-hidden'>
+				<div className='grid grid-cols-[repeat(auto-fit,minmax(200px,calc(100%/4)))]'>
+					{children}
 				</div>
-				<ScrollArea className='w-full'>
-					<div className='grid grid-cols-[repeat(auto-fit,minmax(200px,calc(100%/4)))]'>
-						{children}
-					</div>
-					<ScrollBar orientation='horizontal' />
-				</ScrollArea>
-			</section>
-		);
-	}
-);
-
-/** Внешний компонент с локальными состояниями */
-export const KanbanBoard = React.memo(
-	({ id, index, children }: KanbanBoardProps) => {
-		const { title } = React.useMemo(() => {
-			const board = boardStore.boards.find((b) => b.id === id);
-			return { title: board?.title ?? 'Untitled' };
-		}, [id]);
-		return (
-			<KanbanBoardInner id={id} index={index} title={title}>
-				{children}
-			</KanbanBoardInner>
-		);
-	}
-);
+				<ScrollBar orientation='horizontal' />
+			</ScrollArea>
+		</section>
+	);
+};
