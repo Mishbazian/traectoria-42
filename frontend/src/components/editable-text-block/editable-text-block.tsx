@@ -12,6 +12,7 @@ export const EditableTextBlock: FC<EditableTextBlockProps> = ({
 	prepend,
 	onSubmit,
 	onCancel,
+	cancelByOutsideClick = false,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 
@@ -57,6 +58,7 @@ export const EditableTextBlock: FC<EditableTextBlockProps> = ({
 					onSubmit={handleSave}
 					onCancel={handleClose}
 					placeholder='Введите заголовок'
+					closeOnOutsideClick={cancelByOutsideClick}
 				/>
 			)}
 		</div>

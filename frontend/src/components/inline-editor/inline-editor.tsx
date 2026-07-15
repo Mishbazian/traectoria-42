@@ -14,9 +14,11 @@ export const InlineEditor = ({
 	onSubmit,
 	onCancel,
 	placeholder = 'Введите текст',
+	closeOnOutsideClick = false,
 }: InlineEditorProps) => {
 	const [draft, setDraft] = useState(value);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const editorRef = useRef<HTMLFormElement>(null);
 
 	// Автофокус при монтировании
 	useEffect(() => {
@@ -32,6 +34,30 @@ export const InlineEditor = ({
 		}
 	};
 
+	// Закрытие при клике вне компонента
+	useEffect(() => {
+		if (!closeOnOutsideClick) {
+			return;
+		}
+
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				editorRef.current &&
+				!editorRef.current.contains(event.target as Node)
+			) {
+				onCancel();
+			}
+		};
+
+		if (inputRef.current) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [closeOnOutsideClick]);
+
 	// Отправка — только если есть текст
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
@@ -45,6 +71,7 @@ export const InlineEditor = ({
 
 	return (
 		<form
+			ref={editorRef}
 			className='flex items-center gap-2 w-full min-w-0 animate-in fade-in zoom-in-95 duration-200'
 			onSubmit={handleSubmit}
 			onKeyDown={handleKeyDown}

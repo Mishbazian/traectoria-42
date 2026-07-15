@@ -30,6 +30,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 					item={boardStore.boardsMap[id]}
 					prepend={<Grip ref={handleRef} />}
 					onSubmit={handleHeaderUpdate}
+					cancelByOutsideClick
 				/>
 
 				<ScrollArea className='w-full overflow-y-hidden'>

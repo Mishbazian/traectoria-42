@@ -3,4 +3,5 @@ export interface InlineEditorProps {
 	onSubmit: (value: string) => void;
 	onCancel: () => void;
 	placeholder?: string;
+	closeOnOutsideClick?: boolean;
 }

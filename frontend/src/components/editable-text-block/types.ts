@@ -1,4 +1,4 @@
-import type { ElementType } from "react";
+import type { ElementType } from 'react';
 
 // frontend/src/components/editable-header/types.ts
 export interface EditableTextBlockProps {
@@ -9,4 +9,5 @@ export interface EditableTextBlockProps {
 	prepend?: React.ReactNode;
 	onSubmit: (newTitle: string) => void;
 	onCancel?: () => void;
+	cancelByOutsideClick?: boolean;
 }
