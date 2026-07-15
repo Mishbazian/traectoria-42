@@ -1,5 +1,8 @@
+import type { Ref } from 'react';
+
 export interface KanbanBoardProps {
 	id: string;
-	index: number;
+	ref?: Ref<HTMLElement> | undefined;
+	handleRef?: Ref<HTMLElement> | undefined;
 	children: React.ReactNode;
 }

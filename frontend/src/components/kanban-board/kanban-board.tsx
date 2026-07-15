@@ -1,7 +1,5 @@
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import type { KanbanBoardProps } from './types';
-import { CollisionPriority } from '@dnd-kit/abstract';
-import { useSortable } from '@dnd-kit/react/sortable';
 import { EditableTextBlock } from '../editable-text-block';
 import { type FC } from 'react';
 import { Grip } from 'lucide-react';
@@ -9,15 +7,7 @@ import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
 
 export const KanbanBoard: FC<KanbanBoardProps> = observer(
-	({ id, index, children }) => {
-		const { ref, handleRef } = useSortable({
-			id,
-			index,
-			type: 'board',
-			collisionPriority: CollisionPriority.Lowest,
-			accept: 'board',
-		});
-
+	({ id, children, ref, handleRef }) => {
 		const board = boardStore.boardsMap[id];
 
 		const handleHeaderUpdate = async (newTitle: string) => {
@@ -28,7 +18,11 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 			<section ref={ref}>
 				<EditableTextBlock
 					item={boardStore.boardsMap[id]}
-					prepend={<Grip ref={handleRef} />}
+					prepend={
+						<span ref={handleRef}>
+							<Grip />
+						</span>
+					}
 					onSubmit={handleHeaderUpdate}
 					cancelByOutsideClick
 				/>

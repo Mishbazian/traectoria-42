@@ -4,10 +4,12 @@ import { KanbanBoard } from '../kanban-board';
 import { KanbanColumn } from '../kanban-column';
 import { KanbanCard } from '../kanban-card';
 import { DragDropProvider } from '@dnd-kit/react';
-import { isSortable } from '@dnd-kit/react/sortable';
+import { isSortable, type UseSortableInput } from '@dnd-kit/react/sortable';
 import { boardStore } from '@/state/board-store';
 import type { Board, Card, Column } from '@/state/types';
 import { move } from '@dnd-kit/helpers';
+import { withSortable } from '@/hocs/with-sortable-hoc';
+import { CollisionPriority } from '@dnd-kit/abstract';
 
 type DragOpsProps = {
 	id: string;
@@ -17,6 +19,8 @@ type DragOpsProps = {
 	toGroup?: string;
 	toIndex: number;
 };
+
+const BOARD_TYPE = 'board';
 
 export const KanbanContent = observer(() => {
 	useEffect(() => {
@@ -55,6 +59,12 @@ export const KanbanContent = observer(() => {
 			setColumnsOrder(columnsByBoard);
 			setCardsOrder(cardsByColumns);
 		}
+	};
+	const SortableBoard = withSortable(KanbanBoard);
+	const boardSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
+		type: BOARD_TYPE,
+		accept: BOARD_TYPE,
+		collisionPriority: CollisionPriority.Lowest,
 	};
 
 	return (
@@ -112,7 +122,11 @@ export const KanbanContent = observer(() => {
 			}}>
 			<div className='p-4'>
 				{boardsOrder.map((board, index) => (
-					<KanbanBoard id={board.id} index={index} key={board.id}>
+					<SortableBoard
+						id={board.id}
+						index={index}
+						key={board.id}
+						{...boardSortableProps}>
 						{columnsOrder[board.id].map((c, i) => (
 							<KanbanColumn key={c} id={c} index={i}>
 								{cardsOrder[c].map((card, index) => (
@@ -126,7 +140,7 @@ export const KanbanContent = observer(() => {
 								))}
 							</KanbanColumn>
 						))}
-					</KanbanBoard>
+					</SortableBoard>
 				))}
 			</div>
 		</DragDropProvider>

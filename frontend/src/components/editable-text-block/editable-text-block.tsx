@@ -30,7 +30,7 @@ export const EditableTextBlock: FC<EditableTextBlockProps> = ({
 		<div className='flex items-center gap-2 p-1 rounded'>
 			{!isEditing ? (
 				<>
-					{prepend && <span className='shrink-0'>{prepend}</span>}
+					{prepend && <>{prepend}</>}
 					<div className='flex gap-2 group items-center h-full hover:bg-accent transition-colors rounded'>
 						<Tag
 							className='font-medium text-base truncate text-foreground flex-1'
