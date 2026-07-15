@@ -1,6 +1,7 @@
+import type { Ref } from 'react';
+
 export interface KanbanCardProps {
 	id: string;
 	onDetailClick: () => void;
-	columnId: string;
-	index: number;
+	ref?: Ref<HTMLDivElement> | undefined;
 }

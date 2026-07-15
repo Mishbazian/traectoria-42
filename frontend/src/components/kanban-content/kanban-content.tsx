@@ -21,23 +21,31 @@ type DragOpsProps = {
 	toIndex: number;
 };
 
+type SortablePreset = Omit<Partial<UseSortableInput>, 'id' | 'index' | 'group'>;
+
 const BOARD_TYPE = 'board';
 const COLUMN_TYPE = 'column';
 const CARD_TYPE = 'card';
 
 const SortableBoard = withSortable(KanbanBoard);
-const boardSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
+const boardSortableProps: SortablePreset = {
 	type: BOARD_TYPE,
 	accept: BOARD_TYPE,
 	collisionPriority: CollisionPriority.Lowest,
 } as const;
 
 const SortableColumn = withSortable(KanbanColumn);
-const columnSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
+const columnSortableProps: SortablePreset = {
 	type: COLUMN_TYPE,
 	accept: [CARD_TYPE, COLUMN_TYPE],
 	modifiers: [RestrictToHorizontalAxis],
 } as const;
+
+const SortableCard = withSortable(KanbanCard);
+const cardSortableProps: SortablePreset = {
+	type: CARD_TYPE,
+	accept: CARD_TYPE,
+};
 
 export const KanbanContent = observer(() => {
 	useEffect(() => {
@@ -146,12 +154,13 @@ export const KanbanContent = observer(() => {
 								group={board.id}
 								{...columnSortableProps}>
 								{cardsOrder[c].map((card, index) => (
-									<KanbanCard
+									<SortableCard
 										key={card}
 										id={card}
 										onDetailClick={() => {}}
 										index={index}
-										columnId={c}
+										group={c}
+										{...cardSortableProps}
 									/>
 								))}
 							</SortableColumn>

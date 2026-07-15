@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { type FC } from 'react';
 import { HatGlasses } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -11,49 +11,27 @@ import {
 	CardTitle,
 } from '../ui/card';
 import type { KanbanCardProps } from './types';
-import { useSortable } from '@dnd-kit/react/sortable';
+
 import { observer } from 'mobx-react-lite';
 import { boardStore } from '@/state/board-store';
-import type { User } from '@/state/types';
 
-type KanbanCardInnerProps = KanbanCardProps & {
-	title: string;
-	description?: string;
-	author: User;
-};
-
-/** Внутренний компонент без observer — useSortable изолирован от MobX */
-const KanbanCardInner = memo(
-	({
-		id,
-		onDetailClick,
-		columnId,
-		index,
-		title,
-		description,
-		author,
-	}: KanbanCardInnerProps) => {
-		const { ref, isDragging } = useSortable({
-			id,
-			index,
-			type: 'card',
-			accept: 'card',
-			group: columnId,
-		});
+export const KanbanCard: FC<KanbanCardProps> = observer(
+	({ id, onDetailClick, ref }) => {
+		const card = boardStore.cardsMap[id];
 
 		return (
-			<Card ref={ref} data-dragging={isDragging}>
+			<Card ref={ref}>
 				<CardHeader>
-					<CardTitle>{title}</CardTitle>
+					<CardTitle>{card.title}</CardTitle>
 					<CardDescription className='line-clamp-2'>
-						{description}
+						{card.description}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className='flex gap-1 items-center justify-end'>
-						{author.name}{' '}
+						{card.author.name}{' '}
 						<Avatar className='size-6'>
-							<AvatarImage src={author.avatar} />
+							<AvatarImage src={card.author.avatar} />
 							<AvatarFallback>
 								<HatGlasses />
 							</AvatarFallback>
@@ -69,17 +47,3 @@ const KanbanCardInner = memo(
 		);
 	}
 );
-
-/** Внешний observer-компонент — читает данные из MobX и передает их во внутренний компонент */
-export const KanbanCard = observer((props: KanbanCardProps) => {
-	const card = boardStore.cardsMap[props.id];
-
-	return (
-		<KanbanCardInner
-			{...props}
-			title={card.title}
-			description={card.description}
-			author={card.author}
-		/>
-	);
-});
