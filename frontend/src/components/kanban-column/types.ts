@@ -1,5 +1,8 @@
+import type { Ref } from 'react';
+
 export interface KanbanColumnProps {
 	id: string;
-	index: number;
 	children: React.ReactNode;
+	ref?: Ref<HTMLElement> | undefined;
+	handleRef?: Ref<HTMLElement> | undefined;
 }

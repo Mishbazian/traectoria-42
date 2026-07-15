@@ -144,6 +144,15 @@ export class BoardStore {
 		this.setStateToLS();
 		return true;
 	}
+	async updateColumn(columnId: string, updates: Partial<Column>) {
+		runInAction(() => {
+			const column = this.columnsMap[columnId];
+			if (!column) return;
+			Object.assign(column, updates);
+		});
+		this.setStateToLS();
+		return true;
+	}
 }
 
 export const boardStore = new BoardStore();

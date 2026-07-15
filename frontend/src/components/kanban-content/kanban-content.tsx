@@ -10,6 +10,7 @@ import type { Board, Card, Column } from '@/state/types';
 import { move } from '@dnd-kit/helpers';
 import { withSortable } from '@/hocs/with-sortable-hoc';
 import { CollisionPriority } from '@dnd-kit/abstract';
+import { RestrictToHorizontalAxis } from '@dnd-kit/abstract/modifiers';
 
 type DragOpsProps = {
 	id: string;
@@ -21,6 +22,22 @@ type DragOpsProps = {
 };
 
 const BOARD_TYPE = 'board';
+const COLUMN_TYPE = 'column';
+const CARD_TYPE = 'card';
+
+const SortableBoard = withSortable(KanbanBoard);
+const boardSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
+	type: BOARD_TYPE,
+	accept: BOARD_TYPE,
+	collisionPriority: CollisionPriority.Lowest,
+} as const;
+
+const SortableColumn = withSortable(KanbanColumn);
+const columnSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
+	type: COLUMN_TYPE,
+	accept: [CARD_TYPE, COLUMN_TYPE],
+	modifiers: [RestrictToHorizontalAxis],
+} as const;
 
 export const KanbanContent = observer(() => {
 	useEffect(() => {
@@ -59,12 +76,6 @@ export const KanbanContent = observer(() => {
 			setColumnsOrder(columnsByBoard);
 			setCardsOrder(cardsByColumns);
 		}
-	};
-	const SortableBoard = withSortable(KanbanBoard);
-	const boardSortableProps: Omit<Partial<UseSortableInput>, 'id' | 'index'> = {
-		type: BOARD_TYPE,
-		accept: BOARD_TYPE,
-		collisionPriority: CollisionPriority.Lowest,
 	};
 
 	return (
@@ -128,7 +139,12 @@ export const KanbanContent = observer(() => {
 						key={board.id}
 						{...boardSortableProps}>
 						{columnsOrder[board.id].map((c, i) => (
-							<KanbanColumn key={c} id={c} index={i}>
+							<SortableColumn
+								key={c}
+								id={c}
+								index={i}
+								group={board.id}
+								{...columnSortableProps}>
 								{cardsOrder[c].map((card, index) => (
 									<KanbanCard
 										key={card}
@@ -138,7 +154,7 @@ export const KanbanContent = observer(() => {
 										columnId={c}
 									/>
 								))}
-							</KanbanColumn>
+							</SortableColumn>
 						))}
 					</SortableBoard>
 				))}
