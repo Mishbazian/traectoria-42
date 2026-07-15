@@ -2,7 +2,7 @@ import { getFromLocalStorage, setLocalStorage } from '@/lib/helpers';
 import MOCK_BOARDS from '../fixtures/boards.json';
 import type { BoardsDTO, CardsDTO, ColumnsDTO } from '../types';
 
-const STORAGE_KEY = 'boards_api';
+export const API_STORAGE_KEY = 'boards_api';
 type StorageData = {
 	boards: BoardsDTO;
 	columns: ColumnsDTO;
@@ -11,7 +11,7 @@ type StorageData = {
 // Имитация задержки сети
 export async function fetchBoardMock(ids?: string[]): Promise<StorageData> {
 	await new Promise((resolve) => setTimeout(resolve, 500));
-	let data = getFromLocalStorage<StorageData>(STORAGE_KEY);
+	let data = getFromLocalStorage<StorageData>(API_STORAGE_KEY);
 	if (!data) {
 		data = {
 			boards: MOCK_BOARDS.boards.map((b) => ({
@@ -28,7 +28,7 @@ export async function fetchBoardMock(ids?: string[]): Promise<StorageData> {
 				b.columns.flatMap((col) => col.cards)
 			),
 		};
-		setLocalStorage(STORAGE_KEY, data);
+		setLocalStorage(API_STORAGE_KEY, data);
 	}
 	if (ids) {
 		const boards = data.boards.filter((b) => ids.includes(b.id));
@@ -54,7 +54,7 @@ export async function updateKanbanItemPos({
 	fromGroup?: string;
 	toGroup?: string;
 }) {
-	const data = getFromLocalStorage<StorageData>(STORAGE_KEY);
+	const data = getFromLocalStorage<StorageData>(API_STORAGE_KEY);
 	let result = null;
 	if (!data) return null;
 
@@ -109,7 +109,7 @@ export async function updateKanbanItemPos({
 
 		result = { columns };
 	}
-	setLocalStorage(STORAGE_KEY, data);
+	setLocalStorage(API_STORAGE_KEY, data);
 	await new Promise((resolve) => setTimeout(resolve, 300));
 
 	return true;

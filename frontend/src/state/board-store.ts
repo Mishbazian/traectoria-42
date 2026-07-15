@@ -1,7 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { fetchBoards } from '@/api';
 import type { Board, Card, Column } from '@/state/types';
-import { updateKanbanItemPos } from '@/api/mocks/board-mock';
+import { API_STORAGE_KEY, updateKanbanItemPos } from '@/api/mocks/board-mock';
+import { setLocalStorage } from '@/lib/helpers';
 
 export class BoardStore {
 	boards: Board[] = [];
@@ -64,6 +65,14 @@ export class BoardStore {
 		);
 	}
 
+	private async setStateToLS() {
+		setLocalStorage(API_STORAGE_KEY, {
+			boards: this.boards,
+			columns: this.columns,
+			cards: this.cards,
+		});
+	}
+
 	async moveItem(props: {
 		type: string;
 		id: string;
@@ -122,6 +131,17 @@ export class BoardStore {
 				toColumn.cards.splice(props.toIndex, 0, moved);
 			}
 		});
+		return true;
+	}
+
+	async updateBoard(boardId: string, updates: Partial<Board>) {
+		runInAction(() => {
+			const board = this.boardsMap[boardId];
+			if (!board) return;
+
+			Object.assign(board, updates);
+		});
+		this.setStateToLS();
 		return true;
 	}
 }
