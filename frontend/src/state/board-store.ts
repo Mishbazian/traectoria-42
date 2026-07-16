@@ -8,6 +8,7 @@ export class BoardStore {
 	boards: Board[] = [];
 	columns: Column[] = [];
 	cards: Card[] = [];
+	isLoading: boolean = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -15,11 +16,15 @@ export class BoardStore {
 
 	// === Загрузка данных начальная ===
 	async fetchBoardsData(boardIds?: string[]) {
+		runInAction(()=>{
+			this.isLoading = true;
+		})
 		const data = await fetchBoards(boardIds);
 		runInAction(() => {
 			this.boards = data.boards;
 			this.columns = data.columns;
 			this.cards = data.cards;
+			this.isLoading = false;
 		});
 	}
 
