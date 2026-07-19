@@ -51,7 +51,6 @@ export function useKanbanDrag(
     const { source } = event.operation;
     if (isSortable(source) && source.type) {
       const { id, type, initialGroup } = source;
-      if (!initialGroup) return;
       setDragStart({
         id: id.toString(),
         type: type.toString(),
