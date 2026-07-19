@@ -1,13 +1,14 @@
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import type { KanbanBoardProps } from './types';
-import { EditableTextBlock } from '../editable-text-block';
+import { EditableTextBlock } from '../ui/editable-text-block';
 import { type FC } from 'react';
-import { Grip } from 'lucide-react';
 import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
+import { GrabbingGrip } from '../ui/grabbing-grip';
+import { cn } from '@/lib/utils';
 
 export const KanbanBoard: FC<KanbanBoardProps> = observer(
-	({ id, children, ref, handleRef }) => {
+	({ id, children, ref, handleRef, isDragging = false, className }) => {
 		const board = boardStore.boardsMap[id];
 
 		const handleHeaderUpdate = async (newTitle: string) => {
@@ -15,20 +16,21 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 		};
 
 		return (
-			<section ref={ref}>
+			<section
+				ref={ref}
+				className={cn(
+					'flex flex-col rounded-lg ring-1 ring-foreground/10',
+					className
+				)}>
 				<EditableTextBlock
+					as='h2'
+					prepend={<GrabbingGrip ref={handleRef} isGrabbing={isDragging} />}
 					item={boardStore.boardsMap[id]}
-					prepend={
-						<span ref={handleRef}>
-							<Grip />
-						</span>
-					}
 					onSubmit={handleHeaderUpdate}
 					cancelByOutsideClick
 				/>
-
-				<ScrollArea className='w-full overflow-y-hidden'>
-					<div className='grid grid-cols-[repeat(auto-fit,minmax(200px,calc(100%/4)))]'>
+				<ScrollArea className='w-full'>
+					<div className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] grid-flow-col'>
 						{children}
 					</div>
 					<ScrollBar orientation='horizontal' />
