@@ -35,7 +35,7 @@ export const EditableTextBlock = forwardRef<
 		};
 
 		return (
-			<div className='flex items-center gap-2 p-2 rounded' ref={ref} {...props}>
+			<div className='flex items-center gap-2 p-2 rounded w-full' ref={ref} {...props}>
 				{!isEditing ? (
 					<>
 						{prepend && <>{prepend}</>}
@@ -58,8 +58,8 @@ export const EditableTextBlock = forwardRef<
 								aria-label='Редактировать заголовок'>
 								<Pen className='text-muted-foreground' />
 							</Button>
-							{append && <>{append}</>}
 						</div>
+						{append && <>{append}</>}
 					</>
 				) : (
 					<InlineEditor
