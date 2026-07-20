@@ -40,7 +40,7 @@ export const KanbanContent = observer(() => {
 
 	return (
 		<DragDropProvider {...dragHandlers}>
-			<div className='p-4'>
+			<div className='p-4 flex flex-col gap-2'>
 				{boardsOrder.map((board, boardIndex) => (
 					<SortableBoard
 						key={board.id}
