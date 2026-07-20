@@ -1,12 +1,8 @@
 // frontend/src/components/inline-editor/inline-editor.tsx
 import { useState, useEffect, useRef } from 'react';
 import type { InlineEditorProps } from './types';
-import { Button } from '../ui/button';
-import {
-	InputGroup,
-	InputGroupButton,
-	InputGroupInput,
-} from '../ui/input-group';
+import { Button } from '../button';
+import { InputGroup, InputGroupButton, InputGroupInput } from '../input-group';
 import { CircleCheck, CircleX, RotateCcw } from 'lucide-react';
 
 export const InlineEditor = ({
