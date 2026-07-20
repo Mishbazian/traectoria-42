@@ -4,6 +4,7 @@ import { Pen } from 'lucide-react';
 
 import type { EditableTextBlockProps } from './types';
 import { InlineEditor } from '../../inline-editor';
+import { cn } from '@/lib/utils';
 
 export const EditableTextBlock = forwardRef<
 	HTMLDivElement,
@@ -15,9 +16,10 @@ export const EditableTextBlock = forwardRef<
 			item,
 			prepend,
 			append,
-			onSubmit,
+			onSave,
 			onCancel,
 			cancelByOutsideClick = false,
+			className,
 			...props
 		},
 		ref
@@ -25,7 +27,7 @@ export const EditableTextBlock = forwardRef<
 		const [isEditing, setIsEditing] = useState(false);
 
 		const handleSave = (newTitle: string) => {
-			onSubmit?.(newTitle);
+			onSave?.(newTitle);
 			setIsEditing(false);
 		};
 
@@ -35,7 +37,10 @@ export const EditableTextBlock = forwardRef<
 		};
 
 		return (
-			<div className='flex items-center gap-2 p-2 rounded w-full' ref={ref} {...props}>
+			<div
+				className={cn('flex items-center gap-2 p-2 rounded w-full', className)}
+				ref={ref}
+				{...props}>
 				{!isEditing ? (
 					<>
 						{prepend && <>{prepend}</>}

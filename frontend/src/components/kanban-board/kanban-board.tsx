@@ -38,7 +38,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 						as='h2'
 						prepend={<GrabbingGrip ref={handleRef} isGrabbing={isDragging} />}
 						item={boardStore.boardsMap[id]}
-						onSubmit={handleHeaderUpdate}
+						onSave={handleHeaderUpdate}
 						cancelByOutsideClick
 					/>
 					<ScrollArea className='relative bg-olive-300' ref={scrollArearef}>
