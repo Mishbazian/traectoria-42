@@ -4,7 +4,6 @@ import type { ClassNameValue } from 'tailwind-merge';
 
 export interface KanbanBoardProps extends Partial<UseSortableInput> {
 	id: string;
-	ref?: Ref<HTMLElement> | undefined;
 	handleRef?: Ref<HTMLElement> | undefined;
 	isDragging?: boolean;
 	children: React.ReactNode;
