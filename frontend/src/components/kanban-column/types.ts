@@ -6,4 +6,5 @@ export interface KanbanColumnProps extends Partial<UseSortableInput> {
   children: React.ReactNode;
   ref?: Ref<HTMLElement> | undefined;
   handleRef?: Ref<HTMLElement> | undefined;
+  isDragging?: boolean;
 }
