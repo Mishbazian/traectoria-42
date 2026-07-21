@@ -28,7 +28,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 				}
 			}, []);
 
-			const handleAddColumn = ()=>{} //todo
+			const handleAddColumn = ()=>{boardStore.addColumn(id)}
 
 			return (
 				<section
@@ -49,7 +49,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 							{children}
 							<button
 								type='button'
-								onClick={() => {}}
+								onClick={handleAddColumn}
 								className='group w-fit p-2 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300/70 hover:border-primary hover:bg-primary/5 transition-all duration-200 text-muted-foreground hover:text-primary'>
 								<div className='flex flex-col items-center justify-center p-2 rounded-full bg-gray-50 group-hover:bg-primary/10 transition-colors'>
 									<Plus className='w-6 h-6' />

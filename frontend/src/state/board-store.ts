@@ -3,6 +3,7 @@ import { fetchBoards } from '@/api';
 import type { Board, Card, Column } from '@/state/types';
 import { API_STORAGE_KEY, updateKanbanItemPos } from '@/api/mocks/board-mock';
 import { setLocalStorage } from '@/lib/helpers';
+import { nanoid } from 'nanoid';
 
 export class BoardStore {
 	boards: Board[] = [];
@@ -16,9 +17,9 @@ export class BoardStore {
 
 	// === Загрузка данных начальная ===
 	async fetchBoardsData(boardIds?: string[]) {
-		runInAction(()=>{
+		runInAction(() => {
 			this.isLoading = true;
-		})
+		});
 		const data = await fetchBoards(boardIds);
 		runInAction(() => {
 			this.boards = data.boards;
@@ -157,6 +158,22 @@ export class BoardStore {
 		});
 		this.setStateToLS();
 		return true;
+	}
+
+	async addColumn(boardId: string) {
+		runInAction(() => {
+			const id = nanoid();
+			const title = 'Новая колонка';
+			const cards = [] as string[];
+			this.boardsMap[boardId].columns.push(id);
+			this.columns.push({
+				id,
+				title,
+				cards,
+				boardId,
+			});
+		});
+		this.setStateToLS();
 	}
 }
 
