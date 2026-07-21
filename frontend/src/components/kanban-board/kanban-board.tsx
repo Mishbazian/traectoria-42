@@ -6,6 +6,7 @@ import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
 import { GrabbingGrip } from '../ui/grabbing-grip';
 import { cn } from '@/lib/utils';
+import { Plus } from 'lucide-react';
 
 export const KanbanBoard: FC<KanbanBoardProps> = observer(
 	forwardRef<HTMLDivElement, KanbanBoardProps>(
@@ -27,6 +28,8 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 				}
 			}, []);
 
+			const handleAddColumn = ()=>{} //todo
+
 			return (
 				<section
 					ref={ref}
@@ -44,6 +47,14 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 					<ScrollArea className='relative bg-olive-300' ref={scrollArearef}>
 						<div className='flex flex-row gap-1 min-w-max items-stretch bg-background'>
 							{children}
+							<button
+								type='button'
+								onClick={() => {}}
+								className='group w-fit p-2 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300/70 hover:border-primary hover:bg-primary/5 transition-all duration-200 text-muted-foreground hover:text-primary'>
+								<div className='flex flex-col items-center justify-center p-2 rounded-full bg-gray-50 group-hover:bg-primary/10 transition-colors'>
+									<Plus className='w-6 h-6' />
+								</div>
+							</button>
 						</div>
 						<ScrollBar orientation='horizontal' />
 					</ScrollArea>
