@@ -10,4 +10,5 @@ export interface EditableTextBlockProps extends HTMLAttributes<HTMLDivElement> {
 	onSave: (newTitle: string) => void;
 	onCancel?: () => void;
 	cancelByOutsideClick?: boolean;
+	isEdit?: boolean;
 }

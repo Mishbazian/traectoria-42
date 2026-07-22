@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import { Button } from '../button';
 import { Pen } from 'lucide-react';
 
@@ -18,6 +18,7 @@ export const EditableTextBlock = forwardRef<
 			append,
 			onSave,
 			onCancel,
+			isEdit: isEditProp,
 			cancelByOutsideClick = false,
 			className,
 			...props
@@ -35,6 +36,12 @@ export const EditableTextBlock = forwardRef<
 			onCancel?.();
 			setIsEditing(false);
 		};
+
+		useEffect(() => {
+			if (isEditProp !== undefined) {
+				setIsEditing(isEditProp);
+			}
+		}, [isEditProp]);
 
 		return (
 			<div
@@ -64,7 +71,7 @@ export const EditableTextBlock = forwardRef<
 								<Pen className='text-muted-foreground' />
 							</Button>
 						</div>
-						{append && <>{append}</>}
+						{append && <div className='flex justify-end gap-1 w-full'>{append}</div>}
 					</>
 				) : (
 					<InlineEditor
