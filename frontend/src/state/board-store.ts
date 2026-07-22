@@ -52,6 +52,7 @@ export class BoardStore {
 	}
 
 	get columnsByBoard() {
+		// важен именно порядок колонок в board
 		return this.boards.reduce(
 			(acc, board) => {
 				acc[board.id] = [...board.columns];
@@ -173,6 +174,25 @@ export class BoardStore {
 				boardId,
 			});
 		});
+		this.setStateToLS();
+	}
+	async deleteColumn(id: string) {
+		runInAction(() => {
+			const column = this.columnsMap[id];
+			const colIndex = this.columns.findIndex((c) => c.id === id);
+
+			if (colIndex < 0 || this.columnsMap[id].cards.length) return;
+			//2 Удалить колонку из глобального массива columns
+			this.columns.splice(colIndex, 1);
+			// 1. Удалить ID колонки из массива columns доски
+			const boardIndex = this.boards.findIndex((b) => b.id === column.boardId);
+			if (boardIndex !== -1) {
+				const board = this.boards[boardIndex];
+				board.columns = board.columns.filter((colId) => colId !== id);
+			}
+		});
+
+		// 3. Сохранить в localStorage
 		this.setStateToLS();
 	}
 }
