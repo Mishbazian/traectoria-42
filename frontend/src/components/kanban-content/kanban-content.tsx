@@ -13,6 +13,7 @@ import {
 	cardConfig,
 } from '@/config/kanban-dnd-config';
 import { Spinner } from '../ui/spinner';
+import { TaskKanbanCardInfo } from '../task-kanban-card-info';
 
 const SortableBoard = withSortable(KanbanBoard);
 const SortableColumn = withSortable(KanbanColumn);
@@ -23,7 +24,8 @@ export const KanbanContent = observer(() => {
 		boardStore.fetchBoardsData();
 	}, []);
 
-	const { isLoading, boards, columnsByBoard, cardsByColumns } = boardStore;
+	const { isLoading, boards, columnsByBoard, cardsByColumns, cardsMap } =
+		boardStore;
 	const { boardsOrder, columnsOrder, cardsOrder, dragHandlers } = useKanbanDrag(
 		boards ?? [],
 		columnsByBoard ?? {},
@@ -33,10 +35,12 @@ export const KanbanContent = observer(() => {
 	if (isLoading) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
-				<Spinner  className='size-8'/>
+				<Spinner className='size-8' />
 			</div>
 		);
 	}
+
+	const handleClickDetails = () => console.log('клик детали карточки'); //@TODO
 
 	return (
 		<DragDropProvider {...dragHandlers}>
@@ -56,11 +60,13 @@ export const KanbanContent = observer(() => {
 								{...columnConfig}>
 								{cardsOrder[columnId]?.map((cardId, cardIndex) => (
 									<SortableCard
-										key={cardId}
 										id={cardId}
-										onDetailClick={() => {}}
+										key={cardId}
+										card={cardsMap[cardId]}
+										onCardClick={handleClickDetails}
 										index={cardIndex}
 										group={columnId}
+										info={<TaskKanbanCardInfo info={cardsMap[cardId]} />}
 										{...cardConfig}
 									/>
 								))}

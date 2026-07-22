@@ -1,9 +1,7 @@
-import { type FC } from 'react';
-import { HatGlasses } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Button } from '../ui/button';
+import { forwardRef, useCallback } from 'react';
 import {
 	Card,
+	CardAction,
 	CardContent,
 	CardDescription,
 	CardFooter,
@@ -13,37 +11,61 @@ import {
 import type { KanbanCardProps } from './types';
 
 import { observer } from 'mobx-react-lite';
-import { boardStore } from '@/state/board-store';
 
-export const KanbanCard: FC<KanbanCardProps> = observer(
-	({ id, onDetailClick, ref }) => {
-		const card = boardStore.cardsMap[id];
+import { cn } from '@/lib/utils';
 
-		return (
-			<Card ref={ref}>
-				<CardHeader>
-					<CardTitle>{card.title}</CardTitle>
-					<CardDescription className='line-clamp-2'>
-						{card.description}
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<div className='flex gap-1 items-center justify-end'>
-						{card.author.name}{' '}
-						<Avatar className='size-6'>
-							<AvatarImage src={card.author.avatar} />
-							<AvatarFallback>
-								<HatGlasses />
-							</AvatarFallback>
-						</Avatar>
-					</div>
-				</CardContent>
-				<CardFooter>
-					<Button className='w-full' onClick={onDetailClick}>
-						Подробнее
-					</Button>
-				</CardFooter>
-			</Card>
-		);
-	}
+export const KanbanCard = observer(
+	forwardRef<HTMLDivElement, KanbanCardProps>(
+		(
+			{
+				card,
+				onCardClick,
+				className,
+				isDragging = false,
+				info,
+				footer,
+				action,
+			},
+			ref
+		) => {
+			const handleKeyDown = useCallback(
+				(e: React.KeyboardEvent) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						onCardClick?.();
+					}
+				},
+				[onCardClick]
+			);
+
+			const handleCardClick = useCallback(() => {
+				if (isDragging) return;
+				onCardClick?.();
+			}, [onCardClick]);
+
+			return (
+				<Card
+					ref={ref}
+					className={cn(
+						'group cursor-pointer transition-all duration-200 hover:shadow-md hover:border-primary',
+						className
+					)}
+					role='button'
+					tabIndex={0}
+					onKeyDown={handleKeyDown}
+					onClick={handleCardClick}
+					aria-label={`Открыть карточку: ${card.title}`}>
+					<CardHeader>
+						<CardTitle>{card.title}</CardTitle>
+						{card.description && (
+							<CardDescription>{card.description}</CardDescription>
+						)}
+						{action && <CardAction></CardAction>}
+					</CardHeader>
+					{info && <CardContent>{info}</CardContent>}
+					{footer && <CardFooter>{footer}</CardFooter>}
+				</Card>
+			);
+		}
+	)
 );
