@@ -1,4 +1,5 @@
 const config = {
+	plugins: ['prettier-plugin-tailwindcss'],
 	semi: true,
 	trailingComma: 'es5',
 	singleQuote: true,
