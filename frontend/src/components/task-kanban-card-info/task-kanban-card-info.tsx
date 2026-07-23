@@ -10,9 +10,9 @@ export const TaskKanbanCardInfo = observer(
 			? getFormattedDateString(new Date(info.dueDate))
 			: '';
 		return (
-			<div className='flex justify-between items-center' ref={ref}>
+			<div className='flex items-center justify-between' ref={ref}>
 				{info.dueDate && (
-					<span className='text-sm text-muted-foreground'>
+					<span className='text-muted-foreground text-sm'>
 						Срок: {formattedDueDate}
 					</span>
 				)}

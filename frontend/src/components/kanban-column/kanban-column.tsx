@@ -42,10 +42,10 @@ export const KanbanColumn = observer(
 		const handleAddCard = () => {}; //@todo
 		return (
 			<>
-				<section className='border w-sm rounded-xl' ref={ref}>
+				<section className='w-sm rounded-xl border' ref={ref}>
 					<EditableTextBlock
 						as='h3'
-						className='border relative group/column_header'
+						className='group/column_header relative border'
 						item={column}
 						prepend={
 							<GrabbingGrip
@@ -63,7 +63,7 @@ export const KanbanColumn = observer(
 								<DropdownMenuTrigger>
 									<EllipsisVertical
 										size={16}
-										className='text-gray-400 hover:text-gray-700 dark:text-gray-500 '
+										className='text-gray-400 hover:text-gray-700 dark:text-gray-500'
 									/>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent className='w-fit' align='end'>
@@ -90,7 +90,7 @@ export const KanbanColumn = observer(
 						variant='secondary'
 						size='icon-lg'
 						onClick={handleAddCard}
-						className='w-full bg-background/50 hover:bg-primary/10 hover:text-primary'>
+						className='bg-background/50 hover:bg-primary/10 hover:text-primary w-full'>
 						<Plus />
 					</Button>
 					<ScrollArea className=''>

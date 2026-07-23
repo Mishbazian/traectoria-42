@@ -45,13 +45,13 @@ export const EditableTextBlock = forwardRef<
 
 		return (
 			<div
-				className={cn('flex items-center gap-2 p-2 rounded w-full', className)}
+				className={cn('flex w-full items-center gap-2 rounded p-2', className)}
 				ref={ref}
 				{...props}>
 				{!isEditing ? (
 					<>
 						{prepend && <>{prepend}</>}
-						<div className='flex group/editor items-center h-full hover:bg-accent transition-colors rounded'>
+						<div className='group/editor hover:bg-accent flex h-full items-center rounded transition-colors'>
 							<Tag
 								className='truncate px-2'
 								tabIndex={0}
@@ -65,13 +65,15 @@ export const EditableTextBlock = forwardRef<
 								onClick={() => {
 									setIsEditing(true);
 								}}
-								className='h-full opacity-0 group-hover/editor:opacity-100 focus:opacity-100 transition-opacity'
+								className='h-full opacity-0 transition-opacity group-hover/editor:opacity-100 focus:opacity-100'
 								title='Редактировать'
 								aria-label='Редактировать заголовок'>
 								<Pen className='text-muted-foreground' />
 							</Button>
 						</div>
-						{append && <div className='flex justify-end gap-1 w-full'>{append}</div>}
+						{append && (
+							<div className='flex w-full justify-end gap-1'>{append}</div>
+						)}
 					</>
 				) : (
 					<InlineEditor

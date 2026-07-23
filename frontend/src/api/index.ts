@@ -1,1 +1,1 @@
-export { fetchBoardMock as fetchBoards } from './mocks/board-mock'
+export { fetchBoardMock as fetchBoards } from './mocks/board-mock';

@@ -29,7 +29,7 @@ export const DeleteConfirmModal: FC<DeleteConfirmModalProps> = ({
 			<DialogContent>
 				<form onSubmit={handleSubmit}>
 					<DialogHeader className='flex flex-col items-center'>
-						<div className='w-fit p-2 rounded-lg bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive'>
+						<div className='bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive w-fit rounded-lg p-2'>
 							<Trash2Icon size={24} />
 						</div>
 						<DialogTitle>{title}</DialogTitle>

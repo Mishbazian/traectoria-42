@@ -68,11 +68,11 @@ export const InlineEditor = ({
 	return (
 		<form
 			ref={editorRef}
-			className='flex items-center gap-2 w-full min-w-0 animate-in fade-in zoom-in-95 duration-200'
+			className='animate-in fade-in zoom-in-95 flex w-full min-w-0 items-center gap-2 duration-200'
 			onSubmit={handleSubmit}
 			onKeyDown={handleKeyDown}
 			aria-label={`Редактор: ${value}`}>
-			<InputGroup className='flex-1 min-w-0 rounded-md border shadow-sm focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200 transition-all'>
+			<InputGroup className='min-w-0 flex-1 rounded-md border shadow-sm transition-all focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200'>
 				<InputGroupInput
 					id='inline-editor'
 					name='inline-editor'

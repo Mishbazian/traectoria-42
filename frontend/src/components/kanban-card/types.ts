@@ -11,7 +11,7 @@ export interface KanbanCardProps extends Partial<UseSortableInput> {
 	onCardClick: () => void;
 	className?: string;
 	isDragging?: boolean;
-  action?: ReactNode;
+	action?: ReactNode;
 	info?: ReactNode;
 	footer?: ReactNode;
 }

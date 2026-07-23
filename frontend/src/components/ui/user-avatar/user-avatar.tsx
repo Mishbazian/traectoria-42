@@ -10,7 +10,7 @@ export const UserAvatar = observer(
 		({ user, className, ...props }, ref) => {
 			return (
 				<div className={cn('flex items-center gap-2', className)} {...props}>
-					<span className='text-sm text-muted-foreground'>{user.name}</span>
+					<span className='text-muted-foreground text-sm'>{user.name}</span>
 					<Avatar className='h-6 w-6' ref={ref}>
 						<AvatarImage src={user.avatar} alt={user.name} />
 						<AvatarFallback>
