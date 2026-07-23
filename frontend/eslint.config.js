@@ -4,14 +4,16 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
+//import pluginMobx from 'eslint-plugin-mobx';
+
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
 	globalIgnores(['dist']),
-	pluginMobx.flatConfigs.recommended,
+	//pluginMobx.flatConfigs.recommended,
 	{
 		files: ['**/*.{ts,tsx}'],
-		plugins: { mobx: pluginMobx },
+
 		extends: [
 			js.configs.recommended,
 			tseslint.configs.recommended,
@@ -31,10 +33,6 @@ export default defineConfig([
 					ignoreRestSiblings: true,
 				},
 			],
-			'mobx/exhaustive-make-observable': 'warn',
-			'mobx/unconditional-make-observable': 'error',
-			'mobx/missing-make-observable': 'error',
-			'mobx/missing-observer': 'warn',
 		},
 	},
 ]);
