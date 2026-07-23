@@ -52,10 +52,8 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 							<button
 								type='button'
 								onClick={handleAddColumn}
-								className='group hover:border-primary hover:bg-primary/5 text-muted-foreground hover:text-primary flex w-fit flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300/70 p-2 transition-all duration-200'>
-								<div className='group-hover:bg-primary/10 flex flex-col items-center justify-center rounded-full bg-gray-50 p-2 transition-colors'>
-									<Plus className='h-6 w-6' />
-								</div>
+								className='hover:border-primary hover:bg-primary/5 dark:not-hover:text-muted hover:text-primary flex items-center justify-center rounded-lg border-2 border-dashed p-2 transition-all duration-200'>
+								<Plus className='h-6 w-6' />
 							</button>
 						</div>
 						<ScrollBar orientation='horizontal' />
