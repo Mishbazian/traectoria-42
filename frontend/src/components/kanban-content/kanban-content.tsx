@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { KanbanBoard } from '../kanban-board';
 import { KanbanColumn } from '../kanban-column';
@@ -12,7 +11,6 @@ import {
 	columnConfig,
 	cardConfig,
 } from '@/config/kanban-dnd-config';
-import { Spinner } from '../ui/spinner';
 import { TaskKanbanCardInfo } from '../task-kanban-card-info';
 
 const SortableBoard = withSortable(KanbanBoard);
@@ -20,38 +18,23 @@ const SortableColumn = withSortable(KanbanColumn);
 const SortableCard = withSortable(KanbanCard);
 
 export const KanbanContent = observer(() => {
-	useEffect(() => {
-		boardStore.fetchBoardsData();
-	}, []);
-
-	const { isLoading, boards, columnsByBoard, cardsByColumns, cardsMap } =
-		boardStore;
-	const { boardsOrder, columnsOrder, cardsOrder, dragHandlers } = useKanbanDrag(
-		boards ?? [],
-		columnsByBoard ?? {},
-		cardsByColumns ?? {}
-	);
-
-	if (isLoading) {
-		return (
-			<div className='flex items-center justify-center h-screen'>
-				<Spinner className='size-8' />
-			</div>
-		);
-	}
+	const { cardsOrder, dragHandlers } = useKanbanDrag({
+		cardsByColumns: boardStore.cardsByColumns,
+		moveItem: boardStore.moveItem,
+	});
 
 	const handleClickDetails = () => console.log('клик детали карточки'); //@TODO
 
 	return (
 		<DragDropProvider {...dragHandlers}>
-			<div className='p-4 flex flex-col gap-2'>
-				{boardsOrder.map((board, boardIndex) => (
+			<div className='flex flex-col gap-2 p-4'>
+				{boardStore.boards.map((board, boardIndex) => (
 					<SortableBoard
 						key={board.id}
 						id={board.id}
 						index={boardIndex}
 						{...boardConfig}>
-						{columnsOrder[board.id]?.map((columnId, colIndex) => (
+						{board.columns.map((columnId, colIndex) => (
 							<SortableColumn
 								key={columnId}
 								id={columnId}
@@ -62,11 +45,13 @@ export const KanbanContent = observer(() => {
 									<SortableCard
 										id={cardId}
 										key={cardId}
-										card={cardsMap[cardId]}
+										card={boardStore.cardsMap[cardId]}
 										onCardClick={handleClickDetails}
 										index={cardIndex}
 										group={columnId}
-										info={<TaskKanbanCardInfo info={cardsMap[cardId]} />}
+										info={
+											<TaskKanbanCardInfo info={boardStore.cardsMap[cardId]} />
+										}
 										{...cardConfig}
 									/>
 								))}

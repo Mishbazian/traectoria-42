@@ -28,13 +28,15 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 				}
 			}, []);
 
-			const handleAddColumn = ()=>{boardStore.addColumn(id)}
+			const handleAddColumn = async () => {
+				await boardStore.addColumn(id);
+			};
 
 			return (
 				<section
 					ref={ref}
 					className={cn(
-						'flex flex-col rounded-lg ring-1 ring-foreground/10 bg-background max-w-max',
+						'ring-foreground/10 bg-background flex max-w-max flex-col rounded-lg ring-1',
 						className
 					)}>
 					<EditableTextBlock
@@ -45,14 +47,14 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 						cancelByOutsideClick
 					/>
 					<ScrollArea className='relative bg-olive-300' ref={scrollArearef}>
-						<div className='flex flex-row gap-1 min-w-max items-stretch bg-background'>
+						<div className='bg-background flex min-w-max flex-row items-stretch gap-1'>
 							{children}
 							<button
 								type='button'
 								onClick={handleAddColumn}
-								className='group w-fit p-2 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300/70 hover:border-primary hover:bg-primary/5 transition-all duration-200 text-muted-foreground hover:text-primary'>
-								<div className='flex flex-col items-center justify-center p-2 rounded-full bg-gray-50 group-hover:bg-primary/10 transition-colors'>
-									<Plus className='w-6 h-6' />
+								className='group hover:border-primary hover:bg-primary/5 text-muted-foreground hover:text-primary flex w-fit flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300/70 p-2 transition-all duration-200'>
+								<div className='group-hover:bg-primary/10 flex flex-col items-center justify-center rounded-full bg-gray-50 p-2 transition-colors'>
+									<Plus className='h-6 w-6' />
 								</div>
 							</button>
 						</div>

@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { fetchBoards } from '@/api';
 import type { Board, Card, Column } from '@/state/types';
-import { API_STORAGE_KEY, updateKanbanItemPos } from '@/api/mocks/board-mock';
+import { API_STORAGE_KEY } from '@/api/mocks/board-mock';
 import { setLocalStorage } from '@/lib/helpers';
 import { nanoid } from 'nanoid';
 
@@ -12,7 +12,7 @@ export class BoardStore {
 	isLoading: boolean = false;
 
 	constructor() {
-		makeAutoObservable(this);
+		makeAutoObservable(this, {}, { autoBind: true });
 	}
 
 	// === Загрузка данных начальная ===
@@ -84,11 +84,9 @@ export class BoardStore {
 		type: string;
 		id: string;
 		toIndex: number;
-		fromGroup?: string;
+		fromGroup: string;
 		toGroup?: string;
 	}) {
-		const success = await updateKanbanItemPos({ ...props });
-		if (!success) return;
 		runInAction(() => {
 			// --- Обработка доски ---
 			if (props.type === 'board') {
@@ -138,6 +136,7 @@ export class BoardStore {
 				toColumn.cards.splice(props.toIndex, 0, moved);
 			}
 		});
+		await this.setStateToLS();
 		return true;
 	}
 
@@ -148,7 +147,7 @@ export class BoardStore {
 
 			Object.assign(board, updates);
 		});
-		this.setStateToLS();
+		await this.setStateToLS();
 		return true;
 	}
 	async updateColumn(columnId: string, updates: Partial<Column>) {
@@ -157,7 +156,7 @@ export class BoardStore {
 			if (!column) return;
 			Object.assign(column, updates);
 		});
-		this.setStateToLS();
+		await this.setStateToLS();
 		return true;
 	}
 
@@ -166,6 +165,7 @@ export class BoardStore {
 			const id = nanoid();
 			const title = 'Новая колонка';
 			const cards = [] as string[];
+
 			this.boardsMap[boardId].columns.push(id);
 			this.columns.push({
 				id,
@@ -193,7 +193,7 @@ export class BoardStore {
 		});
 
 		// 3. Сохранить в localStorage
-		this.setStateToLS();
+		await this.setStateToLS();
 	}
 }
 

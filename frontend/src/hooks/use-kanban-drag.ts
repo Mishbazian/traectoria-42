@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import type {
 	DragStartEvent,
 	DragOverEvent,
@@ -6,40 +6,35 @@ import type {
 } from '@dnd-kit/react';
 import { isSortable } from '@dnd-kit/react/sortable';
 import { move } from '@dnd-kit/helpers';
-import { boardStore } from '@/state/board-store';
-import type { Board, Card, Column } from '@/state/types';
+import type { Card } from '@/state/types';
 
 type DragOpsProps = {
 	id: string;
 	type: string;
-	fromGroup?: string;
+	fromGroup: string;
 	toGroup?: string;
 	toIndex: number;
 };
 
 type DragStartState = Omit<DragOpsProps, 'toGroup' | 'toIndex'> | null;
 
-export function useKanbanDrag(
-	boards: Board[],
-	columnsByBoard: Record<string, Column['id'][]>,
-	cardsByColumns: Record<string, Card['id'][]>
-) {
-	const [boardsOrder, setBoardsOrder] = useState<Board[]>(boards);
-	const [columnsOrder, setColumnsOrder] =
-		useState<Record<string, Column['id'][]>>(columnsByBoard);
+type TUseKanbanDragProps = {
+	cardsByColumns: Record<string, Card['id'][]>;
+	moveItem: (props: DragOpsProps) => boolean | Promise<boolean>;
+};
+
+export function useKanbanDrag({
+	cardsByColumns,
+	moveItem,
+}: TUseKanbanDragProps) {
 	const [cardsOrder, setCardsOrder] =
 		useState<Record<string, Card['id'][]>>(cardsByColumns);
-	const [dragStart, setDragStart] = useState<DragStartState>(null);
 
-	useEffect(() => {
-		setBoardsOrder(boards);
-		setColumnsOrder(columnsByBoard);
-		setCardsOrder(cardsByColumns);
-	}, [boards, columnsByBoard, cardsByColumns]);
+	const [dragStart, setDragStart] = useState<DragStartState>(null);
 
 	const handleMove = useCallback(
 		async (props: DragOpsProps) => {
-			const success = await boardStore.moveItem({
+			const success = await moveItem({
 				type: props.type,
 				id: props.id,
 				fromGroup: props.fromGroup,
@@ -48,22 +43,20 @@ export function useKanbanDrag(
 			});
 
 			if (!success) {
-				setBoardsOrder(boards);
-				setColumnsOrder(columnsByBoard);
 				setCardsOrder(cardsByColumns);
 			}
 		},
-		[boards, columnsByBoard, cardsByColumns]
+		[cardsByColumns, moveItem]
 	);
 
 	const onDragStart = useCallback((event: DragStartEvent) => {
 		const { source } = event.operation;
-		if (isSortable(source) && source.type) {
+		if (isSortable(source) && source.type && source.initialGroup) {
 			const { id, type, initialGroup } = source;
 			setDragStart({
 				id: id.toString(),
 				type: type.toString(),
-				fromGroup: initialGroup?.toString(),
+				fromGroup: initialGroup.toString(),
 			});
 		}
 	}, []);
@@ -97,14 +90,11 @@ export function useKanbanDrag(
 	);
 
 	return {
-		boardsOrder,
-		columnsOrder,
 		cardsOrder,
 		dragHandlers: {
 			onDragStart,
 			onDragOver,
 			onDragEnd,
 		},
-		moveItem: handleMove,
 	};
 }
