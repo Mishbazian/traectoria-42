@@ -52,7 +52,7 @@ export const InlineEditor = ({
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [closeOnOutsideClick]);
+	}, [closeOnOutsideClick, onCancel]);
 
 	// Отправка — только если есть текст
 	const handleSubmit = (e: React.SubmitEvent) => {
