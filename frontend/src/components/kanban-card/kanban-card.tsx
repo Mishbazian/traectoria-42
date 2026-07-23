@@ -47,7 +47,7 @@ export const KanbanCard = observer(
 				<Card
 					ref={ref}
 					className={cn(
-						'group cursor-pointer transition-all duration-200 hover:shadow-md hover:border-primary',
+						'group cursor-pointer transition-all duration-200 hover:shadow-md dark:hover:shadow-lg hover:ring-1 hover:ring-ring/30 dark:hover:ring-1 dark:hover:ring-ring/50',
 						className
 					)}
 					role='button'
