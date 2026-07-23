@@ -41,7 +41,7 @@ export const KanbanCard = observer(
 			const handleCardClick = useCallback(() => {
 				if (isDragging) return;
 				onCardClick?.();
-			}, [onCardClick]);
+			}, [onCardClick, isDragging]);
 
 			return (
 				<Card
