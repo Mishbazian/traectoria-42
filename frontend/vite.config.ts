@@ -20,7 +20,7 @@ export default defineConfig({
 			'@pages': path.resolve(__dirname, './src/pages'),
 			'@app': path.resolve(__dirname, './src/app'),
 			'@shared': path.resolve(__dirname, './src/shared'),
-			'@api': path.resolve(__dirname, './src/api'),
+			'@api': path.resolve(__dirname, './src/shared/api'),
 
 		},
 	},
