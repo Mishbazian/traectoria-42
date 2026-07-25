@@ -1,8 +1,8 @@
-import { getFromLocalStorage, setLocalStorage } from '@/shared/lib/helpers';
+import { getFromLocalStorage, setLocalStorage } from '@lib';
+import { MOCK_API_BOARD_STORAGE_KEY } from '@constants';
 import MOCK_BOARDS from '../fixtures/boards.json';
 import type { BoardsDTO, CardsDTO, ColumnsDTO } from '../types';
 
-export const API_STORAGE_KEY = 'boards_api';
 type StorageData = {
 	boards: BoardsDTO;
 	columns: ColumnsDTO;
@@ -11,7 +11,7 @@ type StorageData = {
 // Имитация задержки сети
 export async function fetchBoardMock(ids?: string[]): Promise<StorageData> {
 	await new Promise((resolve) => setTimeout(resolve, 500));
-	let data = getFromLocalStorage<StorageData>(API_STORAGE_KEY);
+	let data = getFromLocalStorage<StorageData>(MOCK_API_BOARD_STORAGE_KEY);
 	if (!data) {
 		data = {
 			boards: MOCK_BOARDS.boards.map((b) => ({
@@ -28,7 +28,7 @@ export async function fetchBoardMock(ids?: string[]): Promise<StorageData> {
 				b.columns.flatMap((col) => col.cards)
 			),
 		};
-		setLocalStorage(API_STORAGE_KEY, data);
+		setLocalStorage(MOCK_API_BOARD_STORAGE_KEY, data);
 	}
 	if (ids) {
 		const boards = data.boards.filter((b) => ids.includes(b.id));

@@ -6,7 +6,6 @@ import type {
 } from '@dnd-kit/react';
 import { isSortable } from '@dnd-kit/react/sortable';
 import { move } from '@dnd-kit/helpers';
-import type { Card } from '@/state/types';
 
 type DragOpsProps = {
 	id: string;
@@ -19,7 +18,7 @@ type DragOpsProps = {
 type DragStartState = Omit<DragOpsProps, 'toGroup' | 'toIndex'> | null;
 
 type TUseKanbanDragProps = {
-	cardsByColumns: Record<string, Card['id'][]>;
+	cardsByColumns: Record<string, string[]>;
 	moveItem: (props: DragOpsProps) => boolean | Promise<boolean>;
 };
 
@@ -28,7 +27,7 @@ export function useKanbanDrag({
 	moveItem,
 }: TUseKanbanDragProps) {
 	const [cardsOrder, setCardsOrder] =
-		useState<Record<string, Card['id'][]>>(cardsByColumns);
+		useState<Record<string, string[]>>(cardsByColumns);
 
 	const [dragStart, setDragStart] = useState<DragStartState>(null);
 
