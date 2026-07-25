@@ -1,10 +1,10 @@
-import { ScrollArea, ScrollBar } from '../../shared/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '../../../../shared/ui/scroll-area';
 import type { KanbanBoardProps } from './types';
-import { EditableTextBlock } from '../../shared/ui/editable-text-block';
+import { EditableTextBlock } from '../../../../shared/ui/editable-text-block';
 import { forwardRef, type FC } from 'react';
 import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
-import { GrabbingGrip } from '../../shared/ui/grabbing-grip';
+import { GrabbingGrip } from '../../../../shared/ui/grabbing-grip';
 import { cn } from '@/shared/lib/utils';
 import { Plus } from 'lucide-react';
 

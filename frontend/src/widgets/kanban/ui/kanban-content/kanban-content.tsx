@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { KanbanBoard } from '../kanban-board';
+import { KanbanBoard } from '../ui/kanban-board';
 import { KanbanColumn } from '../kanban-column';
 import { KanbanCard } from '../kanban-card';
 import { DragDropProvider } from '@dnd-kit/react';
@@ -11,7 +11,7 @@ import {
 	columnConfig,
 	cardConfig,
 } from '@/shared/config/kanban-dnd-config';
-import { TaskKanbanCardInfo } from '../task-kanban-card-info';
+import { TaskKanbanCardInfo } from '../../../components/task-kanban-card-info';
 
 const SortableBoard = withSortable(KanbanBoard);
 const SortableColumn = withSortable(KanbanColumn);
