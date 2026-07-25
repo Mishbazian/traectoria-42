@@ -1,0 +1,1 @@
+export const MOCK_API_BOARD_STORAGE_KEY = 'boards_api'
