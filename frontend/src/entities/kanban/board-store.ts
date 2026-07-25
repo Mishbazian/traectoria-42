@@ -3,7 +3,8 @@ import { fetchBoards } from '@api';
 import type { Board, Card, Column } from './types';
 import { setLocalStorage } from '@lib';
 import { nanoid } from 'nanoid';
-import { MOCK_API_BOARD_STORAGE_KEY } from '@shared';
+import { MOCK_API_BOARD_STORAGE_KEY } from '@constants';
+
 
 export class BoardStore {
 	boards: Board[] = [];
