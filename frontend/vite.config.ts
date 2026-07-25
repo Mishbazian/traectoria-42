@@ -9,6 +9,18 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
+			'@ui': path.resolve(__dirname, './src/shared/ui'),
+			'@lib': path.resolve(__dirname, './src/shared/lib'),
+			'@hooks': path.resolve(__dirname, './src/shared/hooks'),
+			'@hocs': path.resolve(__dirname, './src/shared/hocs'),
+			'@entities': path.resolve(__dirname, './src/entities'),
+			'@features': path.resolve(__dirname, './src/features'),
+			'@widgets': path.resolve(__dirname, './src/widgets'),
+			'@pages': path.resolve(__dirname, './src/pages'),
+			'@app': path.resolve(__dirname, './src/app'),
+			'@shared': path.resolve(__dirname, './src/shared'),
+			'@api': path.resolve(__dirname, './src/api'),
+
 		},
 	},
 });

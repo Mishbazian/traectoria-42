@@ -21,7 +21,18 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@ui": ["./src/shared/ui"],
+			"@lib": ["./src/shared/lib"],
+			"@hooks": ["./src/shared/hooks"],
+			"@hocs": ["./src/shared/hocs"],
+			"@entities": ["./src/entities"],
+			"@features": ["./src/features"],
+			"@widgets": ["./src/widgets"],
+			"@pages": ["./src/pages"],
+			"@app": ["./src/app"],
+			"@shared": ["./src/shared"],
+			"@api": ["./src/shared/api"]
 		}
 	},
 	"include": ["src"]
