@@ -1,18 +1,10 @@
 import { forwardRef, useCallback } from 'react';
-import {
-	Card,
-	CardAction,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '../../shared/ui/card';
 import type { KanbanCardProps } from './types';
-
 import { observer } from 'mobx-react-lite';
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@ui';
+import { cn } from '@lib';
 
-import { cn } from '@/shared/lib/utils';
+
 
 export const KanbanCard = observer(
 	forwardRef<HTMLDivElement, KanbanCardProps>(

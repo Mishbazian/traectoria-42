@@ -1,17 +1,16 @@
+
 import { observer } from 'mobx-react-lite';
-import { KanbanBoard } from '../ui/kanban-board';
+
+import { useKanbanDrag } from '@hooks';
+import { boardStore } from '@entities';
+import { DragDropProvider } from '@dnd-kit/react';
+import { boardConfig, cardConfig, columnConfig } from '@constants';
+import { withSortable } from '@hocs';
+
+import { KanbanBoard } from '../kanban-board';
 import { KanbanColumn } from '../kanban-column';
 import { KanbanCard } from '../kanban-card';
-import { DragDropProvider } from '@dnd-kit/react';
-import { boardStore } from '@/state/board-store';
-import { withSortable } from '@/shared/hocs/with-sortable-hoc';
-import { useKanbanDrag } from '@/shared/hooks/use-kanban-drag';
-import {
-	boardConfig,
-	columnConfig,
-	cardConfig,
-} from '@/shared/config/kanban-dnd-config';
-import { TaskKanbanCardInfo } from '../../../components/task-kanban-card-info';
+import { TaskKanbanCardInfo } from '../task-kanban-card-info';
 
 const SortableBoard = withSortable(KanbanBoard);
 const SortableColumn = withSortable(KanbanColumn);

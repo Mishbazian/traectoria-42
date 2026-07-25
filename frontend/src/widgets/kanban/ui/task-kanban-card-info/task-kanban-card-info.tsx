@@ -1,8 +1,11 @@
-import { observer } from 'mobx-react-lite';
-import type { TaskKanbanCardInfoProps } from './types';
 import { forwardRef } from 'react';
-import { getFormattedDateString } from '@/shared/lib/date';
-import { UserAvatar } from '../../../../shared/ui/user-avatar';
+import { observer } from 'mobx-react-lite';
+
+import type { TaskKanbanCardInfoProps } from './types';
+
+import { getFormattedDateString } from '@lib';
+import { UserAvatar } from '@ui';
+
 
 export const TaskKanbanCardInfo = observer(
 	forwardRef<HTMLDivElement, TaskKanbanCardInfoProps>(({ info }, ref) => {
