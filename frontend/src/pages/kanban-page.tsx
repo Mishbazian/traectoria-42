@@ -1,8 +1,10 @@
-import { KanbanContent } from '@/components/kanban-content/kanban-content';
-import { Spinner } from '@/shared/ui/spinner';
-import { boardStore } from '@/state/board-store';
+import { Spinner } from '@ui';
+import { boardStore } from '@entities';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
+import { KanbanContent } from '@widgets';
+
+
 
 export const KanbanPage = observer(() => {
 	useEffect(() => {
