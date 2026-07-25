@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { fetchBoards } from '@shared/api';
+import { fetchBoards } from '@api';
 import type { Board, Card, Column } from './types';
-import { API_STORAGE_KEY } from '@shared/api/mocks/board-mock';
-import { setLocalStorage } from '@/shared/lib/helpers';
+import { setLocalStorage } from '@lib';
 import { nanoid } from 'nanoid';
+import { MOCK_API_BOARD_STORAGE_KEY } from '@shared';
 
 export class BoardStore {
 	boards: Board[] = [];
@@ -73,7 +73,7 @@ export class BoardStore {
 	}
 
 	private async setStateToLS() {
-		setLocalStorage(API_STORAGE_KEY, {
+		setLocalStorage(MOCK_API_BOARD_STORAGE_KEY, {
 			boards: this.boards,
 			columns: this.columns,
 			cards: this.cards,
