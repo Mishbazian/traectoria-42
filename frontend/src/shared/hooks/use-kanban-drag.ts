@@ -20,11 +20,13 @@ type DragStartState = Omit<DragOpsProps, 'toGroup' | 'toIndex'> | null;
 type TUseKanbanDragProps = {
 	cardsByColumns: Record<string, string[]>;
 	moveItem: (props: DragOpsProps) => boolean | Promise<boolean>;
+	cardType: string;
 };
 
 export function useKanbanDrag({
 	cardsByColumns,
 	moveItem,
+	cardType,
 }: TUseKanbanDragProps) {
 	const [cardsOrder, setCardsOrder] =
 		useState<Record<string, string[]>>(cardsByColumns);
@@ -60,12 +62,15 @@ export function useKanbanDrag({
 		}
 	}, []);
 
-	const onDragOver = useCallback((event: DragOverEvent) => {
-		const { source } = event.operation;
-		if (source && source.type === 'card') {
-			setCardsOrder((items) => move(items, event));
-		}
-	}, []);
+	const onDragOver = useCallback(
+		(event: DragOverEvent) => {
+			const { source } = event.operation;
+			if (source && source.type === cardType) {
+				setCardsOrder((items) => move(items, event));
+			}
+		},
+		[cardType]
+	);
 
 	const onDragEnd = useCallback(
 		async (event: DragEndEvent) => {

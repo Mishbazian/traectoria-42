@@ -1,10 +1,9 @@
-
 import { observer } from 'mobx-react-lite';
 
 import { useKanbanDrag } from '@hooks';
 import { boardStore } from '@entities';
 import { DragDropProvider } from '@dnd-kit/react';
-import { boardConfig, cardConfig, columnConfig } from '@constants';
+import { boardConfig, CARD_TYPE, cardConfig, columnConfig } from '@constants';
 import { withSortable } from '@hocs';
 
 import { KanbanBoard } from '../kanban-board';
@@ -20,6 +19,7 @@ export const KanbanContent = observer(() => {
 	const { cardsOrder, dragHandlers } = useKanbanDrag({
 		cardsByColumns: boardStore.cardsByColumns,
 		moveItem: boardStore.moveItem,
+		cardType: CARD_TYPE,
 	});
 
 	const handleClickDetails = () => console.log('клик детали карточки'); //@TODO
