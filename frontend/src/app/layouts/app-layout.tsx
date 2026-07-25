@@ -1,4 +1,4 @@
-import { ModeToggle } from '@/shared/ui/mode-toggle';
+import { ModeToggle } from '@ui';
 import { type ReactNode } from 'react';
 
 export const AppLayout = ({ children }: { children: ReactNode }) => (

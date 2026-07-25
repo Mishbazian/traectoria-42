@@ -1,6 +1,6 @@
 import { AppLayout } from './layouts/app-layout';
 import { ThemeProvider } from './providers/theme-provider';
-import { KanbanPage } from '../pages/kanban-page';
+import { KanbanPage } from '@pages';
 
 function App() {
 	return (
