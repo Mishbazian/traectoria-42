@@ -1,7 +1,7 @@
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import type { KanbanBoardProps } from './types';
 import { EditableTextBlock } from '../ui/editable-text-block';
-import { forwardRef, useEffect, useRef, type FC } from 'react';
+import { forwardRef, type FC } from 'react';
 import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
 import { GrabbingGrip } from '../ui/grabbing-grip';
@@ -16,17 +16,6 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 			const handleHeaderUpdate = async (newTitle: string) => {
 				await boardStore.updateBoard(id, { ...board, title: newTitle });
 			};
-
-			const scrollArearef = useRef<HTMLDivElement | null>(null);
-
-			useEffect(() => {
-				if (scrollArearef.current) {
-					const scrollViewport = scrollArearef.current.querySelector(
-						'[data-slot="scroll-area-viewport"]'
-					);
-					scrollViewport?.classList.add('scroll-fade-x');
-				}
-			}, []);
 
 			const handleAddColumn = async () => {
 				await boardStore.addColumn(id);
@@ -46,7 +35,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 						onSave={handleHeaderUpdate}
 						cancelByOutsideClick
 					/>
-					<ScrollArea className='relative bg-olive-300' ref={scrollArearef}>
+					<ScrollArea className='*:data-[slot=scroll-area-viewport]:scroll-fade-x relative'>
 						<div className='bg-background flex min-w-max flex-row items-stretch gap-1'>
 							{children}
 							<button
