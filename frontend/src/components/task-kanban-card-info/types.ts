@@ -1,6 +1,6 @@
-import type { User } from '@/state/types';
+import type { CardUser } from '@/state/types';
 type TaskInfo = {
-	assignee?: User;
+	assignee?: CardUser;
 	dueDate?: string | number;
 };
 export interface TaskKanbanCardInfoProps {

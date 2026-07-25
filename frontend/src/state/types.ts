@@ -1,4 +1,4 @@
-export type User = {
+export type CardUser = {
 	id: string;
 	name: string;
 	avatar?: string;
@@ -8,8 +8,8 @@ export type Card = {
 	id: string;
 	title: string;
 	description?: string;
-	author: User;
-	assignee?: User;
+	author: CardUser;
+	assignee?: CardUser;
 	dueDate?: string;
 	tags?: string[];
 	createdAt?: string;
