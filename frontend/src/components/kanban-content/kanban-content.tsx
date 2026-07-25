@@ -4,13 +4,13 @@ import { KanbanColumn } from '../kanban-column';
 import { KanbanCard } from '../kanban-card';
 import { DragDropProvider } from '@dnd-kit/react';
 import { boardStore } from '@/state/board-store';
-import { withSortable } from '@/hocs/with-sortable-hoc';
-import { useKanbanDrag } from '@/hooks/use-kanban-drag';
+import { withSortable } from '@/shared/hocs/with-sortable-hoc';
+import { useKanbanDrag } from '@/shared/hooks/use-kanban-drag';
 import {
 	boardConfig,
 	columnConfig,
 	cardConfig,
-} from '@/config/kanban-dnd-config';
+} from '@/shared/config/kanban-dnd-config';
 import { TaskKanbanCardInfo } from '../task-kanban-card-info';
 
 const SortableBoard = withSortable(KanbanBoard);

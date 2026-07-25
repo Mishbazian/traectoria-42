@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { fetchBoards } from '@/api';
 import type { Board, Card, Column } from '@/state/types';
 import { API_STORAGE_KEY } from '@/api/mocks/board-mock';
-import { setLocalStorage } from '@/lib/helpers';
+import { setLocalStorage } from '@/shared/lib/helpers';
 import { nanoid } from 'nanoid';
 
 export class BoardStore {

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { GrabbingGripProps } from './types';
 import { Grip, GripHorizontal, GripVertical } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 /**
  * Компонент для отображения иконки захвата (grip), используемой в drag-and-drop.
  * Поддерживает горизонтальные и вертикальные иконки, а также состояние "захвата".

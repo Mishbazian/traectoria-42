@@ -7,12 +7,12 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '../ui/card';
+} from '../../shared/ui/card';
 import type { KanbanCardProps } from './types';
 
 import { observer } from 'mobx-react-lite';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 export const KanbanCard = observer(
 	forwardRef<HTMLDivElement, KanbanCardProps>(

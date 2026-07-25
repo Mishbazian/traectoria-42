@@ -1,10 +1,10 @@
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import { ScrollArea, ScrollBar } from '../../shared/ui/scroll-area';
 import type { KanbanColumnProps } from './types';
 import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
-import { EditableTextBlock } from '../ui/editable-text-block';
-import { GrabbingGrip } from '../ui/grabbing-grip';
-import { Button } from '../ui/button';
+import { EditableTextBlock } from '../../shared/ui/editable-text-block';
+import { GrabbingGrip } from '../../shared/ui/grabbing-grip';
+import { Button } from '../../shared/ui/button';
 import { EllipsisVertical, PencilIcon, Plus, TrashIcon } from 'lucide-react';
 import {
 	DropdownMenu,
@@ -13,9 +13,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../../shared/ui/dropdown-menu';
 import { useState } from 'react';
-import { DeleteConfirmModal } from '../ui/delete-confirm-modal';
+import { DeleteConfirmModal } from '../../shared/ui/delete-confirm-modal';
 
 export const KanbanColumn = observer(
 	({ id, ref, handleRef, children, isDragging = false }: KanbanColumnProps) => {

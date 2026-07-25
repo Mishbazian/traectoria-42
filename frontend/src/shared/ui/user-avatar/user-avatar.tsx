@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { UserAvatarProps } from './types';
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
 import { HatGlasses } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 export const UserAvatar = observer(
 	forwardRef<HTMLDivElement, UserAvatarProps>(

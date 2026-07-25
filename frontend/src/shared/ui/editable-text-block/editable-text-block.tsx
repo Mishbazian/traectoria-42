@@ -4,7 +4,7 @@ import { Pen } from 'lucide-react';
 
 import type { EditableTextBlockProps } from './types';
 import { InlineEditor } from '../inline-editor';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 export const EditableTextBlock = forwardRef<
 	HTMLDivElement,

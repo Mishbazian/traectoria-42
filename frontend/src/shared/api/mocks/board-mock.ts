@@ -1,4 +1,4 @@
-import { getFromLocalStorage, setLocalStorage } from '@/lib/helpers';
+import { getFromLocalStorage, setLocalStorage } from '@/shared/lib/helpers';
 import MOCK_BOARDS from '../fixtures/boards.json';
 import type { BoardsDTO, CardsDTO, ColumnsDTO } from '../types';
 

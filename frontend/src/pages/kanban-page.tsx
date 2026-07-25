@@ -1,5 +1,5 @@
 import { KanbanContent } from '@/components/kanban-content/kanban-content';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/shared/ui/spinner';
 import { boardStore } from '@/state/board-store';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
