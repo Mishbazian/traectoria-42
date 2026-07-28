@@ -1,0 +1,403 @@
+{
+  "boards": [
+    {
+      "id": "matrix-board-1",
+      "title": "Разработка проекта",
+      "columns": [
+        {
+          "id": "to-do",
+          "title": "To Do"
+        },
+        {
+          "id": "in-progress",
+          "title": "В процессе"
+        },
+        {
+          "id": "review",
+          "title": "На проверке"
+        },
+        {
+          "id": "done",
+          "title": "Готово"
+        }
+      ],
+      "rows": [
+        {
+          "id": "frontend",
+          "title": "Frontend"
+        },
+        {
+          "id": "backend",
+          "title": "Backend"
+        },
+        {
+          "id": "devops",
+          "title": "DevOps"
+        }
+      ],
+      "cells": [
+        {
+          "board": "matrix-board-1",
+          "col": "to-do",
+          "row": "frontend",
+          "data": [
+            {
+              "id": "task-1",
+              "title": "Изучить React",
+              "description": "Прочитать документацию и попробовать создать проект",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "dueDate": "2026-07-10T00:00:00Z",
+              "tags": ["frontend", "react"],
+              "createdAt": "2026-06-26T10:30:00Z",
+              "updatedAt": "2026-06-26T10:35:00Z"
+            },
+            {
+              "id": "task-2",
+              "title": "Попробовать Tailwind",
+              "description": "Настроить конфиг и попробовать стили",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-2",
+                "name": "Мария",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=bde0fe"
+              },
+              "dueDate": "2026-07-15T00:00:00Z",
+              "tags": ["frontend", "tailwind"],
+              "createdAt": "2026-06-26T11:00:00Z",
+              "updatedAt": "2026-06-26T11:05:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "in-progress",
+          "row": "frontend",
+          "data": [
+            {
+              "id": "task-3",
+              "title": "Интеграция Jotai",
+              "description": "Настроить state-менеджер",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "dueDate": "2026-06-30T00:00:00Z",
+              "tags": ["frontend", "state"],
+              "createdAt": "2026-06-26T15:00:00Z",
+              "updatedAt": "2026-06-26T15:30:00Z"
+            },
+            {
+              "id": "task-4",
+              "title": "Добавить DnD",
+              "description": "Интегрировать drag-and-drop между колонками",
+              "author": {
+                "id": "user-2",
+                "name": "Мария",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=bde0fe"
+              },
+              "assignee": {
+                "id": "user-2",
+                "name": "Мария",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=bde0fe"
+              },
+              "dueDate": "2026-07-02T00:00:00Z",
+              "tags": ["frontend", "dnd"],
+              "createdAt": "2026-06-26T16:00:00Z",
+              "updatedAt": "2026-06-26T16:20:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "review",
+          "row": "frontend",
+          "data": [
+            {
+              "id": "task-5",
+              "title": "Код-ревью компонентов",
+              "description": "Проверить KanbanCard и KanbanColumn",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-2",
+                "name": "Мария",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=bde0fe"
+              },
+              "dueDate": "2026-06-28T00:00:00Z",
+              "tags": ["code", "frontend"],
+              "createdAt": "2026-06-26T18:00:00Z",
+              "updatedAt": "2026-06-26T18:10:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "done",
+          "row": "frontend",
+          "data": [
+            {
+              "id": "task-6",
+              "title": "Инициализация репозитория",
+              "description": "Создать репозиторий на GitHub",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "dueDate": "2026-06-25T00:00:00Z",
+              "tags": ["setup", "devops"],
+              "createdAt": "2026-06-25T09:00:00Z",
+              "updatedAt": "2026-06-25T09:05:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "to-do",
+          "row": "backend",
+          "data": [
+            {
+              "id": "task-7",
+              "title": "API-роуты для доски",
+              "description": "Создать GET/PUT для доски на Express",
+              "author": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-06-29T00:00:00Z",
+              "tags": ["backend", "express"],
+              "createdAt": "2026-06-26T17:00:00Z",
+              "updatedAt": "2026-06-26T17:15:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "in-progress",
+          "row": "backend",
+          "data": [
+            {
+              "id": "task-8",
+              "title": "Настроить Docker Compose",
+              "description": "Поднять сервер и БД",
+              "author": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-07-05T00:00:00Z",
+              "tags": ["devops", "backend"],
+              "createdAt": "2026-06-26T14:00:00Z",
+              "updatedAt": "2026-06-26T14:10:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "review",
+          "row": "backend",
+          "data": [
+            {
+              "id": "task-9",
+              "title": "Настройка CI/CD",
+              "description": "Настроить GitHub Actions",
+              "author": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-07-08T00:00:00Z",
+              "tags": ["devops", "ci-cd"],
+              "createdAt": "2026-06-26T19:00:00Z",
+              "updatedAt": "2026-06-26T19:10:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "done",
+          "row": "backend",
+          "data": [
+            {
+              "id": "task-10",
+              "title": "Покрытие тестами API",
+              "description": "Написать юнит-тесты для всех эндпоинтов",
+              "author": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-07-12T00:00:00Z",
+              "tags": ["backend", "testing"],
+              "createdAt": "2026-06-26T20:00:00Z",
+              "updatedAt": "2026-06-26T20:10:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "to-do",
+          "row": "devops",
+          "data": [
+            {
+              "id": "task-11",
+              "title": "Настроить шрифты",
+              "description": "Подключить Inter и Monospace",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "dueDate": "2026-06-25T00:00:00Z",
+              "tags": ["frontend", "design"],
+              "createdAt": "2026-06-25T10:00:00Z",
+              "updatedAt": "2026-06-25T10:10:00Z"
+            }
+          ]
+        },
+        {
+          "board": "matrix-board-1",
+          "col": "done",
+          "row": "devops",
+          "data": [
+            {
+              "id": "task-12",
+              "title": "Документация API",
+              "description": "Составить OpenAPI спецификацию",
+              "author": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-07-14T00:00:00Z",
+              "tags": ["backend", "docs"],
+              "createdAt": "2026-06-26T21:00:00Z",
+              "updatedAt": "2026-06-26T21:05:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "matrix-board-2",
+      "title": "Блокеры проекта",
+      "columns": [
+        {
+          "id": "helpme",
+          "title": "HelpMe"
+        }
+      ],
+      "rows": [
+        {
+          "id": "critical",
+          "title": "Critical"
+        }
+      ],
+      "cells": [
+        {
+          "board": "matrix-board-2",
+          "col": "helpme",
+          "row": "critical",
+          "data": [
+            {
+              "id": "blocker-1",
+              "title": "Проблема с подключением к БД",
+              "description": "Не удается подключиться к PostgreSQL из Docker контейнера",
+              "author": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "assignee": {
+                "id": "user-3",
+                "name": "Дмитрий",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry&backgroundColor=a2d2ff"
+              },
+              "dueDate": "2026-07-27T00:00:00Z",
+              "tags": ["blocker", "devops"],
+              "createdAt": "2026-07-26T08:00:00Z",
+              "updatedAt": "2026-07-26T08:15:00Z"
+            },
+            {
+              "id": "blocker-2",
+              "title": "Критическая уязвимость в зависимостях",
+              "description": "Обнаружена уязвимость в пакете lodash, нужно обновить",
+              "author": {
+                "id": "user-2",
+                "name": "Мария",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=bde0fe"
+              },
+              "assignee": {
+                "id": "user-1",
+                "name": "Алексей",
+                "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexey&backgroundColor=ffafcc"
+              },
+              "dueDate": "2026-07-27T00:00:00Z",
+              "tags": ["security", "blocker"],
+              "createdAt": "2026-07-26T09:00:00Z",
+              "updatedAt": "2026-07-26T09:10:00Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

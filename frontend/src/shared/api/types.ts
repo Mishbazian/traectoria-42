@@ -61,8 +61,32 @@ export type CardDTO = {
 	};
 	dueDate?: string;
 	tags?: string[];
-	createdAt?: string;
-	updatedAt?: string;
+	createdAt: string;
+	updatedAt: string;
 };
 
 export type CardsDTO = CardDTO[];
+
+// Типы для матричной доски
+export type TAxis = {
+	id: string;
+	title: string;
+};
+
+export type TColDTO = TAxis;
+export type TRowDTO = TAxis;
+
+export type CellDTO = {
+	board: string;
+	col: TColDTO['id'];
+	row: TRowDTO['id'];
+	data: CardDTO[];
+};
+
+export type MatrixBoardDTO = {
+	id: string;
+	title: string;
+	columns: TColDTO[];
+	rows: TRowDTO[];
+	cells: CellDTO[];
+};
