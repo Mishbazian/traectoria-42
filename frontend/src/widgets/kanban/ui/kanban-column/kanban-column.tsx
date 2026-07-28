@@ -5,8 +5,20 @@ import { observer } from 'mobx-react-lite';
 import { EllipsisVertical, PencilIcon, Plus, TrashIcon } from 'lucide-react';
 import { boardStore } from '@entities';
 
-import { Button, DeleteConfirmModal, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, EditableTextBlock, GrabbingGrip, ScrollArea, ScrollBar } from '@ui';
-
+import {
+	Button,
+	DeleteConfirmModal,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+	EditableTextBlock,
+	GrabbingGrip,
+	ScrollArea,
+	ScrollBar,
+} from '@ui';
 
 export const KanbanColumn = observer(
 	({ id, ref, handleRef, children, isDragging = false }: KanbanColumnProps) => {
@@ -37,7 +49,7 @@ export const KanbanColumn = observer(
 					<EditableTextBlock
 						as='h3'
 						className='group/column_header relative border'
-						item={column}
+						title={column.title}
 						prepend={
 							<GrabbingGrip
 								ref={handleRef}

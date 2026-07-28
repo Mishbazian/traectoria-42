@@ -4,7 +4,7 @@ import { Pen } from 'lucide-react';
 
 import type { EditableTextBlockProps } from './types';
 import { InlineEditor } from '../inline-editor';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@lib';
 
 export const EditableTextBlock = forwardRef<
 	HTMLDivElement,
@@ -13,7 +13,7 @@ export const EditableTextBlock = forwardRef<
 	(
 		{
 			as: Tag = 'h2',
-			item,
+			title,
 			prepend,
 			append,
 			onSave,
@@ -57,7 +57,7 @@ export const EditableTextBlock = forwardRef<
 								tabIndex={0}
 								onClick={() => setIsEditing(true)}
 								title='Нажмите, чтобы отредактировать'>
-								{item.title}
+								{title}
 							</Tag>
 							<Button
 								variant='ghost'
@@ -77,7 +77,7 @@ export const EditableTextBlock = forwardRef<
 					</>
 				) : (
 					<InlineEditor
-						value={item.title}
+						value={title ?? ''}
 						onSubmit={handleSave}
 						onCancel={handleClose}
 						placeholder='Введите заголовок'
