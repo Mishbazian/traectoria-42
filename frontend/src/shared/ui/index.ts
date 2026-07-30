@@ -23,3 +23,4 @@ export * from './editable-text-block';
 export * from './grabbing-grip';
 export * from './inline-editor';
 export * from './user-avatar';
+export * from './toggle'
