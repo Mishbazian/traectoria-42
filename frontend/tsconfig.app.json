@@ -21,8 +21,11 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
+			"@/*": ["./src/*"],
 			"@ui": ["./src/shared/ui"],
+			"@ui/*": ["./src/shared/ui/*"],
 			"@lib": ["./src/shared/lib"],
+			"utils": ["./src/shared/lib/utils"],
 			"@constants": ["./src/shared/constants"],
 			"@hooks": ["./src/shared/hooks"],
 			"@hocs": ["./src/shared/hocs"],
