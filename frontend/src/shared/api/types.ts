@@ -68,13 +68,13 @@ export type CardDTO = {
 export type CardsDTO = CardDTO[];
 
 // Типы для матричной доски
-export type TAxis = {
+export type TAxisDTO = {
 	id: string;
 	title: string;
 };
 
-export type TColDTO = TAxis;
-export type TRowDTO = TAxis;
+export type TColDTO = TAxisDTO;
+export type TRowDTO = TAxisDTO;
 
 export type CellDTO = {
 	board: string;

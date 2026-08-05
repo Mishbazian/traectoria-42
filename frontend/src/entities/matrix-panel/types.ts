@@ -16,27 +16,47 @@ export type TTask = {
 	updatedAt: string;
 };
 
-export type TAxis = 'x' | 'y' | 'board';
+export type TAxisName = 'x' | 'y' | 'board';
 
-export interface IAxisPoint {
-	id: string;
+export interface IAxis {
+	type: TAxisName;
+	points: IAxisPoint[];
+	addPoint: (title: string) => void;
+	deletePoint: (id: string) => void;
+}
+export type TAxisPointData = {
 	title: string;
+	color?: string;
+};
+
+export interface IAxisPoint extends TAxisPointData {
+	id: string;
+	axis?: string;
+	delete: () => void;
+	update: (updated: Partial<TAxisPointData>) => void;
+	cells: ICell[];
 }
 
 export type TCoords = {
-	[x in TAxis]: IAxisPoint['id'];
+	[x in TAxisName]: IAxisPoint['id'];
 };
 
 export interface ICell extends TCoords {
 	id: string;
 	data: TTask[];
+	addCellData(data: TTask[]): void;
 }
 
-export type TBoardAxis = {
-	[key in Exclude<TAxis, 'board'>]: IAxisPoint[];
+export type TBoardAxes = {
+	[key in Exclude<TAxisName, 'board'>]: IAxis;
 };
 
-export interface IBoard extends TBoardAxis, IAxisPoint {}
+export interface IBoard extends Omit<IAxisPoint, 'axis'> {
+	axes: IAxis[];
+	reverseAxes: () => void;
+	cellsCoordsMap: Record<string, Record<string, ICell>>;
+	axesMap: Record<string, IAxis>;
+}
 
 export interface IBoardStore {
 	boards: IBoard[];

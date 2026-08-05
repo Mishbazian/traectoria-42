@@ -1,58 +1,67 @@
-import { forwardRef, useState, type FC } from 'react';
+import { type FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Plus, RotateCwSquare } from 'lucide-react';
+import { RotateCwSquare } from 'lucide-react';
 import { cn } from '@lib';
 import { GrabbingGrip, Toggle } from '@ui';
 import { BlockHeader } from '@/features/kanban/ui/block-header';
 import type { KanbanBoardProps } from './types';
 import { useSortable } from '@dnd-kit/react/sortable';
+import { BlockList } from './block-list';
+import { BOARD_TYPE } from '@/shared';
 
 export const KanbanBoard: FC<KanbanBoardProps> = observer(
-	forwardRef<HTMLDivElement, KanbanBoardProps>(
-		({ board, index, children, className, colWidthPx }, ref) => {
-			const { isDragging, handleRef } = useSortable({
-				id: board.id,
-				index,
-			});
+	({ board, index, className, colWidthPx }) => {
+		const { ref, isDragging, handleRef } = useSortable({
+			id: board.id,
+			type: BOARD_TYPE,
+			index,
+			accept: BOARD_TYPE,
+		});
 
-			const [isRotated, setIsRotated] = useState<boolean>(false);
-			const [_, columns] = isRotated ? [board.y, board.x] : [board.x, board.y];
-			return (
-				<section
-					ref={ref}
-					className={cn('ring-foreground/50 grid gap-1', className)}
-					style={{
-						gridColumn: `auto / span ${columns.length}`,
-						gridTemplateColumns: `repeat(${columns.length},${colWidthPx}px)`,
-					}}>
-					<BlockHeader
-						block={board}
-						headerTextTag='h2'
-						className='col-span-full ring-1'
-						onUpdate={() => {}}
-						editable
-						prepend={
-							<GrabbingGrip
-								ref={handleRef}
-								isGrabbing={isDragging}
-								variant='vertical'
-							/>
-						}
-						append={
-							<Toggle onClick={() => setIsRotated((prev) => !prev)}>
-								<RotateCwSquare />
-							</Toggle>
-						}
+		const [columns, rows] = board.axes;
+		const handleRotate = () => board.reverseAxes();
+
+		return (
+			<section
+				ref={ref}
+				className={cn('ring-foreground/50 grid gap-1 p-2 grid-rows-[max-content]', className)}
+				style={{
+					gridColumn: `auto / span ${columns.points.length + 1}`,
+					gridTemplateColumns: `repeat(${columns.points.length + 1},${colWidthPx}px)`,
+				}}>
+				<BlockHeader
+					block={board}
+					headerTextTag='h2'
+					className='col-span-full ring-1'
+					onUpdate={() => {}}
+					editable
+					prepend={
+						<GrabbingGrip
+							ref={handleRef}
+							isGrabbing={isDragging}
+							variant='vertical'
+						/>
+					}
+					append={
+						<Toggle onClick={handleRotate}>
+							<RotateCwSquare />
+						</Toggle>
+					}
+				/>
+				<div className='col-span-full grid grid-cols-subgrid'>
+					<div></div>
+					<BlockList
+						state={columns}
+						className='col-[2/-1] grid grid-cols-subgrid'
 					/>
-					{children}
-					<button
-						type='button'
-						onClick={() => {}}
-						className='hover:border-primary hover:bg-primary/5 dark:not-hover:text-muted hover:text-primary flex items-center justify-center rounded-lg border-2 border-dashed p-2 transition-all duration-200'>
-						<Plus className='h-6 w-6' />
-					</button>
-				</section>
-			);
-		}
-	)
+				</div>
+				<BlockList
+					variant='rows'
+					state={rows}
+					className='col-span-full grid grid-cols-subgrid'
+					withCells
+				/>
+			</section>
+		);
+	}
 );
