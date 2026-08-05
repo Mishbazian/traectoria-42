@@ -16,26 +16,29 @@ export type TTask = {
 	updatedAt: string;
 };
 
-export type TCol = {
-	id: string;
-	title?: string;
-};
+export type TAxis = 'x' | 'y' | 'board';
 
-export type TRow = {
-	id: string;
-	title?: string;
-};
-
-export type TCell = {
-	board: string;
-	col: string;
-	row: string;
-	data: TTask[];
-};
-
-export type TBoard = {
+export interface IAxisPoint {
 	id: string;
 	title: string;
-	columns: TCol[];
-	rows: TRow[];
+}
+
+export type TCoords = {
+	[x in TAxis]: IAxisPoint['id'];
 };
+
+export interface ICell extends TCoords {
+	id: string;
+	data: TTask[];
+}
+
+export type TBoardAxis = {
+	[key in Exclude<TAxis, 'board'>]: IAxisPoint[];
+};
+
+export interface IBoard extends TBoardAxis, IAxisPoint {}
+
+export interface IBoardStore {
+	boards: IBoard[];
+	isLoading: boolean;
+}
