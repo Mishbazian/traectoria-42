@@ -1,9 +1,15 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { BlockData } from '../model/types';
+import type { IBoard } from '@/entities';
 
 export type BlockType = 'board' | 'column' | 'row' | 'cell' | 'card';
 
 type TextTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+
+export type BlockData = {
+	id: string;
+	bgColor?: string;
+	title: string;
+};
 
 export interface TextBlockBodyProps extends HTMLAttributes<HTMLDivElement> {
 	as?: TextTag;
@@ -34,4 +40,13 @@ export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 	editable: boolean;
 	prepend?: ReactNode;
 	append?: ReactNode;
+}
+
+export interface KanbanBoardProps {
+	id: string;
+	children?: React.ReactNode;
+	className?: string;
+	board: IBoard;
+	index: number;
+	colWidthPx: number;
 }
