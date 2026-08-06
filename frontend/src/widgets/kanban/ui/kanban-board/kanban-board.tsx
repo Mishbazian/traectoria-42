@@ -2,7 +2,7 @@ import type { KanbanBoardProps } from './types';
 import { forwardRef, type FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Plus } from 'lucide-react';
-import { boardStore } from '@entities';
+import { boardStore } from '@/entities/kanban';
 import { cn } from '@lib';
 import { EditableTextBlock, GrabbingGrip, ScrollArea, ScrollBar } from '@ui';
 

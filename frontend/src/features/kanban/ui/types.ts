@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { IBoard } from '@/entities';
+import type { IAxis, IAxisPoint, IBoard } from '@/entities';
 
 export type BlockType = 'board' | 'column' | 'row' | 'cell' | 'card';
 
@@ -35,7 +35,7 @@ export interface BlockHeaderMenuProps {
 export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 	onUpdate?: (updated: Partial<BlockData>) => void;
 	onDelete?: () => void;
-	block: BlockData;
+	block: IAxisPoint;
 	headerTextTag: TextTag;
 	editable: boolean;
 	prepend?: ReactNode;
@@ -44,9 +44,27 @@ export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export interface KanbanBoardProps {
 	id: string;
-	children?: React.ReactNode;
 	className?: string;
 	board: IBoard;
 	index: number;
 	colWidthPx: number;
+}
+
+export interface BlockListProps {
+	state: IAxis;
+	className?: string;
+	withCells?: boolean;
+	variant?: 'cols' | 'rows'
+}
+
+export interface CellsListProps {
+	point: IAxisPoint;
+	className?: string;
+}
+
+export interface BlockPointProps {
+	point: IAxisPoint;
+	index: number;
+	children?: ReactNode;
+	className?: string;
 }

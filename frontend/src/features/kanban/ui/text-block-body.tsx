@@ -13,7 +13,7 @@ export const TextBlockBody = forwardRef<HTMLDivElement, TextBlockBodyProps>(
 			<div
 				ref={ref}
 				className={cn(
-					'h-full min-w-0',
+					'min-w-0',
 					editable &&
 						'group/editor hover:bg-accent flex items-center transition-colors',
 					className

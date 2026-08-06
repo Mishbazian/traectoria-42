@@ -1,6 +1,6 @@
 import { Trash2, Trash2Icon } from 'lucide-react';
 import {
-    Button,
+	Button,
 	Dialog,
 	DialogClose,
 	DialogContent,
@@ -10,22 +10,30 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@ui';
-import type { FC, SubmitEvent } from 'react';
+import { useState, type FC, type SubmitEvent } from 'react';
 import type { DeleteBlockControlProps } from './types';
 
 export const DeleteBlockControl: FC<DeleteBlockControlProps> = ({
-	isOpen,
+	isOpen = false,
 	onOpenChange,
 	onSubmit,
 	disabled = false,
 	blockTitle,
 }) => {
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(isOpen);
+
+	const handleOpenChange = () => {
+		onOpenChange?.();
+		setIsModalOpen((prev) => !prev);
+	};
 	const handleSubmit = (e: SubmitEvent) => {
 		e.preventDefault();
 		onSubmit();
+		setIsModalOpen(false);
 	};
+
 	return (
-		<Dialog open={isOpen} onOpenChange={onOpenChange}>
+		<Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
 				<Button
 					variant={'destructive'}

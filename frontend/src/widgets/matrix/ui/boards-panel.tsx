@@ -22,7 +22,7 @@ export const BoardsPanel = observer(({ store }: BoardPanelProps) => {
 				/>
 			</div>
 			<div
-				className='mx-auto my-0 grid max-w-full gap-2 p-1'
+				className='mx-auto my-0 grid max-w-full content-start items-start gap-2 p-1'
 				style={{
 					gridTemplateColumns: `repeat(auto-fill,${cellWidth}px)`,
 				}}>
