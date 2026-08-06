@@ -1,25 +1,19 @@
-import { Spinner } from '@ui';
-import { boardStore } from '@entities';
+import { Spinner, Toggle } from '@ui';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { KanbanContent } from '@widgets';
+import { BoardsPanel } from '@/widgets/matrix/ui/boards-panel';
+import { MatrixBoardStore } from '@/entities/matrix-panel';
 
-
+const store = new MatrixBoardStore();
 
 export const KanbanPage = observer(() => {
-	useEffect(() => {
-		boardStore.fetchBoardsData();
-	}, []);
-
-	const isLoading = boardStore.isLoading;
 	return (
 		<>
-			{isLoading ? (
+			{store.isLoading ? (
 				<div className='flex h-screen items-center justify-center'>
 					<Spinner className='size-8' />
 				</div>
 			) : (
-				<KanbanContent />
+				<BoardsPanel store={store} />
 			)}
 		</>
 	);
