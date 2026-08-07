@@ -64,7 +64,25 @@ export interface CellsListProps {
 
 export interface BlockPointProps {
 	point: IAxisPoint;
+	type: string;
 	index: number;
 	children?: ReactNode;
 	className?: string;
+}
+
+type TCardItem = {
+	id: string
+	title: string;
+	description?: string;
+};
+
+export interface KanbanCardProps {
+	card: TCardItem;
+	index: number;
+	cellId: string;
+	onCardClick: () => void;
+	className?: string;
+	action?: ReactNode;
+	info?: ReactNode;
+	footer?: ReactNode;
 }

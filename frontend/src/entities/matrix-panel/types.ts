@@ -44,7 +44,9 @@ export type TCoords = {
 export interface ICell extends TCoords {
 	id: string;
 	data: TTask[];
-	addCellData(data: TTask[]): void;
+	addCellData: (data: TTask[]) => void;
+	removeCard: (cardId: string, from?: number) => TTask | null;
+	addCard: (card: TTask, pos?: number) => void;
 }
 
 export type TBoardAxes = {
@@ -53,6 +55,7 @@ export type TBoardAxes = {
 
 export interface IBoard extends Omit<IAxisPoint, 'axis'> {
 	axes: IAxis[];
+	cells: ICell[];
 	reverseAxes: () => void;
 	cellsCoordsMap: Record<string, Record<string, ICell>>;
 	axesMap: Record<string, IAxis>;
@@ -61,4 +64,12 @@ export interface IBoard extends Omit<IAxisPoint, 'axis'> {
 export interface IBoardStore {
 	boards: IBoard[];
 	isLoading: boolean;
+	cellsCardsMap: Record<string, TTask[]>;
+	moveCard: (
+		cardId: string,
+		fromCell: string,
+		fromPos: number,
+		toCell: string,
+		toPos?: number
+	) => boolean;
 }
