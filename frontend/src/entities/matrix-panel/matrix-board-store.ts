@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import type { ICell, IBoard, TTask, IBoardStore, IAxis } from './types';
-import { fetchMatrixBoardMock } from '../../shared/api/mocks/board-mock';
+import { fetchMatrixBoard } from '@api';
 import { Board } from './board';
 
 export class MatrixBoardStore implements IBoardStore {
@@ -16,7 +16,7 @@ export class MatrixBoardStore implements IBoardStore {
 		runInAction(() => {
 			this.isLoading = true;
 		});
-		const loaded = await fetchMatrixBoardMock();
+		const loaded = await fetchMatrixBoard();
 		runInAction(() => {
 			this.isLoading = false;
 			this.boards = loaded.map(

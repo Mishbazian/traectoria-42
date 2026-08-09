@@ -2,8 +2,8 @@ import { EllipsisVertical, PaintbrushVertical, Pencil } from 'lucide-react';
 
 import { forwardRef } from 'react';
 import type { BlockHeaderMenuProps } from './types';
-import { Button, Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
-import { ButtonGroup } from '@/shared/ui/button-group';
+import { Button, Popover, PopoverContent, PopoverTrigger } from '@ui';
+import { ButtonGroup } from '@ui/button-group';
 import { DeleteBlockControl } from './delete-block-control';
 
 export const BlockHeaderMenu = forwardRef<

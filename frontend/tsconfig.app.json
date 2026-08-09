@@ -26,7 +26,6 @@
 			"@ui/*": ["./src/shared/ui/*"],
 			"@lib": ["./src/shared/lib"],
 			"utils": ["./src/shared/lib/utils"],
-			"@constants": ["./src/shared/constants"],
 			"@hooks": ["./src/shared/hooks"],
 			"@hocs": ["./src/shared/hocs"],
 			"@entities": ["./src/entities"],

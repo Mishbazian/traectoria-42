@@ -38,7 +38,7 @@ export class Board implements IBoard {
 
   populateCells(cellDtos: CellDTO[]) {
     for (const dto of cellDtos) {
-      this.cells.push(new Cell(dto.col, dto.row, this.id, [...(dto.data ?? [])]));
+      this.cells.push(new Cell(dto.column, dto.row, this.id, [...(dto.data ?? [])]));
     }
   }
 

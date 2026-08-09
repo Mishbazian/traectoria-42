@@ -1,12 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 import { nanoid } from 'nanoid';
-import type { TAxisDTO } from '@/shared/api/types';
-import type { IAxis, ICell, IPoint, TAxisName } from './types';
+import type { TAxisDTO } from '@api';
+import type { IAxis, ICell, IAxisPoint, TAxisName } from './types';
 import { BoardAxisPoint } from './board-axis-point';
 
 export class BoardAxis implements IAxis {
 	id: string;
-	points: IPoint[] = [];
+	points: IAxisPoint[] = [];
 
 	constructor(
 		public type: TAxisName,

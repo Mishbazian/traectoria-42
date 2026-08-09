@@ -8,7 +8,7 @@ import {
 	GrabbingGrip,
 	ROW_TYPE,
 	rowConfig,
-} from '@/shared';
+} from '@shared';
 import { useSortable } from '@dnd-kit/react/sortable';
 
 export const BlockPoint: FC<BlockPointProps> = observer(

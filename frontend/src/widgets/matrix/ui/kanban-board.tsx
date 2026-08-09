@@ -3,11 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { RotateCwSquare } from 'lucide-react';
 import { cn } from '@lib';
 import { GrabbingGrip, Toggle } from '@ui';
-import { BlockHeader } from '@/features/kanban/ui/block-header';
+import { BlockHeader } from './block-header';
 import type { KanbanBoardProps } from './types';
 import { useSortable } from '@dnd-kit/react/sortable';
 import { BlockList } from './block-list';
-import { BOARD_TYPE } from '@/shared';
+import { BOARD_TYPE } from '@shared';
 
 export const KanbanBoard: FC<KanbanBoardProps> = observer(
 	({ board, index, className, colWidthPx }) => {

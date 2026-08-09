@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useKanbanDrag } from '@hooks';
 import { boardStore } from '@entities';
 import { DragDropProvider } from '@dnd-kit/react';
-import { boardConfig, CARD_TYPE, cardConfig, columnConfig } from '@constants';
+import { boardConfig, CARD_TYPE, cardConfig, columnConfig } from '@lib';
 import { withSortable } from '@hocs';
 
 import { KanbanBoard } from '../kanban-board';

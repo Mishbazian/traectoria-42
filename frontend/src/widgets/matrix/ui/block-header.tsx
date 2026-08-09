@@ -1,9 +1,9 @@
 import { useState, forwardRef } from 'react';
 import { InlineEditor } from '@ui';
-import { cn } from '@/shared/lib';
+import { cn } from '@lib';
 import { BlockHeaderMenu } from './block-header-menu';
 import type { BlockHeaderProps } from './types';
-import type { BlockData } from '../model/types';
+import type { BlockData } from './types';
 import { TextBlockBody } from './text-block-body';
 import { observer } from 'mobx-react-lite';
 
@@ -26,7 +26,7 @@ export const BlockHeader = observer(
 			const [isEditing, setIsEditing] = useState(false);
 
 			const handleUpdate = (updated: Partial<BlockData>) => {
-				block.update(updated);
+				block.update?.(updated);
 				setIsEditing(false);
 			};
 

@@ -1,4 +1,4 @@
-import { Spinner, Toggle } from '@ui';
+import { Spinner } from '@ui';
 import { observer } from 'mobx-react-lite';
 import { BoardsPanel } from '@/widgets/matrix/ui/boards-panel';
 import { boardStore } from '@/entities/matrix-panel';

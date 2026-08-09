@@ -1,4 +1,4 @@
-import type { CardUser } from '@/state/types';
+import type { CardUser } from '@/entities/kanban';
 type TaskInfo = {
 	assignee?: CardUser;
 	dueDate?: string | number;

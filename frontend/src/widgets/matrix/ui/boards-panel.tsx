@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { Slider } from '@ui';
-import { CARD_TYPE, CELL, CELL_TYPE } from '@/shared';
+import { CARD_TYPE, CELL, CELL_TYPE } from '@shared';
 import { useState } from 'react';
-import { KanbanBoard } from '@/features/kanban/ui/kanban-board';
+import { KanbanBoard } from './kanban-board';
 import type { BoardPanelProps } from './types';
-import { KanbanDndProvider } from '@/features/kanban/ui/kanban-dnd-provider';
+import { KanbanDndProvider } from './kanban-dnd-provider';
 
 export const BoardsPanel = observer(({ store }: BoardPanelProps) => {
 	const [cellWidth, setCellWidht] = useState<number>(CELL.width);

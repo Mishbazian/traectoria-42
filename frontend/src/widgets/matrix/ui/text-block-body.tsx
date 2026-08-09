@@ -1,4 +1,4 @@
-import { cn } from '@/shared/lib';
+import { cn } from '@lib';
 import { Pen } from 'lucide-react';
 import { forwardRef } from 'react';
 import { Button } from '@ui';

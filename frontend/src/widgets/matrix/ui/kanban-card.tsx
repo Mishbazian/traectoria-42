@@ -12,7 +12,7 @@ import {
 } from '@ui';
 import { cn } from '@lib';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { cardConfig } from '@/shared';
+import { cardConfig } from '@shared';
 
 export const KanbanCard: FC<KanbanCardProps> = observer(
 	({ card, index, cellId, onCardClick, className, info, footer, action }) => {

@@ -1,5 +1,5 @@
-import type { ICell } from '@/entities';
-import { cellConfig, cn } from '@/shared';
+import type { ICell } from '@entities';
+import { cellConfig, cn } from '@lib';
 import { KanbanCard } from './kanban-card';
 import { useDroppable } from '@dnd-kit/react';
 import { observer } from 'mobx-react-lite';

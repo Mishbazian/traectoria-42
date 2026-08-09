@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { type FC } from 'react';
 import type { BlockListProps } from './types';
-import { cn, COLUMN_TYPE, ROW_TYPE } from '@/shared';
+import { cn, COLUMN_TYPE, ROW_TYPE } from '@shared';
 import { BlockPoint } from './block-point';
 import { PointCellsList } from './point-cells-list';
 
