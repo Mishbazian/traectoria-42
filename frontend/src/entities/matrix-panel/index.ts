@@ -4,3 +4,4 @@ export * from './board-axis';
 export * from './board-axis-point';
 export * from './cell';
 export * from './matrix-board-store';
+export { boardStore } from './store';

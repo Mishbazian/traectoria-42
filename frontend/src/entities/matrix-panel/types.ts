@@ -28,6 +28,7 @@ export type TBoardAxes = {
 };
 
 export interface IAxis {
+  id: string;
   type: TAxisName;
   points: IPoint[];
   addPoint: (title: string) => void;
@@ -69,9 +70,8 @@ export interface IBoard {
   axes: IAxis[];
   cells: ICell[];
   axesMap: TBoardAxes;
-  cellsMap: Record<string, ICell>;
-  cellsCoordsMap: Record<string, Record<string, ICell>>;
   reverseAxes: () => void;
+  updateTitle: (title: string) => void;
 }
 
 // === Store ===
@@ -89,4 +89,5 @@ export interface IBoardStore {
     toCell: string,
     toPos?: number,
   ) => boolean;
+  deleteBoard: (boardId: string) => void;
 }

@@ -22,11 +22,15 @@ export class MatrixBoardStore implements IBoardStore {
 			this.boards = loaded.map(
 				(dto) =>
 					new Board(dto, () => {
-						this.boards = this.boards.filter((b) => b.id !== dto.id);
+						this.deleteBoard(dto.id);
 					})
 			);
 		});
 	};
+
+	deleteBoard(boardId: string) {
+		this.boards = this.boards.filter((b) => b.id !== boardId);
+	}
 
 	get cells(): ICell[] {
 		return this.boards.flatMap(({ cells }) => cells);
@@ -45,7 +49,8 @@ export class MatrixBoardStore implements IBoardStore {
 			{} as Record<string, TTask[]>
 		);
 	}
-	private get cellsMap() {
+
+	get cellsMap(): Record<string, ICell> {
 		return this.cells.reduce(
 			(acc, cell) => {
 				acc[cell.id] = cell;
@@ -53,6 +58,15 @@ export class MatrixBoardStore implements IBoardStore {
 			},
 			{} as Record<string, ICell>
 		);
+	}
+
+	get cellsCoordsMap(): Record<string, Record<string, ICell>> {
+		const map: Record<string, Record<string, ICell>> = {};
+		for (const cell of this.cells) {
+			if (!map[cell.x]) map[cell.x] = {};
+			map[cell.x][cell.y] = cell;
+		}
+		return map;
 	}
 
 	moveCard(

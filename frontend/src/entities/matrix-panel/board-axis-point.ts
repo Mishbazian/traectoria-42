@@ -9,13 +9,13 @@ export class BoardAxisPoint implements IPoint {
     readonly axis: string,
     public title: string,
     private onDelete: (id: string) => void,
-    private getCells: () => ICell[],
+    private getCellsFn: (pointId: string) => ICell[],
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
   get cells() {
-    return this.getCells();
+    return this.getCellsFn(this.id);
   }
 
   update(updated: Partial<TPointData>) {

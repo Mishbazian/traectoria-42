@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { IAxis, ICell, IBoard, TAxisName, TBoardAxes, TPointData } from './types';
+import type { IAxis, ICell, IBoard, TAxisName, TBoardAxes } from './types';
 import type { MatrixBoardDTO, TAxisDTO, CellDTO } from '@/shared/api/types';
 import { BoardAxis } from './board-axis';
 import { Cell } from './cell';
@@ -70,29 +70,12 @@ export class Board implements IBoard {
     return map as TBoardAxes;
   }
 
-  get cellsMap(): Record<string, ICell> {
-    const map: Record<string, ICell> = {};
-    for (const cell of this.cells) {
-      map[cell.id] = cell;
-    }
-    return map;
-  }
-
-  get cellsCoordsMap(): Record<string, Record<string, ICell>> {
-    const map: Record<string, Record<string, ICell>> = {};
-    for (const cell of this.cells) {
-      if (!map[cell.x]) map[cell.x] = {};
-      map[cell.x][cell.y] = cell;
-    }
-    return map;
-  }
-
   reverseAxes() {
     this.axes.reverse();
   }
 
-  update(updated: Partial<TPointData>) {
-    Object.assign(this, updated);
+  updateTitle(title: string) {
+    this.title = title;
   }
 
   delete() {
