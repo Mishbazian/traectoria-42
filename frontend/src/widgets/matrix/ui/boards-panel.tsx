@@ -35,7 +35,6 @@ export const BoardsPanel = observer(({ store }: BoardPanelProps) => {
 					cellType={CELL_TYPE}>
 					{store.boards.map((board, index) => (
 						<KanbanBoard
-							id={board.id}
 							key={board.id}
 							index={index}
 							board={board}

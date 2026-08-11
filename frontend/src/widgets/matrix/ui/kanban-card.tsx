@@ -1,4 +1,4 @@
-import {  useCallback, type FC } from 'react';
+import { useCallback, type FC } from 'react';
 import type { KanbanCardProps } from './types';
 import { observer } from 'mobx-react-lite';
 import {
@@ -10,18 +10,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@ui';
-import { cn } from '@lib';
-import { useSortable } from '@dnd-kit/react/sortable';
-import { cardConfig } from '@shared';
+import { cardDragConfig, cn } from '@lib';
+import { useDraggable } from '@dnd-kit/react';
 
 export const KanbanCard: FC<KanbanCardProps> = observer(
-	({ card, index, cellId, onCardClick, className, info, footer, action }) => {
-		const { isDropTarget, isDragging, ref } = useSortable({
+	({ card, onCardClick, className, info, footer, action }) => {
+		const { isDragging, ref } = useDraggable({
 			id: card.id,
-            index,
-			group: cellId,
-			...cardConfig,
-			
+			...cardDragConfig,
 		});
 		const handleKeyDown = useCallback(
 			(e: React.KeyboardEvent) => {
@@ -43,7 +39,6 @@ export const KanbanCard: FC<KanbanCardProps> = observer(
 				ref={ref}
 				className={cn(
 					'group hover:ring-ring/30 dark:hover:ring-ring/50 cursor-pointer transition-all duration-200 hover:shadow-md hover:ring-1 dark:hover:shadow-lg dark:hover:ring-1',
-					isDropTarget && 'ring-primary',
 					className
 				)}
 				role='button'

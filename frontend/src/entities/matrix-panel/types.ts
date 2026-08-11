@@ -10,49 +10,47 @@ export type TUser = {
 
 export type TPointData = {
 	title: string;
-	color?: string;};
+	color?: string;
+};
 
-
-export interface IAxisPoint extends TPointData{
+export interface IAxisPoint extends TPointData {
 	id: string;
-  cells: ICell[];
-	delete: () => void;
+	cells: ICell[];
 	update: (updated: Partial<TPointData>) => void;
-	
 }
 
 // === Axis ===
 
-export type TAxisName = 'x' | 'y';
+/** Уникальный идентификатор оси */
+export type TAxisId = string;
 
-export type TBoardAxes = {
-	[K in TAxisName]: IAxis;
-};
+export type TBoardAxes = Record<TAxisId, IAxis>;
 
 export interface IAxis {
 	id: string;
-	type: TAxisName;
+	/** Отображаемое имя оси */
+	name: string;
+	defaultPoint: IAxisPoint['id'];
 	points: IAxisPoint[];
-	addPoint: (title: string) => void;
+	//addPoint: (title: string, pointId?: string) => void;
 	deletePoint: (id: string) => void;
 }
 
 // === Cell ===
 
+/** Маппинг: axisId → pointId для каждой выбранной оси */
+export type TCellCoordinates = Record<string, string>;
+
 export interface ICell {
-	id: string;
-	x: string;
-	y: string;
-	board: string;
-	data: TTask[];
-	addCellData: (data: TTask[]) => void;
-	removeCard: (cardId: string, from?: number) => TTask | null;
-	addCard: (card: TTask, pos?: number) => void;
+	readonly id: string;
+	readonly boardId: string;
+	readonly x: string;
+	readonly y: string;
 }
 
 // === Task ===
 
-export type TTask = {
+export interface TTask {
 	id: string;
 	title: string;
 	description?: string;
@@ -62,7 +60,12 @@ export type TTask = {
 	tags?: string[];
 	createdAt: string;
 	updatedAt: string;
-};
+}
+
+export interface ICard extends TTask {
+	boardId: string;
+	coordinates: Record<IAxis['id'], IAxisPoint['id']>;
+}
 
 // === Board ===
 
@@ -70,10 +73,21 @@ export interface IBoard {
 	id: string;
 	title: string;
 	axes: IAxis[];
+	/** Ячейки для текущей выбранной пары осей */
 	cells: ICell[];
 	axesMap: TBoardAxes;
+	/** Выбранные оси для отображения матрицы (nullable — нет выбора) */
+	xAxis: string;
+	yAxis: string;
+	defaultCoordinates: Record<string, string>;
+
+	/** Получить оси для отображения */
+	displayAxes: IAxis[];
+	/** Выбрать оси x и y для отображения; генерирует ячейки */
+	setAxes: (setted: { xAxis?: string; yAxis?: string }) => void;
 	reverseAxes: () => void;
 	updateTitle: (title: string) => void;
+	delete: () => void;
 }
 
 // === Store ===
@@ -83,13 +97,6 @@ export interface IBoardStore {
 	isLoading: boolean;
 	cells: ICell[];
 	axes: IAxis[];
-	cellsCardsMap: Record<string, TTask[]>;
-	moveCard: (
-		cardId: string,
-		fromCell: string,
-		fromPos: number,
-		toCell: string,
-		toPos?: number
-	) => boolean;
-	deleteBoard: (boardId: string) => void;
+	cards: ICard[];
+	moveCard: (cardId: ICard['id'], toCell: ICell['id']) => void;
 }

@@ -1,7 +1,7 @@
 import { Spinner } from '@ui';
 import { observer } from 'mobx-react-lite';
 import { BoardsPanel } from '@/widgets/matrix/ui/boards-panel';
-import { boardStore } from '@/entities/matrix-panel';
+import { matrixBoardStore as boardStore } from '@/entities/matrix-panel';
 
 export const KanbanPage = observer(() => {
 	return (

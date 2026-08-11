@@ -1,84 +1,129 @@
 import { makeAutoObservable } from 'mobx';
-import type { IAxis, ICell, IBoard, TAxisName, TBoardAxes } from './types';
-import type { MatrixBoardDTO, TAxisDTO, CellDTO } from '@/shared/api/types';
+import type { IAxis, ICell, IBoard, TAxisId, IAxisPoint } from './types';
+import type { MatrixBoardDTO } from '@/shared/api/types';
 import { BoardAxis } from './board-axis';
-import { Cell } from './cell';
+import { BoardAxisPoint } from './board-axis-point';
 
 export class Board implements IBoard {
-  readonly id: string;
-  title: string;
-  axes: IAxis[] = [];
-  cells: ICell[] = [];
+	readonly id: string;
+	title: string;
+	/** Имеющиеся оси */
+	axes: IAxis[] = [];
+	/** Выбранные оси для отображения матрицы */
+	xAxis: string; //@todo
+	yAxis: string; //@todo
+	isRotated: boolean = false;
 
-  private _onDelete: () => void;
+	constructor(
+		dto: MatrixBoardDTO,
+		private _onDelete: () => void
+	) {
+		makeAutoObservable(this, {}, { autoBind: true });
+		this.id = dto.id;
+		this.title = dto.title;
 
-  constructor(
-    dto: MatrixBoardDTO,
-    onDelete: () => void,
-  ) {
-    this._onDelete = onDelete;
-    makeAutoObservable(this, {}, { autoBind: true });
-    this.id = dto.id;
-    this.title = dto.title;
-    this.initAxis('x', dto.columns);
-    this.initAxis('y', dto.rows);
-    this.populateCells(dto.cells);
-  }
+		// Загружаем оси — каждая несёт свои точки
+		for (const axisDto of dto.axes) {
+			this.initAxis(axisDto);
+		}
+		// Автоматически выбираем первые 2 оси для отображения
+		this.xAxis = this.axes[0]?.id ?? ''; //@todo
+		this.yAxis = this.axes[1]?.id ?? ''; //@todo
+	}
 
-  initAxis(name: TAxisName, points?: TAxisDTO[]) {
-    const axis = new BoardAxis(
-      name,
-      points ?? [],
-      (newPointId) => this.handleAddAxisPoint(name, newPointId),
-      (pointId) => this.handleRemoveAxisPoint(name, pointId),
-      (pointId) => this.getCellsByAxisPoint(name, pointId),
-    );
-    this.axes.push(axis);
-  }
+	/** Инициализация одной оси из DTO */
+	initAxis({ id, name, points }: MatrixBoardDTO['axes'][number]) {
+		this.axes.push(
+			new BoardAxis({
+				id,
+				name,
+				axisPoints: points.map(
+					(point) =>
+						new BoardAxisPoint(point.id, id, point.title, () =>
+							this.cells.filter(
+								(cell) => cell.x === point.id || cell.y === point.id
+							)
+						)
+				),
+			})
+		);
+	}
 
-  populateCells(cellDtos: CellDTO[]) {
-    for (const dto of cellDtos) {
-      this.cells.push(new Cell(dto.column, dto.row, this.id, [...(dto.data ?? [])]));
-    }
-  }
+	/** Получить оси для отображения */
+	get displayAxes(): IAxis[] {
+		if (!this.xAxis || !this.yAxis) return [];
+		const axisX = this.axesMap[this.isRotated ? this.xAxis : this.yAxis];
+		const axisY = this.axesMap[this.isRotated ? this.yAxis : this.xAxis];
+		return [axisX, axisY].filter((a): a is BoardAxis => a != null);
+	}
 
-  private getCellsByAxisPoint(axis: TAxisName, pointId: string): ICell[] {
-    return this.cells.filter((cell) => cell[axis] === pointId);
-  }
+	/** Геттер: маппинг id → Axis (вычисляется на лету) */
+	get axesMap(): Record<TAxisId, IAxis> {
+		const map: Record<string, IAxis> = {};
+		for (const axis of this.axes) {
+			map[axis.id] = axis;
+		}
+		return map as Record<TAxisId, IAxis>;
+	}
 
-  private handleAddAxisPoint(axis: TAxisName, newPointId: string) {
-    const otherAxis = axis === 'x' ? 'y' : 'x';
-    const otherAxisObj = this.axesMap[otherAxis];
-    if (!otherAxisObj) return;
+	get pointsMap(): Map<IAxisPoint['id'], IAxisPoint> {
+		return new Map(
+			this.axes.flatMap(({ points }) =>
+				points.map((point) => [point.id, point])
+			)
+		);
+	}
 
-    for (const existingPoint of otherAxisObj.points) {
-      const x = axis === 'x' ? newPointId : existingPoint.id;
-      const y = axis === 'y' ? newPointId : existingPoint.id;
-      this.cells.push(new Cell(x, y, this.id));
-    }
-  }
+	get cells(): ICell[] {
+		const cells = [];
+		const [x, y] = this.displayAxes;
+		for (const xPoint of x.points) {
+			for (const yPoint of y.points) {
+				const cell: ICell = {
+					id: `${xPoint.id}-${yPoint.id}`,
+					x: xPoint.id,
+					y: yPoint.id,
+					boardId: this.id,
+				};
+				cells.push(cell);
+			}
+		}
+		return cells;
+	}
 
-  private handleRemoveAxisPoint(axis: TAxisName, pointId: string) {
-    this.cells = this.cells.filter((cell) => cell[axis] !== pointId);
-  }
+	get cellsMap(): Map<ICell['id'], ICell> {
+		return new Map(this.cells.map((cell): [string, ICell] => [cell.id, cell]));
+	}
 
-  get axesMap(): TBoardAxes {
-    const map: Record<string, IAxis> = {};
-    for (const axis of this.axes) {
-      map[axis.type] = axis;
-    }
-    return map as TBoardAxes;
-  }
+	get defaultCoordinates(): Record<string, string> {
+		return this.axes.reduce(
+			(acc, axis) => {
+				acc[axis.id] = axis.defaultPoint;
+				return acc;
+			},
+			{} as Record<string, string>
+		);
+	}
 
-  reverseAxes() {
-    this.axes.reverse();
-  }
+	/**
+	 * Выбрать оси x и y для отображения матрицы.
+	 * Ячейки генерируются на лету.
+	 */
+	setAxes({ xAxis, yAxis }: { xAxis?: string; yAxis?: string }) {
+		if (xAxis) this.xAxis = xAxis;
+		if (yAxis) this.yAxis = yAxis;
+	}
 
-  updateTitle(title: string) {
-    this.title = title;
-  }
+	/** Менять местами x и y */
+	reverseAxes() {
+		this.isRotated = !this.isRotated;
+	}
 
-  delete() {
-    this._onDelete();
-  }
+	updateTitle(title: string) {
+		this.title = title;
+	}
+
+	delete() {
+		this._onDelete();
+	}
 }

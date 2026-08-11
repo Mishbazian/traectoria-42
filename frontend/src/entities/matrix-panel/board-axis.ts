@@ -1,41 +1,31 @@
 import { makeAutoObservable } from 'mobx';
-import { nanoid } from 'nanoid';
-import type { TAxisDTO } from '@api';
-import type { IAxis, ICell, IAxisPoint, TAxisName } from './types';
-import { BoardAxisPoint } from './board-axis-point';
+import type { IAxis, IAxisPoint } from './types';
+
+export type BoardAxisProps = {
+	readonly id: string;
+	name: string;
+	axisPoints?: IAxisPoint[];
+	defaultPoint?: IAxisPoint['id'];
+};
 
 export class BoardAxis implements IAxis {
 	id: string;
-	points: IAxisPoint[] = [];
+	name: string;
+	points: IAxisPoint[];
+	defaultPoint: string;
 
-	constructor(
-		public type: TAxisName,
-		axisPoints: TAxisDTO[] = [],
-		protected onAddPoint: (newPointId: string) => void,
-		protected onDeletePoint: (pointId: string) => void,
-		private getAxisPointCells: (pointId: string) => ICell[]
-	) {
+	constructor({ id, name, axisPoints = [], defaultPoint }: BoardAxisProps) {
 		makeAutoObservable(this, {}, { autoBind: true });
-		this.id = nanoid();
-		axisPoints?.forEach(({ id, title }) => this.addPoint(title, id));
-	}
-
-	addPoint(title: string, pointId?: string) {
-		const id = pointId ?? nanoid();
-		this.points.push(
-			new BoardAxisPoint(
-				id,
-				this.id,
-				title,
-				this.deletePoint,
-				this.getAxisPointCells
-			)
-		);
-		this.onAddPoint(id);
+		this.id = id;
+		this.name = name;
+		this.points = axisPoints;
+		this.defaultPoint = defaultPoint ?? axisPoints[0]?.id ?? '';
 	}
 
 	deletePoint(id: string) {
 		this.points = this.points.filter((p) => p.id !== id);
-		this.onDeletePoint(id);
+	}
+	update(updated: Partial<BoardAxisProps>) {
+		Object.assign(this, updated);
 	}
 }

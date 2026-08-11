@@ -4,6 +4,7 @@ import { KanbanCard } from './kanban-card';
 import { useDroppable } from '@dnd-kit/react';
 import { observer } from 'mobx-react-lite';
 import type { FC, HTMLAttributes, ReactNode } from 'react';
+import { matrixBoardStore as store } from '@/entities';
 
 export interface BoardCellProps extends HTMLAttributes<HTMLDivElement> {
 	cell: ICell;
@@ -15,6 +16,7 @@ export const BoardCell: FC<BoardCellProps> = observer(
 			id: cell.id,
 			...cellConfig,
 		});
+
 		return (
 			<div
 				ref={ref}
@@ -23,13 +25,13 @@ export const BoardCell: FC<BoardCellProps> = observer(
 					isDropTarget && 'bg-primary/30'
 				)}
 				{...props}>
-				{cell.data.map((task, index) => (
+				{store.cellCardsMap.get(cell.id)?.map((card, index) => (
 					<KanbanCard
-						card={task}
+						card={card}
 						index={index}
 						cellId={cell.id}
 						onCardClick={() => {}}
-						key={task.id}
+						key={card.id}
 					/>
 				))}
 			</div>

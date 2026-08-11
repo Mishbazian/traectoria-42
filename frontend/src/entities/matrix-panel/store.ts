@@ -1,3 +1,3 @@
 import { MatrixBoardStore } from './matrix-board-store';
 
-export const boardStore = new MatrixBoardStore();
+export const matrixBoardStore = new MatrixBoardStore();

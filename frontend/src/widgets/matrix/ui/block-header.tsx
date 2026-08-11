@@ -35,12 +35,12 @@ export const BlockHeader = observer(
 			};
 
 			const handleDelete = () => {
-				block.delete?.();
+				//@todo
 			};
 
 			return (
 				<div
-					className={cn('flex w-full items-center gap-2 py-2 h-max', className)}
+					className={cn('flex h-max w-full items-center gap-2 py-2', className)}
 					ref={ref}
 					{...props}>
 					{!isEditing ? (

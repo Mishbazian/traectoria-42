@@ -9,8 +9,6 @@ export type {
 export type {
   MatrixBoardDTO,
   TAxisDTO,
-  TColDTO,
-  TRowDTO,
-  CellDTO,
-  LegacyCellDTO,
+  TAxisPointDTO,
+  CardDTO,
 } from './model/matrix.dto';

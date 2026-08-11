@@ -19,7 +19,7 @@ export const BlockList: FC<BlockListProps> = observer(
 							variant === 'rows' &&
 								'col-span-full grid grid-cols-subgrid items-start'
 						)}>
-						{withCells && <PointCellsList point={point} />}
+						{withCells && <PointCellsList cells={point.cells} />}
 					</BlockPoint>
 				))}
 			</div>

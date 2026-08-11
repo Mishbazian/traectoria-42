@@ -1,30 +1,21 @@
 // DTO-типы для матричной доски
 
+/** Точка оси */
+export type TAxisPointDTO = {
+	id: string;
+	title: string;
+};
+
+/** Ось — один идентификатор + отображаемое имя + свои точки */
 export type TAxisDTO = {
 	id: string;
-	title: string;
-};
-
-export type TColDTO = TAxisDTO;
-export type TRowDTO = TAxisDTO;
-
-export type CellDTO = {
-	board: string;
-	column: TColDTO['id'];
-	row: TRowDTO['id'];
-	data: CardDTO[];
-};
-
-
-export type MatrixBoardDTO = {
-	id: string;
-	title: string;
-	columns: TColDTO[];
-	rows: TRowDTO[];
-	cells: CellDTO[];
+	name: string;
+	points: TAxisPointDTO[];
 };
 
 export type CardDTO = {
+	/** Маппинг axisId → pointId */
+	coordinates: Record<string, string>;
 	id: string;
 	title: string;
 	description?: string;
@@ -42,4 +33,11 @@ export type CardDTO = {
 	tags?: string[];
 	createdAt: string;
 	updatedAt: string;
+};
+export type MatrixBoardDTO = {
+	id: string;
+	title: string;
+	/** Массив осей (1-N), каждая несёт свои точки */
+	axes: TAxisDTO[];
+	cards: CardDTO[];
 };

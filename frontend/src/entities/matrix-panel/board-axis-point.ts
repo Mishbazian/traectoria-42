@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { TPointData, ICell, IAxisPoint } from './types';
+import type { TPointData, IAxisPoint, ICell } from './types';
 
 export class BoardAxisPoint implements IAxisPoint {
 	public color?: string;
@@ -8,21 +8,16 @@ export class BoardAxisPoint implements IAxisPoint {
 		readonly id: string,
 		readonly axis: string,
 		public title: string,
-		private onDelete: (id: string) => void,
-		private getCellsFn: (pointId: string) => ICell[]
+		private getCells: () => ICell[]
 	) {
 		makeAutoObservable(this, {}, { autoBind: true });
 	}
 
 	get cells() {
-		return this.getCellsFn(this.id);
+		return this.getCells();
 	}
 
 	update(updated: Partial<TPointData>) {
 		Object.assign(this, updated);
-	}
-
-	delete() {
-		this.onDelete(this.id);
 	}
 }

@@ -2,6 +2,6 @@ export * from './types';
 export * from './board';
 export * from './board-axis';
 export * from './board-axis-point';
-export * from './cell';
+export * from './card';
 export * from './matrix-board-store';
-export { boardStore } from './store';
+export { matrixBoardStore } from './store';

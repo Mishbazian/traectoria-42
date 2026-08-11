@@ -8,5 +8,5 @@ export type {
 	BoardCardDTO as CardDTO,
 	MatrixBoardDTO,
 	TAxisDTO,
-	CellDTO,
+	TAxisPointDTO,
 } from './types';

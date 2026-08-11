@@ -18,17 +18,24 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 			accept: BOARD_TYPE,
 		});
 
-		const [columns, rows] = board.axes;
+		const [columns, rows] = board.displayAxes;
 		const handleRotate = () => board.reverseAxes();
+
+		if (!columns) return null;
+
 
 		return (
 			<section
 				ref={ref}
-				className={cn('ring-foreground/50 grid gap-1 p-2 grid-rows-[max-content]', className)}
+				className={cn(
+					'ring-foreground/50 grid grid-rows-[max-content] gap-1 p-2',
+					className
+				)}
 				style={{
 					gridColumn: `auto / span ${columns.points.length + 1}`,
 					gridTemplateColumns: `repeat(${columns.points.length + 1},${colWidthPx}px)`,
-				}}>
+				}}
+				>
 				<BlockHeader
 					block={board}
 					headerTextTag='h2'
@@ -55,12 +62,12 @@ export const KanbanBoard: FC<KanbanBoardProps> = observer(
 						className='col-[2/-1] grid grid-cols-subgrid'
 					/>
 				</div>
-				<BlockList
+				 <BlockList
 					variant='rows'
 					state={rows}
 					className='col-span-full grid grid-cols-subgrid'
 					withCells
-				/>
+				/> 
 			</section>
 		);
 	}

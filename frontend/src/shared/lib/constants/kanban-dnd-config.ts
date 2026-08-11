@@ -4,7 +4,7 @@ import {
 	RestrictToHorizontalAxis,
 	RestrictToVerticalAxis,
 } from '@dnd-kit/abstract/modifiers';
-import type { UseDroppableInput } from '@dnd-kit/react';
+import type { UseDraggableInput, UseDroppableInput } from '@dnd-kit/react';
 
 export const BOARD_TYPE: string = 'board' as const;
 export const COLUMN_TYPE: string = 'column' as const;
@@ -18,6 +18,8 @@ export type SortablePreset = Omit<
 >;
 
 export type DroppablePreset = Omit<Partial<UseDroppableInput>, 'id'>;
+
+export type DraggblePreset = Omit<Partial<UseDraggableInput>, 'id'>
 
 export const boardConfig: SortablePreset = {
 	type: BOARD_TYPE,
@@ -41,6 +43,10 @@ export const cardConfig: SortablePreset = {
 	type: CARD_TYPE,
 	accept: [CARD_TYPE],
 } as const;
+
+export const cardDragConfig: DraggblePreset = {
+	type: CARD_TYPE,
+}
 
 export const cellConfig: DroppablePreset = {
 	type: CELL_TYPE,

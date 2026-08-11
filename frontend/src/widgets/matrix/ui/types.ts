@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { IAxis, IAxisPoint, IBoard, IBoardStore } from '@entities';
+import type { IAxis, IAxisPoint, IBoard, IBoardStore, ICell, ICard } from '@entities';
 
 export interface BoardPanelProps {
 	store: IBoardStore;
@@ -47,7 +47,6 @@ export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export interface KanbanBoardProps {
-	id: string;
 	className?: string;
 	board: IBoard;
 	index: number;
@@ -58,11 +57,11 @@ export interface BlockListProps {
 	state: IAxis;
 	className?: string;
 	withCells?: boolean;
-	variant?: 'cols' | 'rows'
+	variant?: 'cols' | 'rows';
 }
 
 export interface CellsListProps {
-	point: IAxisPoint;
+	cells: ICell[];
 	className?: string;
 }
 
@@ -74,16 +73,10 @@ export interface BlockPointProps {
 	className?: string;
 }
 
-type TCardItem = {
-	id: string
-	title: string;
-	description?: string;
-};
-
 export interface KanbanCardProps {
-	card: TCardItem;
-	index: number;
-	cellId: string;
+	card: ICard;
+	index?: number;
+	cellId?: string;
 	onCardClick: () => void;
 	className?: string;
 	action?: ReactNode;
