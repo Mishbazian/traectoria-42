@@ -1,13 +1,38 @@
 import { observer } from 'mobx-react-lite';
 import { Slider } from '@ui';
-import { CARD_TYPE, CELL, CELL_TYPE } from '@shared';
+import {
+	boardConfig,
+	CARD_TYPE,
+	cardDragConfig,
+	CELL,
+	CELL_TYPE,
+	withSortable,
+} from '@shared';
 import { useState } from 'react';
 import { KanbanBoard } from './kanban-board';
 import type { BoardPanelProps } from './types';
 import { KanbanDndProvider } from './kanban-dnd-provider';
+import { KanbanCard } from './kanban-card';
+import { withDraggable } from '@/shared/hocs/with-draggable';
 
+const Kanban = withSortable(KanbanBoard, boardConfig);
+const Card = withDraggable(KanbanCard, cardDragConfig);
 export const BoardsPanel = observer(({ store }: BoardPanelProps) => {
 	const [cellWidth, setCellWidht] = useState<number>(CELL.width);
+
+	const renderCellContent = (cellId: string) => {
+		const cards = store.cellCardsMap.get(cellId);
+		if (!cards?.length) return null;
+
+		return cards.map((card) => (
+			<Card
+				id={card.id}
+				key={card.id}
+				card={card}
+				onCardClick={() => {}} // TODO: реализовать
+			/>
+		));
+	};
 
 	return (
 		<>
@@ -24,21 +49,19 @@ export const BoardsPanel = observer(({ store }: BoardPanelProps) => {
 				/>
 			</div>
 
-			<div
-				className='mx-auto my-0 grid max-w-full content-start items-start gap-2 p-1'
-				style={{
-					gridTemplateColumns: `repeat(auto-fill,${cellWidth}px)`,
-				}}>
+			<div className='grid grid-flow-col justify-center gap-2 p-2'>
 				<KanbanDndProvider
 					moveCard={store.moveCard}
 					cardType={CARD_TYPE}
 					cellType={CELL_TYPE}>
 					{store.boards.map((board, index) => (
-						<KanbanBoard
+						<Kanban
+							id={board.id}
 							key={board.id}
 							index={index}
 							board={board}
 							colWidthPx={cellWidth}
+							getCellContent={renderCellContent}
 						/>
 					))}
 				</KanbanDndProvider>

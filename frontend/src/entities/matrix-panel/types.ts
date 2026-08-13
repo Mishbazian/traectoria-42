@@ -98,5 +98,6 @@ export interface IBoardStore {
 	cells: ICell[];
 	axes: IAxis[];
 	cards: ICard[];
+	cellCardsMap: Map<ICell['id'], ICard[]>;
 	moveCard: (cardId: ICard['id'], toCell: ICell['id']) => void;
 }

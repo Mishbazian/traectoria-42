@@ -1,5 +1,12 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { IAxis, IAxisPoint, IBoard, IBoardStore, ICell, ICard } from '@entities';
+import type {
+	IAxis,
+	IAxisPoint,
+	IBoard,
+	IBoardStore,
+	ICard,
+	ICell,
+} from '@entities';
 
 export interface BoardPanelProps {
 	store: IBoardStore;
@@ -39,18 +46,16 @@ export interface BlockHeaderMenuProps {
 export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 	onUpdate?: (updated: Partial<BlockData>) => void;
 	onDelete?: () => void;
-	block: IAxisPoint | (IBoard & { update?: (data: Partial<BlockData>) => void; delete?: () => void });
+	block:
+		| IAxisPoint
+		| (IBoard & {
+				update?: (data: Partial<BlockData>) => void;
+				delete?: () => void;
+		  });
 	headerTextTag: TextTag;
 	editable: boolean;
 	prepend?: ReactNode;
 	append?: ReactNode;
-}
-
-export interface KanbanBoardProps {
-	className?: string;
-	board: IBoard;
-	index: number;
-	colWidthPx: number;
 }
 
 export interface BlockListProps {
@@ -60,26 +65,47 @@ export interface BlockListProps {
 	variant?: 'cols' | 'rows';
 }
 
-export interface CellsListProps {
-	cells: ICell[];
-	className?: string;
-}
-
 export interface BlockPointProps {
 	point: IAxisPoint;
 	type: string;
 	index: number;
 	children?: ReactNode;
 	className?: string;
+	noHeader?: boolean;
+	mode?: 'column' | 'tableRow';
 }
 
-export interface KanbanCardProps {
+export type DraggableProps = {
+	isDragging?: boolean;
+};
+export type SortableProps = DraggableProps & {
+	handleRef?: (element: Element | null) => void;
+};
+
+export type KanbanAxisProps = {
+	item: IAxisPoint;
+	children?: ReactNode;
+	className?: string;
+} & SortableProps;
+
+export type KanbanBoardProps = {
+	className?: string;
+	board: IBoard;
+	index: number;
+	colWidthPx: number;
+	getCellContent: (cellId: string) => ReactNode;
+} & SortableProps;
+
+export interface BoardCellProps extends HTMLAttributes<HTMLDivElement> {
+	cell: ICell;
+	isDropTarget?: boolean;
+	children?: ReactNode;
+}
+export type KanbanCardProps = {
 	card: ICard;
-	index?: number;
-	cellId?: string;
 	onCardClick: () => void;
 	className?: string;
 	action?: ReactNode;
 	info?: ReactNode;
 	footer?: ReactNode;
-}
+} & DraggableProps;

@@ -1,74 +1,124 @@
-import { type FC } from 'react';
+import { forwardRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import { RotateCwSquare } from 'lucide-react';
-import { cn } from '@lib';
-import { GrabbingGrip, Toggle } from '@ui';
+import { cellConfig, cn, columnConfig, rowConfig } from '@lib';
+import { GrabbingGrip, Separator, Toggle } from '@ui';
 import { BlockHeader } from './block-header';
 import type { KanbanBoardProps } from './types';
-import { useSortable } from '@dnd-kit/react/sortable';
-import { BlockList } from './block-list';
-import { BOARD_TYPE } from '@shared';
+import { withSortable } from '@shared';
+import { BoardCell } from './board-cell';
+import { KanbanAxis } from './kanban-axis';
+import type { ICell } from '@/entities';
+import { withDroppable } from '@/shared/hocs/with-droppable';
 
-export const KanbanBoard: FC<KanbanBoardProps> = observer(
-	({ board, index, className, colWidthPx }) => {
-		const { ref, isDragging, handleRef } = useSortable({
-			id: board.id,
-			type: BOARD_TYPE,
-			index,
-			accept: BOARD_TYPE,
-		});
+// Перенесены за пределы компонента — не зависят от пропсов
+const KanbanColumn = withSortable(KanbanAxis, columnConfig);
+const KanbanRow = withSortable(KanbanAxis, rowConfig);
+const KanbanCell = withDroppable(BoardCell, cellConfig);
 
-		const [columns, rows] = board.displayAxes;
-		const handleRotate = () => board.reverseAxes();
+export const KanbanBoard = observer(
+	forwardRef<HTMLDivElement, KanbanBoardProps>(
+		(
+			{
+				board,
+				className,
+				colWidthPx,
+				getCellContent,
+				handleRef,
+				isDragging = false,
+			},
+			ref
+		) => {
+			const renderBoardCell = (cell: ICell) => (
+				<KanbanCell id={cell.id} cell={cell} key={cell.id}>
+					{getCellContent(cell.id)}
+				</KanbanCell>
+			);
+			const [columns, rows] = board.displayAxes;
+			if (!columns) return null;
 
-		if (!columns) return null;
+			const isMultiRows = rows.points.length > 1;
+			const isMultiColumns = columns.points.length > 1;
+			const isSingleCell = !isMultiColumns && !isMultiRows;
+			const gridCols = isMultiRows
+				? columns.points.length + 1
+				: columns.points.length;
 
+			const gridStyle = {
+				gridTemplateColumns: `repeat(${gridCols}, ${colWidthPx}px)`,
+			};
 
-		return (
-			<section
-				ref={ref}
-				className={cn(
-					'ring-foreground/50 grid grid-rows-[max-content] gap-1 p-2',
-					className
-				)}
-				style={{
-					gridColumn: `auto / span ${columns.points.length + 1}`,
-					gridTemplateColumns: `repeat(${columns.points.length + 1},${colWidthPx}px)`,
-				}}
-				>
-				<BlockHeader
-					block={board}
-					headerTextTag='h2'
-					className='col-span-full ring-1'
-					onUpdate={() => {}}
-					editable
-					prepend={
-						<GrabbingGrip
-							ref={handleRef}
-							isGrabbing={isDragging}
-							variant='vertical'
-						/>
-					}
-					append={
-						<Toggle onClick={handleRotate}>
-							<RotateCwSquare />
-						</Toggle>
-					}
-				/>
-				<div className='col-span-full grid grid-cols-subgrid'>
-					<div></div>
-					<BlockList
-						state={columns}
-						className='col-[2/-1] grid grid-cols-subgrid'
+			return (
+				<section
+					ref={ref}
+					className={cn(
+						'ring-foreground/50 flex w-max flex-col content-start gap-1 px-2 ring',
+						className
+					)}>
+					<BlockHeader
+						block={board}
+						headerTextTag='h2'
+						className='border-b'
+						style={{ maxWidth: `${colWidthPx * gridCols}px` }}
+						onUpdate={() => {}}
+						editable
+						prepend={
+							handleRef && (
+								<GrabbingGrip
+									ref={handleRef}
+									isGrabbing={isDragging}
+									variant='vertical'
+								/>
+							)
+						}
+						append={
+							(isMultiColumns || isMultiRows) && (
+								<Toggle onClick={() => board.reverseAxes()}>
+									<RotateCwSquare />
+								</Toggle>
+							)
+						}
 					/>
-				</div>
-				 <BlockList
-					variant='rows'
-					state={rows}
-					className='col-span-full grid grid-cols-subgrid'
-					withCells
-				/> 
-			</section>
-		);
-	}
+					{isSingleCell ? (
+						renderBoardCell(board.cells[0])
+					) : (
+						<>
+							<div className='grid flex-1' style={gridStyle}>
+								{isMultiRows && <div />}
+								{columns.points.map((column, i) => (
+									<KanbanColumn
+										key={column.id}
+										id={column.id}
+										index={i}
+										item={column}>
+										{!isMultiColumns
+											? column.cells.map(renderBoardCell)
+											: undefined}
+									</KanbanColumn>
+								))}
+							</div>
+							{isMultiRows && (
+								<div className='grid' style={gridStyle}>
+									<Separator
+										orientation='horizontal'
+										className='col-span-full'
+									/>
+									{rows.points.map((row, i) => (
+										<KanbanRow
+											key={row.id}
+											id={row.id}
+											index={i}
+											item={row}
+											className='col-span-full grid grid-cols-subgrid'>
+											{row.cells.map(renderBoardCell)}
+										</KanbanRow>
+									))}
+								</div>
+							)}
+						</>
+					)}
+				</section>
+			);
+		}
+	)
 );
