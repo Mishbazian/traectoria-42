@@ -5,7 +5,7 @@ import {
 	type UseDraggableInput,
 } from '@dnd-kit/react';
 
-export function withDroppable<T>(
+export function withDraggable<T>(
 	WrappedComponent: ComponentType<T>,
 	config?: DraggablePreset
 ): ComponentType<T & UseDraggableInput> {
