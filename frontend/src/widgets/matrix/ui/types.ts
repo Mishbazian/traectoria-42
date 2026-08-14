@@ -1,6 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import type {
-	IAxis,
 	IAxisPoint,
 	IBoard,
 	IBoardStore,
@@ -58,23 +57,6 @@ export interface BlockHeaderProps extends HTMLAttributes<HTMLDivElement> {
 	append?: ReactNode;
 }
 
-export interface BlockListProps {
-	state: IAxis;
-	className?: string;
-	withCells?: boolean;
-	variant?: 'cols' | 'rows';
-}
-
-export interface BlockPointProps {
-	point: IAxisPoint;
-	type: string;
-	index: number;
-	children?: ReactNode;
-	className?: string;
-	noHeader?: boolean;
-	mode?: 'column' | 'tableRow';
-}
-
 export type DraggableProps = {
 	isDragging?: boolean;
 };
@@ -86,6 +68,7 @@ export type KanbanAxisProps = {
 	item: IAxisPoint;
 	children?: ReactNode;
 	className?: string;
+	mode?: 'column' | 'tableRow';
 } & SortableProps;
 
 export type KanbanBoardProps = {

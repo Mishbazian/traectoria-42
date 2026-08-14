@@ -105,7 +105,7 @@ export const InlineEditor = ({
 					type='submit'
 					variant='outline'
 					size='icon'
-					className='h-8 w-8 rounded-md text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 focus:ring-emerald-200 disabled:opacity-50'
+					className='rounded-md text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 focus:ring-emerald-200 disabled:opacity-50'
 					title='Сохранить'
 					disabled={!draft.trim()}>
 					<CircleCheck className='h-4 w-4' />
@@ -117,7 +117,7 @@ export const InlineEditor = ({
 					size='icon'
 					onClick={onCancel}
 					title='Отмена'
-					className='h-8 w-8 rounded-md text-rose-500 hover:bg-rose-50'>
+					className='rounded-md text-rose-500 hover:bg-rose-50'>
 					<CircleX className='h-4 w-4' />
 				</Button>
 			</div>

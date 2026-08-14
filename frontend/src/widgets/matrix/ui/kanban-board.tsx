@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { RotateCwSquare } from 'lucide-react';
 import { cellConfig, cn, columnConfig, rowConfig } from '@lib';
@@ -29,37 +29,52 @@ export const KanbanBoard = observer(
 			},
 			ref
 		) => {
+			const [mode, setMode] = useState<'table' | 'columns' | 'groups'>(
+				'groups'
+			);
+
 			const renderBoardCell = (cell: ICell) => (
 				<KanbanCell id={cell.id} cell={cell} key={cell.id}>
 					{getCellContent(cell.id)}
 				</KanbanCell>
 			);
 			const [columns, rows] = board.displayAxes;
-			if (!columns) return null;
 
 			const isMultiRows = rows.points.length > 1;
 			const isMultiColumns = columns.points.length > 1;
 			const isSingleCell = !isMultiColumns && !isMultiRows;
-			const gridCols = isMultiRows
-				? columns.points.length + 1
-				: columns.points.length;
+			const gridCols =
+				isMultiRows && mode === 'table'
+					? columns.points.length + 1
+					: columns.points.length;
 
-			const gridStyle = {
-				gridTemplateColumns: `repeat(${gridCols}, ${colWidthPx}px)`,
-			};
+			useEffect(() => {
+				const container = document.querySelector(
+					`.board_${board.id}`
+				) as HTMLDivElement;
+				if (!container) return;
+				container.style.setProperty('--col-width', `${colWidthPx}px`);
+				container.style.setProperty('--grid-cols', `${gridCols}`);
+				container.style.setProperty(
+					'--grid-width',
+					`${gridCols * colWidthPx}px`
+				);
+			}, [colWidthPx, gridCols, board.id]);
 
+			if (!columns) return null;
 			return (
 				<section
 					ref={ref}
 					className={cn(
-						'ring-foreground/50 flex w-max flex-col content-start gap-1 px-2 ring',
+						'ring-foreground/10 rounded-lg flex w-(--grid-width) flex-col content-start gap-1 px-2 ring',
+						`board_${board.id}`,
 						className
 					)}>
 					<BlockHeader
 						block={board}
 						headerTextTag='h2'
-						className='border-b'
-						style={{ maxWidth: `${colWidthPx * gridCols}px` }}
+						className='max-w-full border-b'
+
 						onUpdate={() => {}}
 						editable
 						prepend={
@@ -82,9 +97,9 @@ export const KanbanBoard = observer(
 					{isSingleCell ? (
 						renderBoardCell(board.cells[0])
 					) : (
-						<>
-							<div className='grid flex-1' style={gridStyle}>
-								{isMultiRows && <div />}
+						<div className='grid flex-1 grid-cols-[repeat(var(--grid-cols),1fr)]'>
+							<>
+								{isMultiRows && mode === 'table' && <div />}
 								{columns.points.map((column, i) => (
 									<KanbanColumn
 										key={column.id}
@@ -96,9 +111,9 @@ export const KanbanBoard = observer(
 											: undefined}
 									</KanbanColumn>
 								))}
-							</div>
+							</>
 							{isMultiRows && (
-								<div className='grid' style={gridStyle}>
+								<>
 									<Separator
 										orientation='horizontal'
 										className='col-span-full'
@@ -113,9 +128,9 @@ export const KanbanBoard = observer(
 											{row.cells.map(renderBoardCell)}
 										</KanbanRow>
 									))}
-								</div>
+								</>
 							)}
-						</>
+						</div>
 					)}
 				</section>
 			);
