@@ -19,3 +19,4 @@ export * from './spinner';
 export * from './textarea';
 export * from './toggle';
 export * from './user-avatar';
+export * from './menubar';
