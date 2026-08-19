@@ -15,42 +15,27 @@ export type TPointData = {
 
 export interface IAxisPoint extends TPointData {
 	id: string;
-	cells: ICell[];
 	update: (updated: Partial<TPointData>) => void;
 }
 
 // === Axis ===
 
-/** Уникальный идентификатор оси */
-export type TAxisId = string;
-
-export type TBoardAxes = Record<TAxisId, IAxis>;
-
 export interface IAxis {
 	id: string;
-	/** Отображаемое имя оси */
 	name: string;
 	defaultPoint: IAxisPoint['id'];
 	points: IAxisPoint[];
-	//addPoint: (title: string, pointId?: string) => void;
 	deletePoint: (id: string) => void;
 }
 
-// === Cell ===
+// === Content — семантическая сущность карточки ===
 
-/** Маппинг: axisId → pointId для каждой выбранной оси */
-export type TCellCoordinates = Record<string, string>;
-
-export interface ICell {
-	readonly id: string;
-	readonly boardId: string;
-	readonly x: string;
-	readonly y: string;
-}
-
-// === Task ===
-
-export interface TTask {
+/**
+ * Содержимое карточки — «что это».
+ * Для задачи: заголовок, описание, автор, ответственный, дедлайн и т.д.
+ * Можно расширить: BugContent, FeatureContent и т.п.
+ */
+export type TTaskContent = {
 	id: string;
 	title: string;
 	description?: string;
@@ -60,34 +45,41 @@ export interface TTask {
 	tags?: string[];
 	createdAt: string;
 	updatedAt: string;
+};
+
+// === Board-level contract (позиционирование, без типа контента) ===
+
+/**
+ * Контракт карточки на доске.
+ * Определяет board-уровень: id, привязка к доске, координаты в матрице.
+ */
+export interface IBoardCard {
+	readonly id: string;
+	boardId: string;
+	features: Record<string, string>;
 }
 
-export interface ICard extends TTask {
-	boardId: string;
-	coordinates: Record<IAxis['id'], IAxisPoint['id']>;
-}
+/**
+ * Полная карточка: board-контракт + семантическое содержимое.
+ * Для задачи: IBoardCard & TTaskContent.
+ */
+export type ICard = IBoardCard &
+	TTaskContent & {
+		update: (updates: Partial<IBoardCard>) => void;
+	};
 
 // === Board ===
 
 export interface IBoard {
 	id: string;
 	title: string;
+	cards: ICard[];
 	axes: IAxis[];
-	/** Ячейки для текущей выбранной пары осей */
-	cells: ICell[];
-	axesMap: TBoardAxes;
-	/** Выбранные оси для отображения матрицы (nullable — нет выбора) */
-	xAxis: string;
-	yAxis: string;
-	defaultCoordinates: Record<string, string>;
-
-	/** Получить оси для отображения */
-	displayAxes: IAxis[];
-	/** Выбрать оси x и y для отображения; генерирует ячейки */
-	setAxes: (setted: { xAxis?: string; yAxis?: string }) => void;
-	reverseAxes: () => void;
 	updateTitle: (title: string) => void;
 	delete: () => void;
+	// removeCard возвращает удалённую карточку (для undo/дублирования)
+	removeCard: (cardId: string) => ICard;
+	getCardsByFeatures: (...props: string[]) => ICard[];
 }
 
 // === Store ===
@@ -95,9 +87,4 @@ export interface IBoard {
 export interface IBoardStore {
 	boards: IBoard[];
 	isLoading: boolean;
-	cells: ICell[];
-	axes: IAxis[];
-	cards: ICard[];
-	cellCardsMap: Map<ICell['id'], ICard[]>;
-	moveCard: (cardId: ICard['id'], toCell: ICell['id']) => void;
 }

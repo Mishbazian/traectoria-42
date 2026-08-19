@@ -15,7 +15,7 @@ export type TAxisDTO = {
 
 export type CardDTO = {
 	/** Маппинг axisId → pointId */
-	coordinates: Record<string, string>;
+	features: Record<string, string>;
 	id: string;
 	title: string;
 	description?: string;
