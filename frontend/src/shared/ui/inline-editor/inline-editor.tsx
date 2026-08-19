@@ -72,7 +72,7 @@ export const InlineEditor = ({
 			onSubmit={handleSubmit}
 			onKeyDown={handleKeyDown}
 			aria-label={`Редактор: ${value}`}>
-			<InputGroup className='min-w-0 flex-1 rounded-md border shadow-sm transition-all focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200'>
+			<InputGroup className='rounded-md border shadow-sm transition-all focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200'>
 				<InputGroupInput
 					id='inline-editor'
 					name='inline-editor'
