@@ -1,17 +1,14 @@
 import { forwardRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { BlockHeader } from './block-header';
+import { BlockHeader } from '../header/block-header';
 import { Button, CollapsibleContent, Collapsible } from '@ui';
-import type { KanbanAxisProps } from './types';
+import type { KanbanAxisPointProps } from './types';
 import { cn } from '@lib';
 import { SquareMinus, SquarePlus } from 'lucide-react';
 
 export const CollapsibleKanbanRow = observer(
-	forwardRef<HTMLDivElement, KanbanAxisProps>(
-		(
-			{ item, children, className, mode = 'column' },
-			ref
-		) => {
+	forwardRef<HTMLDivElement, KanbanAxisPointProps>(
+		({ item, children, className, }, ref) => {
 			const [isOpen, setIsOpen] = useState(false);
 
 			return (
@@ -27,8 +24,8 @@ export const CollapsibleKanbanRow = observer(
 						headerTextTag='p'
 						editable
 						className={cn(
-							mode === 'column' || !isOpen ? 'col-span-full' : '',
-							'text-primary'
+							
+							'text-cyan-500'
 						)}
 						prepend={
 							<Button
@@ -43,10 +40,10 @@ export const CollapsibleKanbanRow = observer(
 
 					<CollapsibleContent
 						className={cn(
-							mode === 'column' ? 'col-span-full' : 'col-start-2 -col-end-1',
+							'col-start-2 -col-end-1',
 							'grid grid-cols-subgrid'
 						)}>
-{children}
+						{children}
 					</CollapsibleContent>
 				</Collapsible>
 			);

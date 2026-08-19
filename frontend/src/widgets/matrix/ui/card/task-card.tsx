@@ -12,7 +12,7 @@ import {
 } from '@ui';
 import { cn } from '@lib';
 
-export const KanbanCard: FC<KanbanCardProps> = observer(
+export const TaskCard: FC<KanbanCardProps> = observer(
 	forwardRef<HTMLDivElement, KanbanCardProps>(
 		({ card, onCardClick, className, info, footer, action, isDragging = false }, ref) => {
 			const handleKeyDown = useCallback(

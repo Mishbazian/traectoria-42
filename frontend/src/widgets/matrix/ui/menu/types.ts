@@ -1,6 +1,20 @@
 import type { IAxis } from "@/entities";
 import type { ClassAttributes, HTMLAttributes } from "react";
 
+export interface DeleteBlockControlProps {
+	isOpen?: boolean;
+	onOpenChange?: () => void;
+	onSubmit: () => void;
+	blockTitle: string;
+	disabled?: boolean;
+}
+
+export interface BlockHeaderMenuProps {
+	onDelete?: () => void;
+	onEdit?: () => void;
+	onPaint?: () => void;
+	blockTitle: string;
+}
 type TSelectItem = {
 	value: string;
 	label: string;

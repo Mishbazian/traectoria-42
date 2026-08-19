@@ -1,9 +1,7 @@
 import { useState, forwardRef } from 'react';
 import { InlineEditor } from '@ui';
 import { cn } from '@lib';
-import { BlockHeaderMenu } from './block-header-menu';
-import type { BlockHeaderProps } from './types';
-import type { BlockData } from './types';
+import type { BlockHeaderProps, BlockData } from './types';
 import { TextBlockBody } from './text-block-body';
 import { observer } from 'mobx-react-lite';
 
@@ -19,6 +17,7 @@ export const BlockHeader = observer(
 				className,
 				prepend,
 				append,
+				actions,
 				...props
 			},
 			ref
@@ -34,13 +33,12 @@ export const BlockHeader = observer(
 				setIsEditing(false);
 			};
 
-			const handleDelete = () => {
-				//@todo
-			};
-
 			return (
 				<div
-					className={cn('flex h-max w-full items-center gap-2 py-2', className)}
+					className={cn(
+						'ml-1 flex h-max w-full flex-wrap items-center justify-start gap-1 py-2',
+						className
+					)}
 					ref={ref}
 					{...props}>
 					{!isEditing ? (
@@ -52,15 +50,9 @@ export const BlockHeader = observer(
 								onClick={() => setIsEditing(true)}
 								as={headerTextTag}
 							/>
-							<div className='ml-auto'>
+							<div className='ml-auto flex'>
 								{append}
-								{editable && (
-									<BlockHeaderMenu
-										onDelete={handleDelete}
-										onEdit={() => setIsEditing(true)}
-										blockTitle={block.title ?? ''}
-									/>
-								)}
+								{editable && actions}
 							</div>
 						</>
 					) : (
