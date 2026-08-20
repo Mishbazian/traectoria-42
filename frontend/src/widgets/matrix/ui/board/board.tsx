@@ -17,7 +17,7 @@ import { BlockHeaderMenu } from '../menu/block-header-menu';
 const SortableBoardColumn = withSortable(KanbanColumn, columnConfig);
 const SortableBoardRow = withSortable(CollapsibleKanbanRow, rowConfig);
 const DroppableBoardCell = withDroppable(BoardCell, cellConfig);
-const SortableColumnHeader = withSortable(BlockHeader, columnConfig);
+//const SortableColumnHeader = withSortable(BlockHeader, columnConfig);
 
 export const Board = observer(
 	forwardRef<HTMLDivElement, KanbanBoardProps>(
@@ -102,7 +102,10 @@ export const Board = observer(
 						className='flex w-full justify-end border-b p-2'
 					/>
 					{isSingleCell ? (
-						<DroppableBoardCell id={`${board.id}`} className='h-full w-full'>
+						<DroppableBoardCell
+							id={`${board.id}`}
+							className='h-full w-full'
+							data={{ boardId: board.id }}>
 							{renderCards()}
 						</DroppableBoardCell>
 					) : (
@@ -121,17 +124,23 @@ export const Board = observer(
 										index={index}
 										className='flex-1 ring'
 										item={column}>
-										<DroppableBoardCell id={`${column.id}`} className='flex-1'>
+										<DroppableBoardCell
+											id={`${column.id}`}
+											className='flex-1'
+											data={{
+												boardId: board.id,
+												features: {
+													[column.axisId]: column.id,
+												},
+											}}>
 											{renderCards(column.id)}
 										</DroppableBoardCell>
 									</SortableBoardColumn>
 								))
 							) : (
 								<>
-									{columns && <div />}
-									{columns.map((column, index) => (
-										<SortableColumnHeader
-											index={index}
+									{columns.map((column) => (
+										<BlockHeader
 											id={column.id}
 											key={column.id}
 											block={column}
@@ -154,13 +163,27 @@ export const Board = observer(
 											{columns.length > 0 ? (
 												columns.map((column) => (
 													<DroppableBoardCell
+														key={`${column.id}-${row.id}`}
 														id={`${column.id}-${row.id}`}
-														key={`${column.id}-${row.id}`}>
+														data={{
+															boardId: board.id,
+															features: {
+																[column.axisId]: column.id,
+																[row.axisId]: row.id,
+															},
+														}}>
 														{renderCards(column.id, row.id)}
 													</DroppableBoardCell>
 												))
 											) : (
-												<DroppableBoardCell id={`${row.id}`}>
+												<DroppableBoardCell
+													id={`${row.id}`}
+													data={{
+														boardId: board.id,
+														features: {
+															[row.axisId]: row.id,
+														},
+													}}>
 													{renderCards(row.id)}
 												</DroppableBoardCell>
 											)}

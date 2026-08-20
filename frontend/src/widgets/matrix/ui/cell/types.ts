@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-export interface BoardCellProps extends HTMLAttributes<HTMLDivElement> {
+export type BoardCellProps = HTMLAttributes<HTMLDivElement> & {
 	isDropTarget?: boolean;
 	children?: ReactNode;
 }

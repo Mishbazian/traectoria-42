@@ -9,6 +9,7 @@ export function withDroppable<T>(
 	return function (props: T & UseDroppableInput): ReactElement {
 		const droppableProps = useDroppable({
 			id: props.id,
+			data: props.data,
 			...config,
 		});
 

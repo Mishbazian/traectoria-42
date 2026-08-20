@@ -5,6 +5,8 @@ import {
 	cardDragConfig,
 	CELL,
 	withSortable,
+	CARD_TYPE,
+	CELL_TYPE,
 } from '@shared';
 import { useState } from 'react';
 
@@ -13,6 +15,7 @@ import type { ICard } from '@/entities';
 import { withDraggable } from '@/shared/hocs/with-draggable';
 import { TaskCard } from './card/task-card';
 import { Board } from './board/board';
+import { KanbanDndProvider } from './kanban-dnd-provider';
 
 const Kanban = withSortable(Board, boardConfig);
 const KanbanCard = withDraggable(TaskCard, cardDragConfig);
@@ -39,10 +42,10 @@ export const BoardsPanel = observer(
 				</div>
 
 				<div className='flex flex-wrap justify-center gap-2 p-2'>
-					{/* <KanbanDndProvider
-						moveCard={}
+					<KanbanDndProvider
+						store={store}
 						cardType={CARD_TYPE}
-						cellType={CELL_TYPE}> */}
+						cellType={CELL_TYPE}>
 						{store.boards.map((board, index) => (
 							<Kanban
 								id={board.id}
@@ -60,7 +63,7 @@ export const BoardsPanel = observer(
 								)}
 							</Kanban>
 						))}
-					{/* </KanbanDndProvider> */}
+					</KanbanDndProvider>
 				</div>
 			</>
 		);

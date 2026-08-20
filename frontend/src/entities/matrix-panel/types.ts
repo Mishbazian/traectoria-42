@@ -14,7 +14,8 @@ export type TPointData = {
 };
 
 export interface IAxisPoint extends TPointData {
-	id: string;
+	readonly id: string;
+	readonly axisId: string;
 	update: (updated: Partial<TPointData>) => void;
 }
 
@@ -77,8 +78,6 @@ export interface IBoard {
 	axes: IAxis[];
 	updateTitle: (title: string) => void;
 	delete: () => void;
-	// removeCard возвращает удалённую карточку (для undo/дублирования)
-	removeCard: (cardId: string) => ICard;
 	getCardsByFeatures: (...props: string[]) => ICard[];
 }
 
@@ -86,5 +85,19 @@ export interface IBoard {
 
 export interface IBoardStore {
 	boards: IBoard[];
+	cards: ICard[];
 	isLoading: boolean;
+	boardsMap: Record<string, IBoard>;
+	cardsMap: Map<string, ICard>;
+	moveCard: (cardId: string, toBoardId: string, features: Record<string, string>) => void;
+}
+
+// === Cards Source ===
+
+/**
+ * Источник карточек для Board.
+ * Делает cards вычисляемыми через filter по boardId.
+ */
+export interface ICardsSource {
+	cards: ICard[];
 }

@@ -6,6 +6,7 @@ export class BoardAxisPoint implements IAxisPoint {
 
 	constructor(
 		readonly id: string,
+		readonly axisId: string,
 		public title: string
 	) {
 		makeAutoObservable(this, {}, { autoBind: true });
