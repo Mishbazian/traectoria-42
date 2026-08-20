@@ -21,7 +21,10 @@ export default defineConfig({
 			'@app': path.resolve(__dirname, './src/app'),
 			'@shared': path.resolve(__dirname, './src/shared'),
 			'@api': path.resolve(__dirname, './src/shared/api'),
-
 		},
+	},
+	server: {
+		port: 3000,
+		strictPort: true,
 	},
 });
