@@ -72,6 +72,7 @@ export const Board = observer(
 					<BlockHeader
 						block={board}
 						headerTextTag='h2'
+						className=''
 
 						onUpdate={() => {}}
 						editable
@@ -118,21 +119,22 @@ export const Board = observer(
 							)}>
 							{isOnlyColumns ? (
 								columns.map((column, index) => (
-									<SortableBoardColumn
+								<SortableBoardColumn
+									key={column.id}
+									id={column.id}
+									index={index}
+									className='flex-1 ring'
+									item={column}>
+									<DroppableBoardCell
 										key={column.id}
-										id={column.id}
-										index={index}
-										className='flex-1 ring'
-										item={column}>
-										<DroppableBoardCell
-											id={`${column.id}`}
-											className='flex-1'
-											data={{
-												boardId: board.id,
-												features: {
-													[column.axisId]: column.id,
-												},
-											}}>
+										id={`${column.id}-cell`}
+										data={{
+											boardId: board.id,
+											features: {
+												[column.axisId]: column.id,
+											},
+										}}
+										className='cell'>
 											{renderCards(column.id)}
 										</DroppableBoardCell>
 									</SortableBoardColumn>
