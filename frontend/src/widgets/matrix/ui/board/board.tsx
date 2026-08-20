@@ -139,6 +139,7 @@ export const Board = observer(
 								))
 							) : (
 								<>
+									{columns && <div />}
 									{columns.map((column) => (
 										<BlockHeader
 											id={column.id}
