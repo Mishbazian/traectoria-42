@@ -19,7 +19,7 @@ export type SortablePreset = Omit<
 
 export type DroppablePreset = Omit<Partial<UseDroppableInput>, 'id'>;
 
-export type DraggablePreset = Omit<Partial<UseDraggableInput>, 'id'>
+export type DraggablePreset = Omit<Partial<UseDraggableInput>, 'id'>;
 
 export const boardConfig: SortablePreset = {
 	type: BOARD_TYPE,
@@ -46,7 +46,7 @@ export const cardConfig: SortablePreset = {
 
 export const cardDragConfig: DraggablePreset = {
 	type: CARD_TYPE,
-}
+};
 
 export const cellConfig: DroppablePreset = {
 	type: CELL_TYPE,

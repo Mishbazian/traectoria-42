@@ -1,2 +1,0 @@
-export { KanbanBoard } from './kanban-board';
-export type { KanbanBoardProps } from './types';

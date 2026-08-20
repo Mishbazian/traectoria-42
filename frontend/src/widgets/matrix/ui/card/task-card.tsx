@@ -14,7 +14,18 @@ import { cn } from '@lib';
 
 export const TaskCard: FC<KanbanCardProps> = observer(
 	forwardRef<HTMLDivElement, KanbanCardProps>(
-		({ card, onCardClick, className, info, footer, action, isDragging = false }, ref) => {
+		(
+			{
+				card,
+				onCardClick,
+				className,
+				info,
+				footer,
+				action,
+				isDragging = false,
+			},
+			ref
+		) => {
 			const handleKeyDown = useCallback(
 				(e: React.KeyboardEvent) => {
 					if (e.key === 'Enter' || e.key === ' ') {

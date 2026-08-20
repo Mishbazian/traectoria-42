@@ -64,7 +64,7 @@ export class MatrixBoardStore implements IBoardStore, ICardsSource {
 		toBoardId: string,
 		features: Record<string, string>
 	) {
-		console.log('mmove to board')
+		console.log('mmove to board');
 		const card = this.cards.find((c) => c.id === cardId);
 		console.log({ card });
 		if (!card) return;

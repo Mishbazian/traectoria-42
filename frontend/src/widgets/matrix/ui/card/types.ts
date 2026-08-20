@@ -1,6 +1,6 @@
-import type { ICard } from "@/entities";
-import type { ReactNode } from "react";
-import type { DraggableProps } from "../types";
+import type { ICard } from '@/entities';
+import type { ReactNode } from 'react';
+import type { DraggableProps } from '../types';
 
 export type KanbanCardProps = {
 	card: ICard;

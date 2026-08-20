@@ -8,7 +8,7 @@ import { SquareMinus, SquarePlus } from 'lucide-react';
 
 export const CollapsibleKanbanRow = observer(
 	forwardRef<HTMLDivElement, KanbanAxisPointProps>(
-		({ item, children, className, }, ref) => {
+		({ item, children, className }, ref) => {
 			const [isOpen, setIsOpen] = useState(false);
 
 			return (
@@ -23,10 +23,7 @@ export const CollapsibleKanbanRow = observer(
 						block={item}
 						headerTextTag='p'
 						editable
-						className={cn(
-							
-							'text-cyan-500'
-						)}
+						className={cn('text-cyan-500')}
 						prepend={
 							<Button
 								variant='ghost'
@@ -39,10 +36,7 @@ export const CollapsibleKanbanRow = observer(
 					/>
 
 					<CollapsibleContent
-						className={cn(
-							'col-start-2 -col-end-1',
-							'grid grid-cols-subgrid'
-						)}>
+						className={cn('col-start-2 -col-end-1', 'grid grid-cols-subgrid')}>
 						{children}
 					</CollapsibleContent>
 				</Collapsible>

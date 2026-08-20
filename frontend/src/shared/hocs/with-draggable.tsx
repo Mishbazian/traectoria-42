@@ -1,9 +1,6 @@
 import type { ComponentType, ReactElement } from 'react';
 import type { DraggablePreset } from '../lib';
-import {
-	useDraggable,
-	type UseDraggableInput,
-} from '@dnd-kit/react';
+import { useDraggable, type UseDraggableInput } from '@dnd-kit/react';
 
 export function withDraggable<T>(
 	WrappedComponent: ComponentType<T>,

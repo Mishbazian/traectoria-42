@@ -7,16 +7,7 @@ import { cn } from '@lib';
 
 export const KanbanColumn = observer(
 	forwardRef<HTMLDivElement, KanbanAxisPointProps>(
-		(
-			{
-				item,
-				className,
-				children,
-				handleRef,
-				isDragging = false,
-			},
-			ref
-		) => {
+		({ item, className, children, handleRef, isDragging = false }, ref) => {
 			return (
 				<div ref={ref} className={cn('flex flex-col', className)}>
 					<BlockHeader

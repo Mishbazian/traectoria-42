@@ -1,5 +1,5 @@
-import type { IAxis } from "@/entities";
-import type { ClassAttributes, HTMLAttributes } from "react";
+import type { IAxis } from '@/entities';
+import type { ClassAttributes, HTMLAttributes } from 'react';
 
 export interface DeleteBlockControlProps {
 	isOpen?: boolean;
@@ -28,7 +28,7 @@ export type SelectAndEraserProps = ClassAttributes<HTMLDivElement> &
 		onErase: () => void;
 	};
 
-	export type AxesSelectProps = {
+export type AxesSelectProps = {
 	axes: IAxis[];
 	columnsValue: string;
 	rowsValue: string;

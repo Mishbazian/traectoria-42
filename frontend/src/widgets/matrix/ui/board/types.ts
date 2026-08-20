@@ -1,6 +1,6 @@
-import type { IBoard, ICard } from "@/entities";
-import type { ReactNode } from "react";
-import type { SortableProps } from "../types";
+import type { IBoard, ICard } from '@/entities';
+import type { ReactNode } from 'react';
+import type { SortableProps } from '../types';
 
 export type KanbanBoardProps = {
 	className?: string;

@@ -26,7 +26,10 @@ export const AxesSelect = forwardRef<HTMLDivElement, AxesSelectProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn('flex flex-wrap items-center justify-center gap-1', className) }>
+				className={cn(
+					'flex flex-wrap items-center justify-center gap-1',
+					className
+				)}>
 				<SelectAndEraser
 					value={columnsValue}
 					items={axesOptions}

@@ -45,9 +45,7 @@ export const KanbanDndProvider = observer(
 		);
 
 		return (
-			<DragDropProvider onDragEnd={handleDragEnd}>
-				{children}
-			</DragDropProvider>
+			<DragDropProvider onDragEnd={handleDragEnd}>{children}</DragDropProvider>
 		);
 	}
 );

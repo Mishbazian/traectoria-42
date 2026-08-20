@@ -89,7 +89,11 @@ export interface IBoardStore {
 	isLoading: boolean;
 	boardsMap: Record<string, IBoard>;
 	cardsMap: Map<string, ICard>;
-	moveCard: (cardId: string, toBoardId: string, features: Record<string, string>) => void;
+	moveCard: (
+		cardId: string,
+		toBoardId: string,
+		features: Record<string, string>
+	) => void;
 }
 
 // === Cards Source ===
